@@ -42,7 +42,18 @@ class ApiWishController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'need' => 'required',
+            'want' => 'required',
+            'price' => 'required',
+            'ratio' => 'required',
+        ]);
+
+        $this->wish->fill($request->all());
+        $this->wish->save();
+
+        return $this->wish;
     }
 
     /**
@@ -76,7 +87,17 @@ class ApiWishController extends Controller
      */
     public function update(Request $request, Wish $wish)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'need' => 'required',
+            'want' => 'required',
+            'price' => 'required',
+            'ratio' => 'required',
+        ]);
+        $wish->fill($request->all());
+        $wish->save();
+
+        return $wish;
     }
 
     /**
@@ -87,6 +108,7 @@ class ApiWishController extends Controller
      */
     public function destroy(Wish $wish)
     {
-        //
+        $wish->delete();
+//        return 204;
     }
 }

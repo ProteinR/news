@@ -13,11 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
+
+Route::post('auth/account', 'Auth\AccountController@store'); //
+Route::post('auth/token', 'Auth\TokenController@store'); //login
+Route::post('register', 'Auth\RegisterController@register');
+
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::resource('/wishes', 'ApiWishController');
 
-
-Route::get('/', 'ApiWishController@index');

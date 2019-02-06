@@ -28,8 +28,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function wishes(){
+    public function wishes()
+    {
         return $this->hasMany(Wish::Class);
+    }
+
+    public function generateApiKey()
+    {
+        do {
+            $this->api_token = str_random(10);
+        }while($this->where('api_token', $this->api_token)->exists());
+
+        $this->save();
     }
 
 
