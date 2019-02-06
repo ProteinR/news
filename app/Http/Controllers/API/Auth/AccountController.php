@@ -2,44 +2,55 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Http\Requests\Authorization\UpdateRequest;
+use App\Http\Controllers\Controller;
 use App\User;
-use App\Http\Requests\Request;
-use App\Transformers\UserTransformer;
-use App\Http\Requests\Authorization\TokenRequest;
-use Auth;
-use Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 
-class AccountController
+class AccountController extends Controller
 {
+
     public function show(Request $request)
     {
-        $response = fractal($request->user(), new UserTransformer())->toArray();
+        $response = $request->user();
 
         return $response;
     }
 
+    //Register new user
     public function store(Request $request, User $user)
     {
-        if($request->get('password')){
+        $this->validate($request, [
+            'name'=> 'required',
+            'email'=> 'required|email|unique:users',
+            'password'=> 'required|confirmed',
+        ]);
+
+        if($request->get('password')) {
             $request->merge(['password' => Hash::make($request->get('password'))]);
         }
         $user->fill($request->all())->save();
-        $response = fractal($user, new User())->toArray();
 
-        return $response;
+        return response(['message' => 'User created successfully', 'user' => $user], 200);
     }
 
-    public function update(UpdateRequest $request)
+    public function update(Request $request)
     {
         $user = $request->user();
-        if($request->get('password')){
+        if($request->get('password')) {
             $request->merge(['password' => Hash::make($request->get('password'))]);
         }
         $user->update($request->all());
-        $response = fractal($user, new UserTransformer())->toArray();
 
-        return $response;
+        return response(['message' => 'User updated successfully', 'user' => $user], 200);
+    }
+
+    public function destroy(Request $request)
+    {
+        $user = $request->user();
+        $user->delete();
+
+        return response(['message' => 'User id = '.$user->id.' deleted', 'user' => $user], 200);
     }
 }

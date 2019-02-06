@@ -13,16 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
-
-Route::post('auth/account', 'Auth\AccountController@store'); //
+//Register and Login for users
+Route::post('auth/account', 'Auth\AccountController@store'); //register
 Route::post('auth/token', 'Auth\TokenController@store'); //login
-Route::post('register', 'Auth\RegisterController@register');
 
 
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware'=>'auth:api'], function () {
+    //Show, create, update, delete user
+    Route::resource('auth/account', 'Auth\AccountController')->only(['update', 'show']);
 });
 
+//CRUD for wishes
 Route::resource('/wishes', 'ApiWishController');
 

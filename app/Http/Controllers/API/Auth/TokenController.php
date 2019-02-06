@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class TokenController extends Controller
@@ -20,7 +21,7 @@ class TokenController extends Controller
             $user = User::where('email', $request->get('email'))->first();
             $auth = Hash::check($request->get('password'), $user->password);
             if($user && $auth){
-
+                $user = User::where('email', $request->get('email'))->first();
                 $user->generateApiKey(); //Model Function
 
                 return response(array(
