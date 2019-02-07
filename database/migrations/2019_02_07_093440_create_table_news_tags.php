@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableWishes extends Migration
+class CreateTableNewsTags extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateTableWishes extends Migration
      */
     public function up()
     {
-        Schema::create('wishes', function (Blueprint $table) {
+        Schema::create('news_tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name');
-            $table->integer('need');
-            $table->integer('want');
-            $table->integer('price');
-            $table->integer('ratio');
+            $table->integer('news_id');
+            $table->integer('tag_id');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateTableWishes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wishes');
+        Schema::dropIfExists('news_tags');
     }
 }

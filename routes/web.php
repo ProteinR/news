@@ -14,7 +14,7 @@
 
 // Route group for Web
 
-Route::get('/', 'WishController@index');
-
-Route::resource('/wishes', 'WishController');
-Route::resource('/users', 'UserController');
+//Route::get('/', 'WishController@index');
+//
+//Route::resource('/wishes', 'WishController');
+//Route::resource('/users', 'UserController');

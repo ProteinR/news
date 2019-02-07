@@ -18,11 +18,13 @@ Route::post('auth/account', 'Auth\AccountController@store'); //register
 Route::post('auth/token', 'Auth\TokenController@store'); //login
 
 
-Route::group(['middleware'=>'auth:api'], function () {
+Route::group(['middleware'=>'auth:api',['except' => 'news.index']], function () {
     //Show, create, update, delete user
     Route::resource('auth/account', 'Auth\AccountController')->only(['update', 'show']);
+
+    //CRUD for news
+    Route::resource('/news', 'ApiNewsController')->only(['index', 'store', 'update', 'delete']);
+
 });
 
-//CRUD for wishes
-Route::resource('/wishes', 'ApiWishController');
 

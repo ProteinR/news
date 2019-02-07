@@ -28,9 +28,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function wishes()
+    public function news()
     {
-        return $this->hasMany(Wish::Class);
+        return $this->hasMany(News::Class);
     }
 
     public function generateApiKey()
