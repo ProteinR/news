@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 
 class ApiNewsController extends Controller
 {
+    protected $news;
+
     public function __construct(News $news)
     {
         $this->news = $news;
@@ -26,15 +28,6 @@ class ApiNewsController extends Controller
         return response($response, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -51,10 +44,10 @@ class ApiNewsController extends Controller
             'text' => 'required',
         ]);
 
-        $this->news->fill($request->all());
+        $this->news->create($request->all());
         $this->news->save();
 
-        return $this->news;
+        return response($this->news, 200);
     }
 
     /**
@@ -65,18 +58,7 @@ class ApiNewsController extends Controller
      */
     public function show(News $news)
     {
-        return $news;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(News $news)
-    {
-        //
+        return response($news, 200);
     }
 
     /**
@@ -98,9 +80,7 @@ class ApiNewsController extends Controller
         $news->fill($request->all());
         $news->save();
 
-        return $news;
-
-//        return response(['message' => 'News was updated', $news], 204);
+        return response($news, 200);
     }
 
     /**

@@ -8,6 +8,12 @@ use App\Http\Controllers\Controller;
 
 class ApiCategoryController extends Controller
 {
+    protected $category;
+
+    public function __construct(Category $category) {
+        $this->category = $category;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,18 +21,11 @@ class ApiCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $response = $this->category->getAllCategories();
+
+        return response($response, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +35,16 @@ class ApiCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd('.');
+        request()->validate([
+            'title' => 'required',
+            'order' => 'required'
+        ]);
+
+        $this->category->create($request->all());
+//        $this->category->save();
+
+//        return response($this->category, 200);
     }
 
     /**
@@ -47,18 +55,7 @@ class ApiCategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
+        return response($category, 200);
     }
 
     /**
@@ -70,7 +67,15 @@ class ApiCategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        request()->validate([
+            'title' => 'required',
+            'order' => 'required'
+        ]);
+
+        $category->fill($request->all());
+        $category->save();
+
+        return response($category, 200);
     }
 
     /**
@@ -81,6 +86,8 @@ class ApiCategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return response(['Category was deleted']);
     }
 }

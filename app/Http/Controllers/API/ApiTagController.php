@@ -8,6 +8,13 @@ use App\Http\Controllers\Controller;
 
 class ApiTagController extends Controller
 {
+    protected $tag;
+
+    public function __construct(Tag $tag) {
+        $this->tag = $tag;
+        $this->middleware('auth:api')->except(['index']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +22,10 @@ class ApiTagController extends Controller
      */
     public function index()
     {
-        //
+        // Return all tags
+        $response = $this->tag->getAllTags();
+
+        return response($response, 200);
     }
 
     /**
@@ -36,7 +46,18 @@ class ApiTagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd('d');
+        request()->validate([
+            'category_id' => 'required',
+            'user_id' => 'required',
+            'title' => 'required',
+            'text' => 'required',
+        ]);
+
+        $this->tag->create($request->all());
+        $this->tag->save();
+
+        return response($this->tag, 200);
     }
 
     /**
@@ -47,7 +68,7 @@ class ApiTagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        return response($tag, 200);
     }
 
     /**
@@ -70,7 +91,14 @@ class ApiTagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        request()->validate([
+            'title' => 'required',
+        ]);
+
+        $tag->fill($request->all());
+        $tag->save();
+
+        return response($tag, 200);
     }
 
     /**
@@ -81,6 +109,8 @@ class ApiTagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+
+        return response(['Tag was deleted']);
     }
 }
