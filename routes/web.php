@@ -14,7 +14,9 @@
 
 // Route group for Web
 
-//Route::get('/', 'WishController@index');
+Route::get('/', function () {
+    phpinfo();
+});
 //
 //Route::resource('/wishes', 'WishController');
 //Route::resource('/users', 'UserController');

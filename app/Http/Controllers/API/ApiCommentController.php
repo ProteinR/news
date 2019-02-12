@@ -8,6 +8,13 @@ use App\Http\Controllers\Controller;
 
 class ApiCommentController extends Controller
 {
+    protected $comment;
+
+    public function __construct(Comment $comment)
+    {
+        $this->comment = $comment;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,15 +25,6 @@ class ApiCommentController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +34,15 @@ class ApiCommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'text' => 'required',
+            'news_id' => 'required',
+            'user_id' => 'required',
+        ]);
+
+        $this->comment = $this->comment->create($request->all());
+
+        return response($this->comment, 200);
     }
 
     /**
@@ -47,19 +53,9 @@ class ApiCommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        //
+        return response($comment, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comment $comment)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -70,7 +66,14 @@ class ApiCommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        //
+        request()->validate([
+            'text' => 'required',
+        ]);
+
+        $comment->fill($request->all());
+        $comment->save();
+
+        return response($comment, 200);
     }
 
     /**
@@ -81,6 +84,6 @@ class ApiCommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
     }
 }

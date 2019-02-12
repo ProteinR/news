@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\News;
+use App\Transformer\NewsTranformer;
+use App\Transformer\NewsTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class ApiNewsController extends Controller
 {
@@ -17,68 +21,82 @@ class ApiNewsController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         // Return all news
-        $response = $this->news->getAllNews();
+//        $posts = News::all();
+        $posts = News::with(['user:id,name'], ['category:id, title'])->get();
 
-        return response($response, 200);
+        return fractal($posts, new NewsTransformer());
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         request()->validate([
             'category_id' => 'required',
-            'user_id' => 'required',
-            'title' => 'required',
-            'text' => 'required',
+            'user_id'     => 'required',
+            'title'       => 'required',
+            'text'        => 'required',
         ]);
 
-        $this->news->create($request->all());
-        $this->news->save();
+        DB::transaction(function (Request $request, News $news) {
+            $this->news = $this->news->create($request->all());
+            $this->news->tags()->sync($request->get('tags', []));
+
+        });
 
         return response($this->news, 200);
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\News  $news
+     * @param  \App\News $news
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(News $news)
     {
-        return response($news, 200);
+        $news->load(['comments.user']);
+
+        return fractal($news, new NewsTransformer())
+            ->parseIncludes('comments')
+            ->toArray();
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\News  $news
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\News                $news
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, News $news)
     {
         request()->validate([
             'category_id' => 'required',
-            'user_id' => 'required',
-            'title' => 'required',
-            'text' => 'required',
+            'user_id'     => 'required',
+            'title'       => 'required',
+            'text'        => 'required',
         ]);
 
-        $news->fill($request->all());
-        $news->save();
+        DB::transaction(function (Request $request, News $news) {
+            $news->fill($request->all());
+            $news->save();
+            $news->tags()->sync($request->get('tags', []));
+        });
 
         return response($news, 200);
     }
@@ -86,7 +104,8 @@ class ApiNewsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\News  $news
+     * @param  \App\News $news
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(News $news)

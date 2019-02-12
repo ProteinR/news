@@ -12,7 +12,6 @@ class ApiTagController extends Controller
 
     public function __construct(Tag $tag) {
         $this->tag = $tag;
-        $this->middleware('auth:api')->except(['index']);
     }
 
     /**
@@ -29,16 +28,6 @@ class ApiTagController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -46,16 +35,11 @@ class ApiTagController extends Controller
      */
     public function store(Request $request)
     {
-        dd('d');
         request()->validate([
-            'category_id' => 'required',
-            'user_id' => 'required',
-            'title' => 'required',
-            'text' => 'required',
+            'title' => 'required'
         ]);
 
-        $this->tag->create($request->all());
-        $this->tag->save();
+        $this->tag = $this->tag->create($request->all());
 
         return response($this->tag, 200);
     }
@@ -69,17 +53,6 @@ class ApiTagController extends Controller
     public function show(Tag $tag)
     {
         return response($tag, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Tag  $tag
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tag $tag)
-    {
-        //
     }
 
     /**

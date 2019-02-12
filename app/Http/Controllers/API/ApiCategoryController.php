@@ -35,7 +35,6 @@ class ApiCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        dd('.');
         request()->validate([
             'title' => 'required',
             'order' => 'required'
@@ -44,7 +43,7 @@ class ApiCategoryController extends Controller
         $this->category->create($request->all());
 //        $this->category->save();
 
-//        return response($this->category, 200);
+        return response($this->category, 200);
     }
 
     /**
