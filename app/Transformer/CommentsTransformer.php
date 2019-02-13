@@ -19,7 +19,10 @@ class CommentsTransformer extends TransformerAbstract
     public function transform(Comment $comment)
     {
         return [
-            'user_name'  => $comment->user->name,
+            'user'  => [
+                'id'   => $comment->user->id,
+                'name' => $comment->user->name,
+            ],
             'text'       => $comment->text,
             'created_at' => optional($comment->created_at)->diffForHumans(),
             'updated_at' => optional($comment->updated_at)->diffForHumans(),

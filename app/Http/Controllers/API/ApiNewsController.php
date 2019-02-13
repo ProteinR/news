@@ -27,7 +27,7 @@ class ApiNewsController extends Controller
     {
         // Return all news
 //        $posts = News::all();
-        $posts = News::with(['user:id,name'], ['category:id, title'])->get();
+        $posts = News::with(['user:id,name', 'category:id,title'])->get();
 
         return fractal($posts, new NewsTransformer());
     }
@@ -56,7 +56,6 @@ class ApiNewsController extends Controller
         });
 
         return response($this->news, 200);
-
     }
 
     /**
@@ -68,10 +67,10 @@ class ApiNewsController extends Controller
      */
     public function show(News $news)
     {
-        $news->load(['comments.user']);
+        $news->load(['user:id,name', 'comments.user:id,name', 'category:id,title']);
 
         return fractal($news, new NewsTransformer())
-            ->parseIncludes('comments')
+            ->parseIncludes(['comments', 'tags'])
             ->toArray();
     }
 

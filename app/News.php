@@ -28,24 +28,4 @@ class News extends Model
             'tag_id'
         );
     }
-
-    // Return array with all news
-    public function getAllNews() {
-        $news = News::all();
-
-        $response = [];
-
-        foreach ($news as $post) {
-            $response[] = [
-                'user'       => $post->user->name,
-                'category'   => $post->category->title,
-                'text'       => $post->text,
-                'created_at' => $post->created_at,
-                'updated_at' => $post->updated_at,
-            ];
-        }
-
-        return $response;
-    }
-
 }

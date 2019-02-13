@@ -24,10 +24,10 @@ Route::group(['middleware'=>'auth:api'], function () {
     Route::resource('/category', 'ApiCategoryController')->except(['index', 'create', 'edit']);
 
     // CRUD for tags
-    Route::resource('/tag', 'ApiTagController')->except(['index', 'create', 'edit']);
+    Route::resource('/tag', 'ApiTagController')->except(['index', 'create', 'edit', 'show']);
 
     // CRUD for comments
-    Route::resource('/comment', 'ApiCommentController');
+    Route::resource('/comment', 'ApiCommentController')->except(['index', 'create', 'edit', 'show']);
 });
 
 

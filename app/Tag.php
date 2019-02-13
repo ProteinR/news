@@ -16,18 +16,4 @@ class Tag extends Model
             'news_id'
         );
     }
-
-    public function getAllTags() {
-        $response = [];
-
-        $tags = Tag::all();
-        foreach ($tags as $tag) {
-            $response[] = [
-                'id' => $tag->id,
-                'title' => $tag->title,
-            ];
-        }
-
-        return $response;
-    }
 }

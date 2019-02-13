@@ -15,16 +15,6 @@ class ApiCommentController extends Controller
         $this->comment = $comment;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -39,23 +29,10 @@ class ApiCommentController extends Controller
             'news_id' => 'required',
             'user_id' => 'required',
         ]);
-
         $this->comment = $this->comment->create($request->all());
 
         return response($this->comment, 200);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        return response($comment, 200);
-    }
-
 
     /**
      * Update the specified resource in storage.
