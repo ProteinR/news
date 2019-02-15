@@ -14,12 +14,11 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\News::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => Hash::make('123'),
-        'api_token' => str_random(10),
+        'category_id' => $faker->numberBetween(1, 4),
+        'user_id' => rand(1, 5),
+        'title' => $faker->realText(rand(20,70)),
+        'text' => $faker->realText(rand(50,250)),
     ];
 });

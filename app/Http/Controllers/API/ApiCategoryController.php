@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Category;
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -30,18 +32,13 @@ class ApiCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreCategoryRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        request()->validate([
-            'title' => 'required',
-            'order' => 'required'
-        ]);
-
         $this->category->create($request->all());
-//        $this->category->save();
 
         return response($this->category, 200);
     }
@@ -60,17 +57,13 @@ class ApiCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param UpdateCategoryRequest $request
+     * @param  \App\Category        $category
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        request()->validate([
-            'title' => 'required',
-            'order' => 'required'
-        ]);
-
         $category->fill($request->all());
         $category->save();
 

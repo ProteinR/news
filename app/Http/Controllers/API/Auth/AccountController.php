@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,14 +21,8 @@ class AccountController extends Controller
     }
 
     //Register new user
-    public function store(Request $request, User $user)
+    public function store(StoreUserRequest $request, User $user)
     {
-        $this->validate($request, [
-            'name'=> 'required',
-            'email'=> 'required|email|unique:users',
-            'password'=> 'required|confirmed',
-        ]);
-
         if($request->get('password')) {
             $request->merge(['password' => Hash::make($request->get('password'))]);
         }
@@ -35,7 +31,7 @@ class AccountController extends Controller
         return response(['message' => 'User created successfully', 'user' => $user], 200);
     }
 
-    public function update(Request $request)
+    public function update(UpdateUserRequest $request)
     {
         $user = $request->user();
         if($request->get('password')) {

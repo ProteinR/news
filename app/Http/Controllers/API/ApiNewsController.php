@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\News\StoreNewsRequest;
+use App\Http\Requests\News\UpdateNewsRequest;
 use App\News;
-use App\Transformer\NewsTranformer;
 use App\Transformer\NewsTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class ApiNewsController extends Controller
@@ -26,7 +26,6 @@ class ApiNewsController extends Controller
     public function index()
     {
         // Return all news
-//        $posts = News::all();
         $posts = News::with(['user:id,name', 'category:id,title'])->get();
 
         return fractal($posts, new NewsTransformer());
@@ -40,19 +39,11 @@ class ApiNewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreNewsRequest $request)
     {
-        request()->validate([
-            'category_id' => 'required',
-            'user_id'     => 'required',
-            'title'       => 'required',
-            'text'        => 'required',
-        ]);
-
-        DB::transaction(function (Request $request, News $news) {
+        DB::transaction(function () use ($request) {
             $this->news = $this->news->create($request->all());
             $this->news->tags()->sync($request->get('tags', []));
-
         });
 
         return response($this->news, 200);
@@ -82,16 +73,9 @@ class ApiNewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateNewsRequest $request, News $news)
     {
-        request()->validate([
-            'category_id' => 'required',
-            'user_id'     => 'required',
-            'title'       => 'required',
-            'text'        => 'required',
-        ]);
-
-        DB::transaction(function (Request $request, News $news) {
+        DB::transaction(function () use ($request, $news) {
             $news->fill($request->all());
             $news->save();
             $news->tags()->sync($request->get('tags', []));

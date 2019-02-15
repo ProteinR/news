@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\Tag\StoreTagRequest;
+use App\Http\Requests\Tag\UpdateTagRequest;
 use App\Tag;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Transformer\TagsTransformer;
 
 class ApiTagController extends Controller
 {
@@ -22,22 +24,24 @@ class ApiTagController extends Controller
     public function index()
     {
         // Return all tags
-        $response = $this->tag->getAllTags();
+//        $response = $this->tag->getAllTags();
+        $tags = Tag::all();
 
-        return response($response, 200);
+        return response(fractal($tags, new TagsTransformer()), 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreTagRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTagRequest $request)
     {
-        request()->validate([
-            'title' => 'required'
-        ]);
+//        request()->validate([
+//            'title' => 'required'
+//        ]);
 
         $this->tag = $this->tag->create($request->all());
 
@@ -58,15 +62,16 @@ class ApiTagController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tag  $tag
+     * @param UpdateTagRequest $request
+     * @param  \App\Tag        $tag
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tag $tag)
+    public function update(UpdateTagRequest $request, Tag $tag)
     {
-        request()->validate([
-            'title' => 'required',
-        ]);
+//        request()->validate([
+//            'title' => 'required',
+//        ]);
 
         $tag->fill($request->all());
         $tag->save();
@@ -77,8 +82,10 @@ class ApiTagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Tag  $tag
+     * @param  \App\Tag $tag
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Tag $tag)
     {

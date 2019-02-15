@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Comment::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => Hash::make('123'),
-        'api_token' => str_random(10),
+        'user_id' => rand(1, 5),
+        'news_id' => rand(1, 5),
+        'text' => $faker->realText(rand(10, 30)),
+//        'created_at' => $faker->date(),
+//        'updated_at' => $faker->date(),
     ];
 });

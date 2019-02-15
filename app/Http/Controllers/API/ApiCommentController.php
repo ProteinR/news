@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Comment;
-use Illuminate\Http\Request;
+use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Http\Controllers\Controller;
 
 class ApiCommentController extends Controller
@@ -19,16 +20,12 @@ class ApiCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreCommentRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCommentRequest $request)
     {
-        request()->validate([
-            'text' => 'required',
-            'news_id' => 'required',
-            'user_id' => 'required',
-        ]);
         $this->comment = $this->comment->create($request->all());
 
         return response($this->comment, 200);
@@ -37,16 +34,13 @@ class ApiCommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comment
+     * @param UpdateCommentRequest $request
+     * @param  \App\Comment        $comment
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        request()->validate([
-            'text' => 'required',
-        ]);
-
         $comment->fill($request->all());
         $comment->save();
 
@@ -56,8 +50,10 @@ class ApiCommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
+     * @param  \App\Comment $comment
+     *
+     * @return void
+     * @throws \Exception
      */
     public function destroy(Comment $comment)
     {
