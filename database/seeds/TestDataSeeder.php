@@ -22,7 +22,6 @@ class TestDataSeeder extends Seeder
             $this->createNewsTags($news);
 
         });
-
     }
 
     public function createUsers()

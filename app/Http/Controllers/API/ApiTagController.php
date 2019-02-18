@@ -12,22 +12,20 @@ class ApiTagController extends Controller
 {
     protected $tag;
 
-    public function __construct(Tag $tag) {
+    public function __construct(Tag $tag)
+    {
         $this->tag = $tag;
     }
 
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // Return all tags
-//        $response = $this->tag->getAllTags();
         $tags = Tag::all();
 
-        return response(fractal($tags, new TagsTransformer()), 200);
+        return fractal($tags, new TagsTransformer())->toArray();
     }
 
     /**
@@ -39,10 +37,6 @@ class ApiTagController extends Controller
      */
     public function store(StoreTagRequest $request)
     {
-//        request()->validate([
-//            'title' => 'required'
-//        ]);
-
         $this->tag = $this->tag->create($request->all());
 
         return response($this->tag, 200);
@@ -51,7 +45,8 @@ class ApiTagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tag  $tag
+     * @param  \App\Tag $tag
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Tag $tag)
@@ -69,10 +64,6 @@ class ApiTagController extends Controller
      */
     public function update(UpdateTagRequest $request, Tag $tag)
     {
-//        request()->validate([
-//            'title' => 'required',
-//        ]);
-
         $tag->fill($request->all());
         $tag->save();
 
@@ -91,6 +82,6 @@ class ApiTagController extends Controller
     {
         $tag->delete();
 
-        return response(['Tag was deleted']);
+        return response(null, 204);
     }
 }

@@ -13,17 +13,9 @@ class NewsTransformer extends TransformerAbstract
 
     public function transform(News $news)
     {
-//        $tags = []; //array with tags
-//        foreach ($news->tags as $tag) {
-//            $tags[] = [
-//                'tag_id' => $tag->id,
-//                'title'  => $tag->title
-//            ];}
-//        $news->tags = $tags;
-
         return [
             'id'         => (int)$news->id,
-            'author'     => [
+            'user'     => [
                 'id'   => (int)$news->user->id,
                 'name' => $news->user->name,
             ],

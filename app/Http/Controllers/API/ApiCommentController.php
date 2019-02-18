@@ -16,7 +16,6 @@ class ApiCommentController extends Controller
         $this->comment = $comment;
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -26,9 +25,11 @@ class ApiCommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        $this->comment = $this->comment->create($request->all());
+        $user = $request->user();
+        $comment = $user->comments()->create($request->all());
+//        $this->comment = $this->comment->create($request->all());
 
-        return response($this->comment, 200);
+        return response($comment);
     }
 
     /**
@@ -44,7 +45,7 @@ class ApiCommentController extends Controller
         $comment->fill($request->all());
         $comment->save();
 
-        return response($comment, 200);
+        return response($comment);
     }
 
     /**
@@ -58,5 +59,7 @@ class ApiCommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->delete();
+
+        return response(null, 204);
     }
 }

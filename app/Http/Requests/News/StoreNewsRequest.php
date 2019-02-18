@@ -25,7 +25,6 @@ class StoreNewsRequest extends FormRequest
     {
         return [
             'category_id' => 'required|exists:categories,id',
-            'user_id'     => 'required|exists:users,id',
             'title'       => 'required|unique:news|max:255',
             'text'        => 'required',
             'tags'        => 'required|exists:tags,id|min:1',

@@ -42,11 +42,13 @@ class ApiNewsController extends Controller
     public function store(StoreNewsRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $this->news = $this->news->create($request->all());
+            $user = $request->user();
+            $this->news = $user->news()->create($request->all());
             $this->news->tags()->sync($request->get('tags', []));
         });
+        $post = News::find($this->news->id);
 
-        return response($this->news, 200);
+        return fractal($post, new NewsTransformer())->parseIncludes('tags')->toArray();
     }
 
     /**
@@ -76,12 +78,15 @@ class ApiNewsController extends Controller
     public function update(UpdateNewsRequest $request, News $news)
     {
         DB::transaction(function () use ($request, $news) {
+//            $user = $news->user;
             $news->fill($request->all());
             $news->save();
             $news->tags()->sync($request->get('tags', []));
         });
 
-        return response($news, 200);
+        return fractal($news, new NewsTransformer())
+            ->parseIncludes(['tags'])
+            ->toArray();
     }
 
     /**
@@ -90,11 +95,12 @@ class ApiNewsController extends Controller
      * @param  \App\News $news
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(News $news)
     {
         $news->delete();
 
-        return response(['News was deleted']);
+        return response(null, 204);
     }
 }

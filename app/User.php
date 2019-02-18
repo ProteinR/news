@@ -33,6 +33,11 @@ class User extends Authenticatable
         return $this->hasMany(News::Class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::Class);
+    }
+
     public function generateApiKey()
     {
         do {
