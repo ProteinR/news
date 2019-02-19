@@ -108,4 +108,22 @@ class UserTest extends TestCase
         $response->assertStatus(204);
     }
 
+    public function test_show_user()
+    {
+        $user = factory(User::class)->make();
+        //create user
+        $this->json('POST', '/api/auth/account',
+            [
+                'name'                  => $user->name,
+                'email'                 => $user->email,
+                'password'              => 'test',
+                'password_confirmation' => 'test',
+            ]);
+        //get new user
+        $user = User::where('email', $user->email)->first();
+
+        $response = $this->json('GET', '/api/user/'.$user->id);
+        $response->assertOk();
+    }
+
 }
