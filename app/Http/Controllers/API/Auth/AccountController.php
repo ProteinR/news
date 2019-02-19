@@ -33,13 +33,7 @@ class AccountController extends Controller
 
     public function update(UpdateUserRequest $request)
     {
-        $user = $request->user();
-        if($request->get('password')) {
-            $request->merge(['password' => Hash::make($request->get('password'))]);
-        }
-        $user->update($request->all());
 
-        return response(['message' => 'User updated successfully', 'user' => $user], 200);
     }
 
     public function destroy(Request $request)

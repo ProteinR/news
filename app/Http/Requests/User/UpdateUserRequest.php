@@ -26,8 +26,9 @@ class UpdateUserRequest extends StoreUserRequest
         return array_merge(parent::rules(), [
             'email' => [
                 'required',
-                Rule::unique('news')->ignore($this->user->id),
+                Rule::unique('users')->ignore($this->user->id),
             ],
+//            'password' => 'nullable|confirmed'
         ]);
     }
 }

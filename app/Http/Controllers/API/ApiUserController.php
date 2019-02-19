@@ -2,85 +2,70 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Transformer\UserTransformer;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class ApiUserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $users = User::all();
+        return fractal($users, new UserTransformer())->toArray();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\User $user
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
     {
-        //
+        return fractal($user, new UserTransformer)->toArray();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\User                $user
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+//        $user = $request->user();
+        $user->fill($request->all());
+        if($request->get('password')) {
+            $user->password = bcrypt($request->get('password'));
+        }
+        $user->save();
+
+        return response(['user' => fractal($user, new UserTransformer)->toArray()], 200);
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\User $user
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response(null, 204);
     }
 }
