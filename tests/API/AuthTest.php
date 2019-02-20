@@ -20,53 +20,51 @@ class AuthTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-//        $this->user = factory(User::class)->create([
-//            'api_token' => 'test',
-//            'password'  => Hash::make('test'),
-//        ]);
-//
-//        $this->actingAs($this->user, 'api');
+        $this->user = factory(User::class)->make([
+            'api_token' => 'test',
+            'password'  => Hash::make('test'),
+        ]);
     }
 
     public function test_login()
     {
-        $user = factory(User::class)->make();
+        //refister new user
         $this->json('POST', '/api/auth/account',
             [
-                'name'                  => $user->name,
-                'email'                 => $user->email,
+                'name'                  => $this->user->name,
+                'email'                 => $this->user->email,
                 'password'              => 'test',
                 'password_confirmation' => 'test',
             ]);
 
+        //login into new user
         $response = $this->json('POST', '/api/auth/token',
             [
-                'email'    => $user->email,
+                'email'    => $this->user->email,
                 'password' => 'test',
             ]);
 
         $response->assertOk()->assertJsonFragment([
-            'name'  => $user->name,
-            'email' => $user->email,
+            'name'  => $this->user->name,
+            'email' => $this->user->email,
         ]);
     }
 
     public function test_register()
     {
-        $user = factory(User::class)->make();
+        //register new user
         $response = $this->json('POST', '/api/auth/account',
             [
-                'name'                  => $user->name,
-                'email'                 => $user->email,
+                'name'                  => $this->user->name,
+                'email'                 => $this->user->email,
                 'password'              => 'test',
                 'password_confirmation' => 'test',
             ]);
 
         $response->assertOk()->assertJsonFragment([
             'message' => 'User created successfully',
-            'name'    => $user->name,
-            'email'   => $user->email,
-
+            'name'    => $this->user->name,
+            'email'   => $this->user->email,
         ]);
     }
 }

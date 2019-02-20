@@ -20,72 +20,32 @@ class UserTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->user = factory(User::class)->create([
+        $this->user = factory(User::class)->make([
             'api_token' => 'test',
             'password'  => Hash::make('test'),
-        ]);
-
-        $this->actingAs($this->user, 'api');
-    }
-
-    public function test_login()
-    {
-        $user = factory(User::class)->make();
-        $this->json('POST', '/api/auth/account',
-            [
-                'name'                  => $user->name,
-                'email'                 => $user->email,
-                'password'              => 'test',
-                'password_confirmation' => 'test',
-            ]);
-
-        $response = $this->json('POST', '/api/auth/token',
-            [
-                'email'    => $user->email,
-                'password' => 'test',
-            ]);
-
-        $response->assertOk()->assertJsonFragment([
-            'name'  => $user->name,
-            'email' => $user->email,
-        ]);
-    }
-
-    public function test_register()
-    {
-        $user = factory(User::class)->make();
-        $response = $this->json('POST', '/api/auth/account',
-            [
-                'name'                  => $user->name,
-                'email'                 => $user->email,
-                'password'              => 'test',
-                'password_confirmation' => 'test',
-            ]);
-
-        $response->assertOk()->assertJsonFragment([
-            'message' => 'User created successfully',
-            'name'    => $user->name,
-            'email'   => $user->email,
-
         ]);
     }
 
     public function test_update_user()
     {
-        $user = factory(User::class)->make();
+        //register new user
         $this->json('POST', '/api/auth/account',
             [
-                'name'                  => $user->name,
-                'email'                 => $user->email,
+                'name'                  => $this->user->name,
+                'email'                 => $this->user->email,
                 'password'              => 'test',
                 'password_confirmation' => 'test',
             ]);
-        $user = User::where('email', $user->email)->first();
 
-        $response = $this->json('PUT', '/api/user/'.$user->id,
+        //get new user and login
+        $this->user = User::where('email', $this->user->email)->first();
+        $this->actingAs($this->user, 'api');
+
+        //try to update user information
+        $response = $this->json('PUT', '/api/user/'.$this->user->id,
             [
-                'name'                  => $user->name . 'upd',
-                'email'                 => $user->email,
+                'name'                  => $this->user->name . 'upd',
+                'email'                 => $this->user->email,
                 'password'              => '123456',
                 'password_confirmation' => '123456',
             ]);
@@ -94,35 +54,40 @@ class UserTest extends TestCase
 
     public function test_delete_user()
     {
-        $user = factory(User::class)->make();
+        //create new user and register
         $this->json('POST', '/api/auth/account',
             [
-                'name'                  => $user->name,
-                'email'                 => $user->email,
+                'name'                  => $this->user->name,
+                'email'                 => $this->user->email,
                 'password'              => 'test',
                 'password_confirmation' => 'test',
             ]);
-        $user = User::where('email', $user->email)->first();
 
-        $response = $this->json('DELETE', '/api/user/'.$user->id);
+        //get new user and login
+        $this->user = User::where('email', $this->user->email)->first();
+        $this->actingAs($this->user, 'api');
+
+        //try to delete this user
+        $response = $this->json('DELETE', '/api/user/'.$this->user->id);
         $response->assertStatus(204);
     }
 
     public function test_show_user()
     {
-        $user = factory(User::class)->make();
-        //create user
+        //register new user
         $this->json('POST', '/api/auth/account',
             [
-                'name'                  => $user->name,
-                'email'                 => $user->email,
+                'name'                  => $this->user->name,
+                'email'                 => $this->user->email,
                 'password'              => 'test',
                 'password_confirmation' => 'test',
             ]);
         //get new user
-        $user = User::where('email', $user->email)->first();
+        $this->user = User::where('email', $this->user->email)->first();
+        $this->actingAs($this->user, 'api');
 
-        $response = $this->json('GET', '/api/user/'.$user->id);
+        //try to show user
+        $response = $this->json('GET', '/api/user/'.$this->user->id);
         $response->assertOk();
     }
 

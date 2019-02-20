@@ -37,14 +37,13 @@ class ApiUserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\User                $user
+     * @param UpdateUserRequest $request
+     * @param  \App\User        $user
      *
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-//        $user = $request->user();
         $user->fill($request->all());
         if($request->get('password')) {
             $user->password = bcrypt($request->get('password'));
@@ -61,6 +60,7 @@ class ApiUserController extends Controller
      * @param  \App\User $user
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(User $user)
     {

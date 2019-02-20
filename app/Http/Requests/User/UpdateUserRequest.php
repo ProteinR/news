@@ -28,7 +28,6 @@ class UpdateUserRequest extends StoreUserRequest
                 'required',
                 Rule::unique('users')->ignore($this->user->id),
             ],
-//            'password' => 'nullable|confirmed'
         ]);
     }
 }
