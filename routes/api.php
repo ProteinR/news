@@ -9,8 +9,11 @@ Route::post('auth/token', 'Auth\TokenController@store'); //login
 
 // Show all news, tags and categories
 Route::resource('/news', 'ApiNewsController')->only(['index', 'show']);
+Route::get('/news/category/{category}' , 'ApiNewsController@newsWithCategory'); // Show all news with category
+Route::get('/news/tag/{tag}' , 'ApiNewsController@newsWithTag'); // Show all news with tag
 Route::resource('/tag', 'ApiTagController')->only(['index']);
 Route::resource('/category', 'ApiCategoryController')->only(['index']);
+
 
 
 Route::group(['middleware'=>'auth:api'], function () {

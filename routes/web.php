@@ -14,9 +14,15 @@
 
 // Route group for Web
 
+// All news
 Route::get('/', function () {
-//    phpinfo();
+    return view('pages.index');
 });
-//
+
+Route::get('/news/{id}', function () {
+    return view('pages.newsShow');
+});
+
+
 //Route::resource('/wishes', 'WishController');
 //Route::resource('/users', 'UserController');

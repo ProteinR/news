@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Category;
 use App\Http\Requests\News\StoreNewsRequest;
 use App\Http\Requests\News\UpdateNewsRequest;
 use App\News;
+use App\Tag;
 use App\Transformer\NewsTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -102,5 +104,23 @@ class ApiNewsController extends Controller
         $news->delete();
 
         return response(null, 204);
+    }
+
+    public function newsWithCategory(Category $category)
+    {
+        $news = $category->news()->get();
+
+        return fractal($news, new NewsTransformer())
+            ->parseIncludes(['tags'])
+            ->toArray();
+    }
+
+    public function newsWithTag(Tag $tag)
+    {
+        $news = $tag->news()->get();
+
+        return fractal($news, new NewsTransformer())
+            ->parseIncludes(['tags'])
+            ->toArray();
     }
 }
