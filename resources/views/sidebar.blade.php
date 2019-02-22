@@ -28,8 +28,9 @@
                 <p class="font-weight-bold dark-grey-text">26/02/2018</p>
                 <div class="d-flex justify-content-between">
                     <div class="col-11 text-truncate pl-0 mb-3">
-                        <a href="#!" class="dark-grey-text">At vero eos et accusamus et iusto odio dignissimos
-                                                            ducimus qui blanditiis</a>
+                        <a href="#!" class="dark-grey-text">
+                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                        </a>
                     </div>
                     <a><i class="fas fa-angle-double-right"></i></a>
                 </div>

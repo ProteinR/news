@@ -192,48 +192,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['post'],
   computed: {},
@@ -329,7 +287,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("hr", { staticClass: "my-3" })
+      _c("hr", {})
     ])
   ])
 }

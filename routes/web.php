@@ -23,6 +23,10 @@ Route::get('/news/{id}', function () {
     return view('pages.newsShow');
 });
 
+Route::get('/register', function () {
+    return view('pages.register');
+});
 
-//Route::resource('/wishes', 'WishController');
-//Route::resource('/users', 'UserController');
+Route::get('/login', function () {
+    return view('pages.login');
+});

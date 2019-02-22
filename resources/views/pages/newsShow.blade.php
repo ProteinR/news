@@ -7,8 +7,5 @@
         </post-show>
     </div>
 
-    <script>
-{{--        var NewsId = {{$newsId}}--}}
-    </script>
     <script src="/js/postShow.js"></script>
 @endsection

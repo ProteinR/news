@@ -62,7 +62,7 @@ class ApiNewsController extends Controller
      */
     public function show(News $news)
     {
-        $news->load(['user:id,name', 'comments.user:id,name', 'category:id,title']);
+        $news->load(['user:id,name', 'comments.user:id,name,avatar', 'category:id,title']);
 
         return fractal($news, new NewsTransformer())
             ->parseIncludes(['comments', 'tags'])

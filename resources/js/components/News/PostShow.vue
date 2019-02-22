@@ -22,10 +22,16 @@
 
                     <!-- Data -->
                     <div class="news-data d-flex justify-content-between">
-                        <a href="#!" class="deep-orange-text">
-                            <h6 class="font-weight-bold"><i class="fas fa-utensils pr-2"></i>Culinary</h6>
+                        <a  class="deep-orange-text">
+                            <h6 class="font-weight-bold"><i class="fas fa-utensils pr-2"></i>{{post.category.title}}</h6>
                         </a>
-                        <p class="font-weight-bold dark-grey-text"><i class="fas fa-clock-o pr-2"></i>27/02/2018</p>
+                        <p class="font-weight-bold dark-grey-text"><i class="fas fa-clock-o pr-2"></i>{{post.created_at}}</p>
+                    </div>
+
+                    <span>Теги:</span>
+                    <div class="tags d-inline-flex" v-for="tag in post.tags">
+                        <a :href="'/news/tag/'+tag.id" class="font-weight-light text-dark ml-3 tag"
+                           id="tag">{{tag.title}}</a>
                     </div>
 
                     <!-- Excerpt -->
@@ -35,64 +41,87 @@
                 </div>
 
             </div>
-            <div class="col-lg-4 col-md-4"></div>
+            <div class="col-lg-4 col-md-4">
+                <mostpopular></mostpopular>
+            </div>
         </div>
 
         <hr>
 
-        <h2 class="my-3">Comments</h2>
+        <comments :comments="post.comments" id="comments"></comments>
 
-        <div class="row">
-
-            <div class="comments">
-                <div class="comment" v-for="comment in post.comments" style="display: flex;">
-                    <!-- Fourth news -->
-
-                            <!-- Label -->
-                            <div class="label">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(18)-mini.jpg" class="rounded-circle z-depth-1-half">
-                            </div>
-
-                            <!-- Excerpt -->
-                            <div class="excerpt ml-3">
-
-                                <!-- Brief -->
-                                <div class="brief d-inline-flex">
-                                    <a class="name text-info"><strong>Lili Rose</strong></a>
-                                    <div class="date mx-2">2 days ago</div>
-                                </div>
-
-                                <!-- Added text -->
-                                <div class="added-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero inventore,
-                                                        iste quas libero eius? Vitae sint neque animi alias sunt dolor, accusantium ducimus, non placeat
-                                                        voluptate.</div>
-
-                                <!-- Feed footer -->
-                                <div class="feed-footer">
-                                    <a class="like">
-                                        <i class="fas fa-heart"></i>
-                                        <span>7 likes</span>
-                                    </a>
-                                </div>
-
-                            </div>
-                            <!-- Excerpt -->
-
-                    </div>
-                    <!-- Fourth news -->
-                </div>
-            </div>
-
-        </div>
+    </div>
 </template>
 
 <script>
+    import Comments from "./comments";
+    import mostpopular from "../mostPopular";
     export default {
         name: "PostShow",
+        components: {Comments, mostpopular},
         props: ['post']
     }
 </script>
 
 <style scoped>
+    #tag {
+        /*color: green !important;*/
+    }
 
+    .tags {
+        list-style: none;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .tags li {
+        float: left;
+    }
+
+    .tag {
+        background: #eee;
+        border-radius: 3px 0 0 3px;
+        color: #999;
+        display: inline-block;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 20px 0 23px;
+        position: relative;
+        margin: 0 10px 10px 0;
+        text-decoration: none;
+        -webkit-transition: color 0.2s;
+    }
+
+    .tag::before {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+        content: '';
+        height: 6px;
+        left: 10px;
+        position: absolute;
+        width: 6px;
+        top: 10px;
+    }
+
+    .tag::after {
+        background: #fff;
+        border-bottom: 13px solid transparent;
+        border-left: 10px solid #eee;
+        border-top: 13px solid transparent;
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .tag:hover {
+        background-color: crimson;
+        color: white;
+    }
+
+    .tag:hover::after {
+        border-left-color: crimson;
+    }
 </style>

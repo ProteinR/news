@@ -28,7 +28,7 @@ class AccountController extends Controller
         }
         $user->fill($request->all())->save();
 
-        return response(['message' => 'User created successfully', 'user' => $user], 200);
+        return response(['message' => 'success', 'user' => $user], 200);
     }
 
     public function update(UpdateUserRequest $request)

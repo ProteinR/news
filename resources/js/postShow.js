@@ -1,16 +1,19 @@
 import PostShow from './components/News/PostShow.vue';
+import url from './API.js';
+
 
 var postShow = new Vue ({
     el: '#vue-post',
     data: {
-        postData: []
+        postData: [],
+        // url: $route.query
     },
     components: {PostShow},
     created: function () {
-        axios.get('http://localhost/api/news/1')
+        axios.get(url)
             .then(function(response) {
                 postShow.postData = response.data;
-                console.log(postShow.postData);
+                // console.log(postShow.postData);
             });
     }
 });

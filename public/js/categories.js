@@ -267,14 +267,15 @@ __webpack_require__.r(__webpack_exports__);
 var header = new Vue({
   el: '#vue-header',
   data: {
-    categories: []
+    categories: [],
+    currentUrl: ''
   },
   components: {
     Categories: _components_category_Categories_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   created: function created() {
     axios.get('http://localhost/api/category/').then(function (response) {
-      header.categories = response.data; // console.log(header.categories);
+      header.categories = response.data;
     });
   }
 });

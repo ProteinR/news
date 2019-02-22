@@ -1,47 +1,5 @@
 <template>
-    <!--<div class="card mt-4">-->
 
-        <!--&lt;!&ndash; Card image &ndash;&gt;-->
-        <!--<div class="view overlay">-->
-            <!--<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%28131%29.jpg" alt="Card image cap">-->
-            <!--<a>-->
-                <!--<div class="mask rgba-white-slight"></div>-->
-            <!--</a>-->
-        <!--</div>-->
-        <!--&lt;!&ndash; Card content &ndash;&gt;-->
-        <!--<div class="card-body">-->
-
-            <!--&lt;!&ndash; Social shares button &ndash;&gt;-->
-            <!--&lt;!&ndash;<a class="activator waves-effect waves-light mr-4"><i class="fas fa-share-alt"></i></a>&ndash;&gt;-->
-
-            <!--&lt;!&ndash; Title &ndash;&gt;-->
-            <!--<h5 class="card-title">{{post.title.substring(0, 40)}}</h5>-->
-            <!--<hr>-->
-            <!--&lt;!&ndash; Text &ndash;&gt;-->
-            <!--<p class="card-text">{{ post.text.substring(0, 25) }}</p>-->
-            <!--<div class="row">-->
-                <!--<i class="fas fa-user-alt mr-2"></i>-->
-                <!--<p>{{post.user.name}}</p>-->
-            <!--</div>-->
-
-            <!--<div class="row">-->
-                <!--<div class="col-4`">-->
-                    <!--&lt;!&ndash; Rating&ndash;&gt;-->
-                    <!--<i class="far fa-thumbs-up ml-2">25 </i>-->
-                    <!--<i class="far fa-thumbs-down ml-2">12 </i>-->
-                <!--</div>-->
-
-                <!--<div class="col-8">-->
-                <!--&lt;!&ndash; Link &ndash;&gt;-->
-                    <!--<a v-bind:href="'http://localhost/news/'+post.id" class="black-text d-flex-->
-                                <!--justify-content-end"><h5>Читать далее <i-->
-                        <!--class="fas-->
-                                <!--fa-angle-double-right"></i></h5></a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-    <!--</div>-->
 
 
     <div class="container">
@@ -88,7 +46,7 @@
             </div>
             <!-- Grid row -->
 
-            <hr class="my-3">
+            <hr class="">
 
 
 

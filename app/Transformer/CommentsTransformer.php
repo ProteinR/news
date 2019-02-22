@@ -20,8 +20,9 @@ class CommentsTransformer extends TransformerAbstract
     {
         return [
             'user'  => [
-                'id'   => $comment->user->id,
-                'name' => $comment->user->name,
+                'id'     => $comment->user->id,
+                'name'   => $comment->user->name,
+                'avatar' => $comment->user->avatar,
             ],
             'text'       => $comment->text,
             'created_at' => optional($comment->created_at)->diffForHumans(),

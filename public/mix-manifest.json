@@ -1,5 +1,6 @@
 {
     "/js/categories.js": "/js/categories.js",
     "/js/news.js": "/js/news.js",
-    "/js/postShow.js": "/js/postShow.js"
+    "/js/postShow.js": "/js/postShow.js",
+    "/js/register.js": "/js/register.js"
 }

@@ -31,7 +31,7 @@
             </button>
 
             <!-- Collapsible content -->
-            <div class="collapse navbar-collapse" id="basicExampleNav">
+            <div class="collapse navbar-collapse" id="nav">
 
                 <!-- Links -->
                 <ul class="navbar-nav mr-auto">
@@ -53,10 +53,6 @@
                            aria-expanded="false">Категории</a>
                         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                             <categories :categories="this.categories"></categories>
-
-                            {{--<a class="dropdown-item" href="#" v-for="category in categories">@{{ category.title }}</a>--}}
-                            {{--<a class="dropdown-item" href="#">Another action</a>--}}
-                            {{--<a class="dropdown-item" href="#">Something else here</a>--}}
                         </div>
                     </li>
 
@@ -68,6 +64,14 @@
                         <input class="form-control mr-sm-2" type="text" placeholder="Поиск" aria-label="Search">
                     </div>
                 </form>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="/register" class="nav-link">Регистрация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/login" class="nav-link">Войти</a>
+                    </li>
+                </ul>
             </div>
             <!-- Collapsible content -->
         </div>
@@ -80,8 +84,9 @@
     @include('footer')
 
 {{-- list of categories--}}
-<script src="/js/categories.js"></script>
 
+<script src="/js/categories.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
