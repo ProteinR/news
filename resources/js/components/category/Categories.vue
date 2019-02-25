@@ -1,6 +1,6 @@
 <template>
     <span class="">
-        <a class="dropdown-item" :href="'http://localhost/api/news/category/'+category.id" v-for="category in categories">{{ category.title }}</a>
+        <a class="dropdown-item" :href="'http://localhost/news/category/'+category.id" v-for="category in categories">{{ category.title }}</a>
     </span>
 </template>
 

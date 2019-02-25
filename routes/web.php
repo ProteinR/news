@@ -30,3 +30,11 @@ Route::get('/register', function () {
 Route::get('/login', function () {
     return view('pages.login');
 });
+
+Route::get('/news/category/{id}', function () {
+    return view('pages.newsWithCategory');
+});
+
+Route::get('/news/tag/{id}', function () {
+    return view('pages.newsWithTag');
+});

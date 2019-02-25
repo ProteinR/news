@@ -36,7 +36,7 @@
                 <!-- Links -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Новости
+                        <a class="nav-link" href="/">Главная
                             {{--<span class="sr-only">(current)</span>--}}
                         </a>
                     </li>

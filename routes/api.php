@@ -8,7 +8,9 @@ Route::post('auth/account', 'Auth\AccountController@store'); //register
 Route::post('auth/token', 'Auth\TokenController@store'); //login
 
 // Show all news, tags and categories
+Route::get('/', 'ApiNewsController@index'); // show all news
 Route::resource('/news', 'ApiNewsController')->only(['index', 'show']);
+
 Route::get('/news/category/{category}' , 'ApiNewsController@newsWithCategory'); // Show all news with category
 Route::get('/news/tag/{tag}' , 'ApiNewsController@newsWithTag'); // Show all news with tag
 Route::resource('/tag', 'ApiTagController')->only(['index']);

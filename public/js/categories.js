@@ -131,7 +131,7 @@ var render = function() {
         "a",
         {
           staticClass: "dropdown-item",
-          attrs: { href: "http://localhost/api/news/category/" + category.id }
+          attrs: { href: "http://localhost/news/category/" + category.id }
         },
         [_vm._v(_vm._s(category.title))]
       )

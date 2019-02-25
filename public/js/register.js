@@ -106,6 +106,18 @@ var _register = new Vue({
   methods: {
     register: function register() {
       event.preventDefault();
+
+      if (this.name == '' || this.password == '' || this.email == '' || this.password_confirmation == '') {
+        swal({
+          title: "Упс!",
+          text: "Пожалуйста, заполните все поля!",
+          icon: "error",
+          button: "Ок",
+          timer: 4000
+        });
+        return false;
+      }
+
       console.log(this.name);
       axios.post('/api/auth/account', {
         "name": this.name,
@@ -125,14 +137,26 @@ var _register = new Vue({
           });
           setTimeout('location="/login";', 3000);
         }
-
-        console.log(_register.registerResponse);
+      }).catch(function (error) {
+        console.log(error);
+        swal({
+          title: "Упс!",
+          text: "Произошла ошибка, попробуйте позже...",
+          icon: "error",
+          button: "Aww yiss!",
+          timer: 3000
+        });
       });
     },
     login: function login() {
       event.preventDefault();
       console.log(this.email);
       console.log(this.password);
+
+      if (this.email == '' || this.password == '') {
+        return false;
+      }
+
       axios.post('/api/auth/token', {
         "email": this.email,
         "password": this.password
@@ -142,14 +166,22 @@ var _register = new Vue({
         if (response.data.message == 'Authorization Successful!') {
           swal({
             title: "Успех!",
-            text: "Вы вошли! Вы будете перенаправлены на страницу входа через" + " несколько секунд...",
+            text: "Вы вошли! Вы будете перенаправлены на главную страницу через" + " несколько секунд...",
             icon: "success",
             button: "Aww yiss!",
             timer: 3000
           });
           setTimeout('location="/";', 3000);
-        } // console.log(register.registerResponse);
-
+        }
+      }).catch(function (error) {
+        swal({
+          title: "Ошибка!",
+          text: "Вы ввели неверный логин или пароль! Попробуйте еще раз.",
+          icon: "error",
+          button: "Ок!",
+          timer: 5000
+        });
+        _register.password = '';
       });
     }
   },

@@ -1,4 +1,5 @@
 import News from './components/News.vue';
+import url from './API.js';
 
 var newsIndex = new Vue ({
     el: '#newsIndex',
@@ -8,7 +9,13 @@ var newsIndex = new Vue ({
     },
     components: {News},
     created: function () {
-        axios.get('http://localhost/api/news')
+        
+        console.log(url);
+        if (url == '/') {
+            console.log('url = /');
+        }
+
+        axios.get(url)
             .then(function(response) {
                 newsIndex.preloadedNews = response.data;
                 // console.log(app.preloadedNews);

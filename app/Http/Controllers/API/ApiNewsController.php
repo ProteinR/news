@@ -30,7 +30,7 @@ class ApiNewsController extends Controller
         // Return all news
         $posts = News::with(['user:id,name', 'category:id,title'])->get();
 
-        return fractal($posts, new NewsTransformer());
+        return fractal($posts, new NewsTransformer())->parseIncludes(['tags'])->toArray();
     }
 
 
