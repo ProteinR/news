@@ -19,7 +19,8 @@
 <!--Navbar-->
 <!--/.Navbar-->
 <section>
-    <nav class="navbar navbar-expand-lg navbar-dark primary-color" id="vue-header">
+    <header class="mb-2">
+        <nav class="navbar navbar-expand-lg navbar-dark primary-color " id="vue-header">
         <div class="container">
             <!-- Navbar brand -->
             <a class="navbar-brand" href="/">News</a>
@@ -77,6 +78,7 @@
         </div>
 
     </nav>
+    </header>
 </section>
 
     @yield('content')

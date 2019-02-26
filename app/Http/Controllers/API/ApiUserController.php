@@ -30,7 +30,10 @@ class ApiUserController extends Controller
      */
     public function show(User $user)
     {
-        return fractal($user, new UserTransformer)->toArray();
+        return fractal($user, new UserTransformer)
+            ->parseIncludes('comments')
+            ->parseIncludes('news')
+            ->toArray();
     }
 
 

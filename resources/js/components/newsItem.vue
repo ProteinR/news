@@ -48,7 +48,7 @@
                     <div class="">
                         <span class="mr-3">Категория: </span>
                         <div class="tags d-inline-flex">
-                            <a  class="deep-orange-text">
+                            <a  class="deep-orange-text" :href="'/news/category/'+post.category.id">
                                 <h6 class="font-weight-bold"><i class="fas fa-utensils pr-2"></i>{{post.category.title}}</h6>
                             </a>
                         </div>

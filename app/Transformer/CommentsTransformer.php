@@ -24,6 +24,7 @@ class CommentsTransformer extends TransformerAbstract
                 'name'   => $comment->user->name,
                 'avatar' => $comment->user->avatar,
             ],
+            'news' => $comment->news,
             'text'       => $comment->text,
             'created_at' => optional($comment->created_at)->diffForHumans(),
             'updated_at' => optional($comment->updated_at)->diffForHumans(),

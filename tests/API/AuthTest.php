@@ -62,7 +62,7 @@ class AuthTest extends TestCase
             ]);
 
         $response->assertOk()->assertJsonFragment([
-            'message' => 'User created successfully',
+            'message' => 'success',
             'name'    => $this->user->name,
             'email'   => $this->user->email,
         ]);

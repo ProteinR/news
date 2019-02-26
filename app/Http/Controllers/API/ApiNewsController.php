@@ -8,6 +8,7 @@ use App\Http\Requests\News\UpdateNewsRequest;
 use App\News;
 use App\Tag;
 use App\Transformer\NewsTransformer;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -30,7 +31,7 @@ class ApiNewsController extends Controller
         // Return all news
         $posts = News::with(['user:id,name', 'category:id,title'])->get();
 
-        return fractal($posts, new NewsTransformer())->parseIncludes(['tags'])->toArray();
+        return fractal($posts, new NewsTransformer())->toArray();
     }
 
 
@@ -50,7 +51,7 @@ class ApiNewsController extends Controller
         });
         $post = News::find($this->news->id);
 
-        return fractal($post, new NewsTransformer())->parseIncludes('tags')->toArray();
+        return fractal($post, new NewsTransformer())->toArray();
     }
 
     /**
@@ -65,7 +66,7 @@ class ApiNewsController extends Controller
         $news->load(['user:id,name', 'comments.user:id,name,avatar', 'category:id,title']);
 
         return fractal($news, new NewsTransformer())
-            ->parseIncludes(['comments', 'tags'])
+            ->parseIncludes(['comments'])
             ->toArray();
     }
 
@@ -87,7 +88,6 @@ class ApiNewsController extends Controller
         });
 
         return fractal($news, new NewsTransformer())
-            ->parseIncludes(['tags'])
             ->toArray();
     }
 
@@ -111,7 +111,6 @@ class ApiNewsController extends Controller
         $news = $category->news()->get();
 
         return fractal($news, new NewsTransformer())
-            ->parseIncludes(['tags'])
             ->toArray();
     }
 
@@ -120,7 +119,14 @@ class ApiNewsController extends Controller
         $news = $tag->news()->get();
 
         return fractal($news, new NewsTransformer())
-            ->parseIncludes(['tags'])
+            ->toArray();
+    }
+
+    public function newsWithUser(User $user)
+    {
+        $news = $user->news()->get();
+
+        return fractal($news, new NewsTransformer())
             ->toArray();
     }
 }

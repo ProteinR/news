@@ -11,6 +11,10 @@ class NewsTransformer extends TransformerAbstract
         'comments', 'tags',
     ];
 
+    protected $defaultIncludes = [
+        'tags'
+    ];
+
     public function transform(News $news)
     {
         return [
