@@ -14,7 +14,7 @@
                             <!-- Label -->
                             <div class="label">
                                 <img :src="comment.user.avatar"
-                                     class="rounded-circle z-depth-1-half">
+                                     class="rounded-circle z-depth-1-half" id="commentator-avatar">
                             </div>
 
                             <!-- Excerpt -->
@@ -45,12 +45,21 @@
                         <hr>
                     </div>
                     <!-- Comment -->
+                    <!--<div class="row flex-column">-->
+                        <div class="md-form md-outline">
+                            <textarea type="text" id="form75" class="form-control" rows="3"
+                                      placeholder="Введите текст"></textarea>
+                        <button class="btn btn-primary">Оставить комментарий</button>
+                    </div>
+
                 </div>
             </div>
     </div>
 </template>
 
 <script>
+
+
     export default {
         name: "Comments",
         props: ['comments']
@@ -58,5 +67,8 @@
 </script>
 
 <style scoped>
-
+#commentator-avatar {
+    height: 50px;
+    width: auto;
+}
 </style>

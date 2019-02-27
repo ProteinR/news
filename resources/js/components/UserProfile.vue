@@ -10,7 +10,7 @@
                     <li class="nav-item">
                         <a href="" data-target="#messages" data-toggle="tab" class="nav-link">Контакты</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="editProfile()">
                         <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Редактировать профиль</a>
                     </li>
                 </ul>
@@ -213,12 +213,20 @@
                             <h4>Пользователь ничего не писал...</h4>
                         </div>
                     </div>
-                    <div class="row flex-column" v-if="user.news.length">
+                    <div class="row flex-column" v-if="user.news && user.news.length">
+                        <h2 class="my-3 align-self-center">Статьи пользователя: </h2>
+
                         <div class="" v-for="post in user.news">
                             <!-- Card Light -->
                             <newsItem :post="post"></newsItem>
                             <!-- Card Light -->
                         </div>
+                    </div>
+                    <div class="row flex-column" v-else>
+                            <h2 class="my-3 align-self-center">Статьи пользователя: </h2>
+                            <!-- Card Light -->
+                            <h4>Пользователь не писал статьи...</h4>
+                            <!-- Card Light -->
                     </div>
                 </div>
             </template>
@@ -229,6 +237,8 @@
 
 <script>
     import newsItem from "./newsItem";
+    import url from '../API.js';
+
 
     export default {
         props: [
@@ -239,7 +249,14 @@
         },
         computed: {},
         methods: {
-
+            editProfile: function () {
+                let id = url.split('/').pop();
+                console.log(this.user);
+                if (id == JSON.parse(localStorage.getItem('currentUser')).id) {
+                    return true;
+                }
+                return false;
+            }
         },
         created() {
             // console.log(user.news);

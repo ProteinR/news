@@ -23,7 +23,7 @@ Route::resource('/category', 'ApiCategoryController')->only(['index']);
 Route::group(['middleware'=>'auth:api'], function () {
 
     //Show and delete users
-    Route::resource('user', 'ApiUserController')->only(['index','update', 'destroy']);
+    Route::resource('user', 'ApiUserController')->only(['index','update', 'show', 'destroy']);
 
     //CRUD for news
     Route::resource('/news', 'ApiNewsController')->except(['index', 'create', 'edit', 'show']);

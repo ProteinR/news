@@ -1,5 +1,7 @@
 import PostShow from './components/News/PostShow.vue';
 import url from './API.js';
+import {AXIOS} from './axios.global';
+
 
 
 var postShow = new Vue ({
@@ -10,7 +12,7 @@ var postShow = new Vue ({
     },
     components: {PostShow},
     created: function () {
-        axios.get(url)
+        AXIOS.get(url)
             .then(function(response) {
                 postShow.postData = response.data;
                 // console.log(postShow.postData);

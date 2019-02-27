@@ -19,7 +19,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'avatar' => $faker->imageUrl($width = 50, $height = 50),
+        'avatar' => $faker->imageUrl($width = 50, $height = 50, $category = 'people', $fullPath = true),
         'password' => Hash::make('123'),
         'api_token' => str_random(10),
     ];

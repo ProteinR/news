@@ -1,7 +1,4 @@
 <template>
-
-
-
     <div class="container">
         <!-- Section: Blog v.3 -->
         <section class="my-3">
@@ -69,8 +66,6 @@
         </section>
         <!-- Section: Blog v.3 -->
     </div>
-
-
 
 </template>
 

@@ -1,4 +1,6 @@
 // import News from './components/News.vue';
+import {AXIOS} from './axios.global';
+
 
 var register = new Vue ({
     el: '#register',
@@ -25,7 +27,7 @@ var register = new Vue ({
             }
 
             console.log(this.name);
-            axios.post('/api/auth/account', {
+            AXIOS.post('/api/auth/account', {
                 "name": this.name,
                 "email": this.email,
                 "password": this.password,
@@ -64,16 +66,20 @@ var register = new Vue ({
                 return false;
             }
 
-            axios.post('/api/auth/token', {
+            AXIOS.post('/api/auth/token', {
                 "email": this.email,
                 "password": this.password
             })
                 .then(function(response) {
                     register.registerResponse = response.data;
                     if (response.data.message == 'Authorization Successful!') {
+                        localStorage.setItem('token', 'Bearer '+response.data.currentUser.api_token);
+                        localStorage.setItem('currentUser', JSON.stringify(response.data.currentUser));
+                        console.log(response.data.currentUser)
                         swal({
                             title: "Успех!",
-                            text: "Вы вошли! Вы будете перенаправлены на главную страницу через" +
+                            text: "Вы вошли как "+ response.data.currentUser.name +"! Вы будете перенаправлены на" +
+                                " главную страницу через" +
                                 " несколько секунд...",
                             icon: "success",
                             button: "Aww yiss!",

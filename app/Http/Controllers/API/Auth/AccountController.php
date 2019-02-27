@@ -26,6 +26,7 @@ class AccountController extends Controller
         if($request->get('password')) {
             $request->merge(['password' => Hash::make($request->get('password'))]);
         }
+        $user->avatar = 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png';
         $user->fill($request->all())->save();
 
         return response(['message' => 'success', 'user' => $user], 200);

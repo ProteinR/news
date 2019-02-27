@@ -81,30 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/categories.js":
-/*!************************************!*\
-  !*** ./resources/js/categories.js ***!
-  \************************************/
-/*! no exports provided */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/var/www/html/resources/js/categories.js'");
-
-/***/ }),
-
-/***/ 1:
-/*!******************************************!*\
-  !*** multi ./resources/js/categories.js ***!
-  \******************************************/
+/***/ 6:
+/*!***************************************************!*\
+  !*** multi ./resources/js/navbarUserComponent.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/resources/js/categories.js */"./resources/js/categories.js");
+!(function webpackMissingModule() { var e = new Error("Cannot find module '/var/www/html/resources/js/navbarUserComponent.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 
 
 /***/ })

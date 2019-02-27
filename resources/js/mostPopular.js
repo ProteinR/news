@@ -1,4 +1,6 @@
 import News from './components/News.vue';
+import {AXIOS} from './axios.global';
+
 
 var newsIndex = new Vue ({
     el: '#mostpopular',
@@ -8,7 +10,7 @@ var newsIndex = new Vue ({
     },
     components: {News},
     created: function () {
-        axios.get('http://localhost/api/news')
+        AXIOS.get('http://localhost/api/news')
             .then(function(response) {
                 newsIndex.preloadedNews = response.data;
                 // console.log(app.preloadedNews);
