@@ -242,24 +242,25 @@
 
     export default {
         props: [
-            'user'
+            'user',
         ],
+
         components: {
-            newsItem
+            newsItem,
         },
         computed: {},
         methods: {
             editProfile: function () {
                 let id = url.split('/').pop();
-                console.log(this.user);
+                // console.log(this.user);
                 if (id == JSON.parse(localStorage.getItem('currentUser')).id) {
                     return true;
                 }
                 return false;
-            }
+            },
         },
         created() {
-            // console.log(user.news);
+            // console.log(this.user);
         },
     }
 </script>

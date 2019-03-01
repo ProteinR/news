@@ -34,7 +34,7 @@
                     </p>
                     <!-- Post data -->
                     <p>by <a class="font-weight-bold" :href="'/news/user/'+ post.user.id">{{post.user.name}}</a>,
-                       19/04/2018 </p>
+                       {{post.created_at}} </p>
                     <div class="">
                         <span>Теги: </span>
                         <div class="tags d-inline-flex" v-for="tag in post.tags">

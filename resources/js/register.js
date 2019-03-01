@@ -75,7 +75,7 @@ var register = new Vue ({
                     if (response.data.message == 'Authorization Successful!') {
                         localStorage.setItem('token', 'Bearer '+response.data.currentUser.api_token);
                         localStorage.setItem('currentUser', JSON.stringify(response.data.currentUser));
-                        console.log(response.data.currentUser)
+                        console.log(response.data.currentUser);
                         swal({
                             title: "Успех!",
                             text: "Вы вошли как "+ response.data.currentUser.name +"! Вы будете перенаправлены на" +

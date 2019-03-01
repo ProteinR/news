@@ -35,7 +35,12 @@
                                     <a class="like">
                                         <i class="fas fa-heart"></i>
                                         <!--TODO add migration for likes comments table-->
-                                        <span>7 likes</span>
+                                        <span v-if="comment.likes > 0" @click="incrementLikes(comment.id)">
+                                            {{comment.likes}}likes
+                                        </span>
+                                        <span v-else @click="incrementLikes(comment.id)">
+
+                                        </span>
                                     </a>
                                 </div>
 
@@ -48,8 +53,9 @@
                     <!--<div class="row flex-column">-->
                         <div class="md-form md-outline">
                             <textarea type="text" id="form75" class="form-control" rows="3"
-                                      placeholder="Введите текст"></textarea>
-                        <button class="btn btn-primary">Оставить комментарий</button>
+                                      placeholder="Введите текст" v-model="commentBody">
+                            </textarea>
+                        <button class="btn btn-primary" @click="addComment()">Оставить комментарий</button>
                     </div>
 
                 </div>
@@ -58,11 +64,50 @@
 </template>
 
 <script>
-
+    import {USER_AUTH} from "../../axios.global";
+    import {AXIOS} from "../../axios.global";
+    import API from "../../API";
+    import {CURRENT_USER} from "../../axios.global";
 
     export default {
         name: "Comments",
-        props: ['comments']
+        props: ['comments', 'newComment', 'addLike'],
+        data: function () {
+            return {
+                commentBody: '',
+            }
+        },
+        methods: {
+            incrementLikes: function(comment_id) {
+                var self=this;
+                // console.log(comment_id);
+                AXIOS.post('/api/comment/'+comment_id, {
+                    news_id: API.split('/').pop(),
+                    text: this.commentBody,
+                })
+                    .then(function (response) {
+                        self.addLike(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
+            addComment: function () {
+                var self=this;
+
+                AXIOS.post('/api/comment', {
+                    news_id: API.split('/').pop(),
+                    text: this.commentBody,
+                })
+                    .then(function (response) {
+                        self.newComment(response.data);
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
     }
 </script>
 

@@ -6,6 +6,7 @@ use App\Comment;
 use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Http\Controllers\Controller;
+use App\Transformer\CommentsTransformer;
 
 class ApiCommentController extends Controller
 {
@@ -27,9 +28,16 @@ class ApiCommentController extends Controller
     {
         $user = $request->user();
         $comment = $user->comments()->create($request->all());
-//        $this->comment = $this->comment->create($request->all());
 
-        return response($comment);
+        return fractal($comment, new CommentsTransformer())
+            ->toArray();
+    }
+
+    public function incrementLike(Comment $comment)
+    {
+        $comment->increment('likes');
+        return fractal($comment, new CommentsTransformer())
+            ->toArray();
     }
 
     /**

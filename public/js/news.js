@@ -2835,7 +2835,7 @@ var render = function() {
               },
               [_vm._v(_vm._s(_vm.post.user.name))]
             ),
-            _vm._v(",\n                   19/04/2018 ")
+            _vm._v(",\n                   " + _vm._s(_vm.post.created_at) + " ")
           ]),
           _vm._v(" "),
           _c(
@@ -3049,25 +3049,30 @@ url = window.location.origin + '/api' + window.location.pathname;
 /*!**************************************!*\
   !*** ./resources/js/axios.global.js ***!
   \**************************************/
-/*! exports provided: AXIOS */
+/*! exports provided: USER_AUTH, CURRENT_USER, AXIOS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "USER_AUTH", function() { return USER_AUTH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CURRENT_USER", function() { return CURRENT_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AXIOS", function() { return AXIOS; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
- // localStorage.setItem('token', 'Bearer Gxv4EEfi3M');
 
-var AUTH_TOKEN = localStorage.getItem('token'); // if (localStorage.getItem('token') == null) {
-//     console.log('auth token in null');
-//     const AUTH_TOKEN = '';
-// } else {
-// }
-// console.log(AUTH_TOKEN.length);
-// console.log(localStorage.getItem('currentUser'));
-// localStorage.removeItem("token");
-// localStorage.removeItem("currentUser");
+var USER_AUTH; // bool - true if user authenticated
+
+var CURRENT_USER; // obj - if user authenticated, contain current user obj
+
+var AUTH_TOKEN = localStorage.getItem('token'); // Check if user authenticated
+
+if (!localStorage.getItem('token')) {
+  USER_AUTH = false;
+  CURRENT_USER = '';
+} else {
+  USER_AUTH = true;
+  CURRENT_USER = JSON.parse(localStorage.getItem('currentUser'));
+}
 
 var AXIOS = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   headers: {

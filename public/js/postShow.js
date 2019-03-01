@@ -1828,7 +1828,19 @@ __webpack_require__.r(__webpack_exports__);
     Comments: _comments__WEBPACK_IMPORTED_MODULE_0__["default"],
     mostpopular: _mostPopular__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: ['post']
+  props: ['post'],
+  methods: {
+    newComment: function newComment(data) {
+      console.log(this.post.comments);
+      console.log(data);
+      this.post.comments.push(data);
+    },
+    addLike: function addLike(data) {
+      console.log(this.post.comments);
+      console.log(data);
+    }
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -1842,6 +1854,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _axios_global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../axios.global */ "./resources/js/axios.global.js");
+/* harmony import */ var _API__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../API */ "./resources/js/API.js");
 //
 //
 //
@@ -1901,9 +1915,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Comments",
-  props: ['comments']
+  props: ['comments', 'newComment', 'addLike'],
+  data: function data() {
+    return {
+      commentBody: ''
+    };
+  },
+  methods: {
+    incrementLikes: function incrementLikes(comment_id) {
+      var self = this; // console.log(comment_id);
+
+      _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].post('/api/comment/' + comment_id, {
+        news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
+        text: this.commentBody
+      }).then(function (response) {
+        self.addLike(response.data);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    addComment: function addComment() {
+      var self = this;
+      _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].post('/api/comment', {
+        news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
+        text: this.commentBody
+      }).then(function (response) {
+        self.newComment(response.data);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3089,7 +3143,14 @@ var render = function() {
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _c("comments", { attrs: { comments: _vm.post.comments, id: "comments" } })
+      _c("comments", {
+        attrs: {
+          comments: _vm.post.comments,
+          id: "comments",
+          newComment: _vm.newComment,
+          addLike: _vm.addLike
+        }
+      })
     ],
     1
   )
@@ -3178,7 +3239,37 @@ var render = function() {
                     _vm._v(_vm._s(comment.text))
                   ]),
                   _vm._v(" "),
-                  _vm._m(0, true)
+                  _c("div", { staticClass: "feed-footer mt-2" }, [
+                    _c("a", { staticClass: "like" }, [
+                      _c("i", { staticClass: "fas fa-heart" }),
+                      _vm._v(" "),
+                      comment.likes > 0
+                        ? _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.incrementLikes(comment.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(comment.likes) +
+                                  "likes\n                                    "
+                              )
+                            ]
+                          )
+                        : _c("span", {
+                            on: {
+                              click: function($event) {
+                                return _vm.incrementLikes(comment.id)
+                              }
+                            }
+                          })
+                    ])
+                  ])
                 ])
               ]),
               _vm._v(" "),
@@ -3186,47 +3277,54 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
-          _vm._m(1)
+          _c("div", { staticClass: "md-form md-outline" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.commentBody,
+                  expression: "commentBody"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "form75",
+                rows: "3",
+                placeholder: "Введите текст"
+              },
+              domProps: { value: _vm.commentBody },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.commentBody = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    return _vm.addComment()
+                  }
+                }
+              },
+              [_vm._v("Оставить комментарий")]
+            )
+          ])
         ],
         2
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "feed-footer mt-2" }, [
-      _c("a", { staticClass: "like" }, [
-        _c("i", { staticClass: "fas fa-heart" }),
-        _vm._v(" "),
-        _c("span", [_vm._v("7 likes")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "md-form md-outline" }, [
-      _c("textarea", {
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          id: "form75",
-          rows: "3",
-          placeholder: "Введите текст"
-        }
-      }),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-primary" }, [
-        _vm._v("Оставить комментарий")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -3564,25 +3662,30 @@ url = window.location.origin + '/api' + window.location.pathname;
 /*!**************************************!*\
   !*** ./resources/js/axios.global.js ***!
   \**************************************/
-/*! exports provided: AXIOS */
+/*! exports provided: USER_AUTH, CURRENT_USER, AXIOS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "USER_AUTH", function() { return USER_AUTH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CURRENT_USER", function() { return CURRENT_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AXIOS", function() { return AXIOS; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
- // localStorage.setItem('token', 'Bearer Gxv4EEfi3M');
 
-var AUTH_TOKEN = localStorage.getItem('token'); // if (localStorage.getItem('token') == null) {
-//     console.log('auth token in null');
-//     const AUTH_TOKEN = '';
-// } else {
-// }
-// console.log(AUTH_TOKEN.length);
-// console.log(localStorage.getItem('currentUser'));
-// localStorage.removeItem("token");
-// localStorage.removeItem("currentUser");
+var USER_AUTH; // bool - true if user authenticated
+
+var CURRENT_USER; // obj - if user authenticated, contain current user obj
+
+var AUTH_TOKEN = localStorage.getItem('token'); // Check if user authenticated
+
+if (!localStorage.getItem('token')) {
+  USER_AUTH = false;
+  CURRENT_USER = '';
+} else {
+  USER_AUTH = true;
+  CURRENT_USER = JSON.parse(localStorage.getItem('currentUser'));
+}
 
 var AXIOS = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   headers: {

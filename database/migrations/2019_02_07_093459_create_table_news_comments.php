@@ -18,6 +18,7 @@ class CreateTableNewsComments extends Migration
             $table->integer('user_id');
             $table->integer('news_id');
             $table->text('text');
+            $table->integer('likes')->default(0)->nullable();
             $table->timestamps();
         });
     }

@@ -23,7 +23,7 @@ Route::resource('/category', 'ApiCategoryController')->only(['index']);
 Route::group(['middleware'=>'auth:api'], function () {
 
     //Show and delete users
-    Route::resource('user', 'ApiUserController')->only(['index','update', 'show', 'destroy']);
+    Route::resource('user', 'ApiUserController')->only(['index','update', 'destroy']);
 
     //CRUD for news
     Route::resource('/news', 'ApiNewsController')->except(['index', 'create', 'edit', 'show']);
@@ -36,6 +36,10 @@ Route::group(['middleware'=>'auth:api'], function () {
 
     // CRUD for comments
     Route::resource('/comment', 'ApiCommentController')->except(['index', 'create', 'edit', 'show']);
+
+    // Add like to comment
+    Route::post('comment/{comment}', 'ApiCommentController@incrementLike');
+
 });
 
 

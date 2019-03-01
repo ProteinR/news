@@ -59,7 +59,7 @@
     import NavbarUserComponent from "../NavbarUserComponent";
 
     export default {
-        name: "Categories",
+        name: "Header",
         data: function() {
             return {
                 // currentuser: this.currentuser,

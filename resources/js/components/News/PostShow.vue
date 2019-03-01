@@ -48,7 +48,7 @@
 
         <hr>
 
-        <comments :comments="post.comments" id="comments"></comments>
+        <comments :comments="post.comments" id="comments" :newComment="newComment" :addLike="addLike"></comments>
 
     </div>
 </template>
@@ -59,7 +59,22 @@
     export default {
         name: "PostShow",
         components: {Comments, mostpopular},
-        props: ['post']
+        props: ['post'],
+        methods: {
+            newComment: function (data) {
+                console.log(this.post.comments);
+                console.log(data);
+                this.post.comments.push(data);
+            },
+
+            addLike: function (data) {
+                console.log(this.post.comments);
+                console.log(data);
+
+            }
+        },
+        mounted() {
+        }
     }
 </script>
 

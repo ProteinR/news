@@ -1,4 +1,4 @@
-import Categories from './components/category/Categories.vue';
+import Categories from './components/category/Header.vue';
 import {AXIOS} from './axios.global';
 import NavbarUserComponent from './components/NavbarUserComponent.vue';
 

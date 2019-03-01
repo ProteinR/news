@@ -19,6 +19,7 @@ $factory->define(App\Comment::class, function (Faker $faker) {
         'user_id' => rand(1, 5),
         'news_id' => rand(1, 5),
         'text' => $faker->realText(rand(10, 300)),
+        'likes' => rand(0, 30),
 //        'created_at' => $faker->date(),
 //        'updated_at' => $faker->date(),
     ];

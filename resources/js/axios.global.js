@@ -1,22 +1,21 @@
 import axios from 'axios';
 
-// localStorage.setItem('token', 'Bearer Gxv4EEfi3M');
+export var USER_AUTH; // bool - true if user authenticated
+export var CURRENT_USER; // obj - if user authenticated, contain current user obj
 const AUTH_TOKEN = localStorage.getItem('token');
 
-// if (localStorage.getItem('token') == null) {
-//     console.log('auth token in null');
-//     const AUTH_TOKEN = '';
-// } else {
-// }
+// Check if user authenticated
+if (!localStorage.getItem('token')) {
+    USER_AUTH = false;
+    CURRENT_USER = '';
+} else {
+    USER_AUTH = true;
+    CURRENT_USER  = JSON.parse(localStorage.getItem('currentUser'));
+}
 
-
-// console.log(AUTH_TOKEN.length);
-// console.log(localStorage.getItem('currentUser'));
-// localStorage.removeItem("token");
-// localStorage.removeItem("currentUser");
-
-export const AXIOS = axios.create({
+export var AXIOS = axios.create({
     headers: {
         'Authorization': AUTH_TOKEN,
     }
 });
+
