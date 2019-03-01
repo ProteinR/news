@@ -18,6 +18,8 @@ $factory->define(App\News::class, function (Faker $faker) {
     return [
         'category_id' => $faker->numberBetween(1, 4),
         'user_id' => rand(1, 5),
+        'views' => rand(10, 1200),
+        'image' => $faker->imageUrl($width = 730, $height = 480, $category = 'technics', $fullPath = true),
         'title' => $faker->realText(rand(20,70)),
         'text' => $faker->realText(rand(50,250)),
     ];

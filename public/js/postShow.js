@@ -1820,6 +1820,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1831,13 +1839,23 @@ __webpack_require__.r(__webpack_exports__);
   props: ['post'],
   methods: {
     newComment: function newComment(data) {
-      console.log(this.post.comments);
-      console.log(data);
       this.post.comments.push(data);
     },
     addLike: function addLike(data) {
-      console.log(this.post.comments);
-      console.log(data);
+      for (var i = 0; i < this.post.comments.length; i++) {
+        if (this.post.comments[i].id == data.id) {
+          this.post.comments[i].likes = data.likes;
+          console.log('likes incremented! ' + this.post.comments[i].likes);
+        }
+      }
+    },
+    updateComment: function updateComment(data) {
+      for (var i = 0; i < this.post.comments.length; i++) {
+        if (this.post.comments[i].id == data.id) {
+          this.post.comments[i].text = data.text;
+          console.log('comment updated! ' + this.post.comments[i].text);
+        }
+      }
     }
   },
   mounted: function mounted() {}
@@ -1921,21 +1939,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Comments",
-  props: ['comments', 'newComment', 'addLike'],
+  props: ['comments', 'newComment', 'addLike', 'updateComment'],
   data: function data() {
     return {
-      commentBody: ''
+      childComments: this.comments,
+      commentBody: '',
+      comment_id: '',
+      is_editing: '',
+      currentuser: _axios_global__WEBPACK_IMPORTED_MODULE_0__["CURRENT_USER"],
+      user_auth: _axios_global__WEBPACK_IMPORTED_MODULE_0__["USER_AUTH"]
     };
   },
   methods: {
     incrementLikes: function incrementLikes(comment_id) {
-      var self = this; // console.log(comment_id);
+      var self = this;
+
+      if (!self.user_auth) {
+        swal("Ошибка!", "Для этого действия, вам необходимо авторизоватья!", "warning");
+        return;
+      }
 
       _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].post('/api/comment/' + comment_id, {
         news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
@@ -1948,15 +1990,56 @@ __webpack_require__.r(__webpack_exports__);
     },
     addComment: function addComment() {
       var self = this;
-      _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].post('/api/comment', {
-        news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
-        text: this.commentBody
-      }).then(function (response) {
-        self.newComment(response.data);
+
+      if (!self.user_auth) {
+        swal("Ошибка!", "Чтобы оставлять комментарии, вам необходимо авторизоватья!", "warning");
+        return;
+      }
+
+      if (self.is_editing == false) {
+        _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].post('/api/comment', {
+          news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
+          text: this.commentBody
+        }).then(function (response) {
+          self.newComment(response.data);
+          self.commentBody = '';
+        }).catch(function (error) {
+          console.log(error);
+        });
+      } else {
+        _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].put('/api/comment/' + self.comment_id, {
+          news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
+          text: this.commentBody
+        }).then(function (response) {
+          self.updateComment(response.data);
+          self.is_editing = false;
+          self.commentBody = '';
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    },
+    editComment: function editComment(id, text) {
+      var self = this;
+      console.log(text);
+      self.is_editing = true;
+      self.commentBody = text;
+      self.comment_id = id;
+    },
+    deleteComment: function deleteComment(id) {
+      var self = this;
+      _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].delete('/api/comment/' + id).then(function (response) {
+        // console.log(self.childComments);
+        self.childComments = self.childComments.filter(function (comment) {
+          return comment.id !== id;
+        });
+        console.log(self.childComments);
       }).catch(function (error) {
         console.log(error);
       });
     }
+  },
+  created: function created() {// console.log(this.childComments);
   }
 });
 
@@ -1971,6 +2054,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _axios_global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../axios.global */ "./resources/js/axios.global.js");
 //
 //
 //
@@ -2016,128 +2100,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['news'],
+  props: [],
   data: function data() {
-    return {// currentUrl: '',
+    return {
+      news: [] // currentUrl: '',
+
     };
   },
   components: {},
   computed: {},
   methods: {},
-  created: function created() {// this.currentUrl = window.location.href;
-    // console.log(this.currentUrl);
-    //     axios.get('http://localhost/api/news')
-    //         .then(function(response) {
-    //             newsIndex.preloadedNews = response.data;
-    //             // console.log(app.preloadedNews);
-    //         });
+  created: function created() {
+    self = this;
+    _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('http://localhost/api/news/top/5').then(function (response) {
+      self.news = response.data;
+      console.log(self.news);
+    });
   }
 });
 
@@ -3109,6 +3089,19 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "news-data d-flex justify-content-between mb-2"
+                },
+                [
+                  _c("span", [
+                    _c("i", { staticClass: "far fa-eye" }),
+                    _vm._v(" " + _vm._s(_vm.post.views))
+                  ])
+                ]
+              ),
+              _vm._v(" "),
               _c("span", [_vm._v("Теги:")]),
               _vm._v(" "),
               _vm._l(_vm.post.tags, function(tag) {
@@ -3148,7 +3141,8 @@ var render = function() {
           comments: _vm.post.comments,
           id: "comments",
           newComment: _vm.newComment,
-          addLike: _vm.addLike
+          addLike: _vm.addLike,
+          updateComment: _vm.updateComment
         }
       })
     ],
@@ -3206,7 +3200,7 @@ var render = function() {
         "div",
         { staticClass: "comments my-3" },
         [
-          _vm._l(_vm.comments, function(comment) {
+          _vm._l(_vm.childComments, function(comment) {
             return _c("div", { staticClass: "comment my-3" }, [
               _c("div", { staticClass: "comment-content d-flex" }, [
                 _c("div", { staticClass: "label" }, [
@@ -3219,7 +3213,7 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "excerpt ml-3" }, [
+                _c("div", { staticClass: "excerpt ml-3 container-fluid" }, [
                   _c("div", { staticClass: "brief d-inline-flex" }, [
                     _c(
                       "a",
@@ -3235,40 +3229,90 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
+                  _c("div", { staticClass: "d-inline-flex float-right" }, [
+                    _vm.currentuser != undefined
+                      ? _c("span", {}, [
+                          _vm.currentuser.id == comment.user.id
+                            ? _c(
+                                "span",
+                                {
+                                  staticClass: "btn-primary btn-sm mr-2",
+                                  staticStyle: { cursor: "pointer" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.editComment(
+                                        comment.id,
+                                        comment.text
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                        edit\n                                    "
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.currentuser.id == comment.user.id
+                            ? _c(
+                                "span",
+                                {
+                                  staticClass: "btn-danger btn-sm",
+                                  staticStyle: { cursor: "pointer" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.deleteComment(comment.id)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "x\n                                    "
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
                   _c("div", { staticClass: "added-text" }, [
                     _vm._v(_vm._s(comment.text))
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "feed-footer mt-2" }, [
-                    _c("a", { staticClass: "like" }, [
-                      _c("i", { staticClass: "fas fa-heart" }),
-                      _vm._v(" "),
-                      comment.likes > 0
-                        ? _c(
-                            "span",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.incrementLikes(comment.id)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                        " +
-                                  _vm._s(comment.likes) +
-                                  "likes\n                                    "
-                              )
-                            ]
-                          )
-                        : _c("span", {
-                            on: {
-                              click: function($event) {
-                                return _vm.incrementLikes(comment.id)
-                              }
-                            }
-                          })
-                    ])
+                    _c(
+                      "a",
+                      {
+                        staticClass: "like",
+                        on: {
+                          click: function($event) {
+                            return _vm.incrementLikes(comment.id)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-heart" }),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          [
+                            comment.likes > 0
+                              ? [
+                                  _vm._v(
+                                    "\n                                            " +
+                                      _vm._s(comment.likes) +
+                                      "\n                                        "
+                                  )
+                                ]
+                              : void 0
+                          ],
+                          2
+                        )
+                      ]
+                    )
                   ])
                 ])
               ]),
@@ -3346,188 +3390,81 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    {},
+    [
+      _c("h3", [_vm._v("Самые читаемые")]),
+      _vm._v(" "),
+      _vm._l(_vm.news, function(post, index) {
+        return index <= 3
+          ? _c("div", { staticClass: "singlenews" }, [
+              _c("div", { staticClass: "row my-3" }, [
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c(
+                    "div",
+                    { staticClass: "view overlay rounded z-depth-1 my-3" },
+                    [
+                      _c("img", {
+                        staticClass: "img-fluid",
+                        attrs: { src: post.image, alt: "Sample image" }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(0, true)
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-9" }, [
+                  _c("p", { staticClass: "font-weight-bold dark-grey-text" }, [
+                    _vm._v(_vm._s(post.title))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "d-flex justify-content-between" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col-11 text-truncate pl-0 mb-3" },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dark-grey-text",
+                            attrs: { href: "/news/" + post.id }
+                          },
+                          [_vm._v(_vm._s(post.text))]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(1, true)
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ])
+          : _vm._e()
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", {}, [
-      _c("h3", [_vm._v("Самые читаемые")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "singlenews" }, [
-        _c("div", { staticClass: "row my-3" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "view overlay rounded z-depth-1 my-3" }, [
-              _c("img", {
-                staticClass: "img-fluid",
-                attrs: {
-                  src:
-                    "https://mdbootstrap.com/img/Photos/Others/images/86.jpg",
-                  alt: "Sample image"
-                }
-              }),
-              _vm._v(" "),
-              _c("a", [
-                _c("div", {
-                  staticClass: "mask rgba-white-slight waves-effect waves-light"
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-9" }, [
-            _c("p", { staticClass: "font-weight-bold dark-grey-text" }, [
-              _vm._v("Title of post title of post")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex justify-content-between" }, [
-              _c("div", { staticClass: "col-11 text-truncate pl-0 mb-3" }, [
-                _c(
-                  "a",
-                  { staticClass: "dark-grey-text", attrs: { href: "#!" } },
-                  [_vm._v("Itaque earum rerum hic tenetur a sapiente delectus")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", [_c("i", { staticClass: "fas fa-angle-double-right" })])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("hr")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "singlenews" }, [
-        _c("div", { staticClass: "row my-3" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "view overlay rounded z-depth-1 my-3" }, [
-              _c("img", {
-                staticClass: "img-fluid",
-                attrs: {
-                  src:
-                    "https://mdbootstrap.com/img/Photos/Others/images/86.jpg",
-                  alt: "Sample image"
-                }
-              }),
-              _vm._v(" "),
-              _c("a", [
-                _c("div", {
-                  staticClass: "mask rgba-white-slight waves-effect waves-light"
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-9" }, [
-            _c("p", { staticClass: "font-weight-bold dark-grey-text" }, [
-              _vm._v("Title of post title of post")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex justify-content-between" }, [
-              _c("div", { staticClass: "col-11 text-truncate pl-0 mb-3" }, [
-                _c(
-                  "a",
-                  { staticClass: "dark-grey-text", attrs: { href: "#!" } },
-                  [_vm._v("Itaque earum rerum hic tenetur a sapiente delectus")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", [_c("i", { staticClass: "fas fa-angle-double-right" })])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("hr")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "singlenews" }, [
-        _c("div", { staticClass: "row my-3" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "view overlay rounded z-depth-1 my-3" }, [
-              _c("img", {
-                staticClass: "img-fluid",
-                attrs: {
-                  src:
-                    "https://mdbootstrap.com/img/Photos/Others/images/86.jpg",
-                  alt: "Sample image"
-                }
-              }),
-              _vm._v(" "),
-              _c("a", [
-                _c("div", {
-                  staticClass: "mask rgba-white-slight waves-effect waves-light"
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-9" }, [
-            _c("p", { staticClass: "font-weight-bold dark-grey-text" }, [
-              _vm._v("Title of post title of post")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex justify-content-between" }, [
-              _c("div", { staticClass: "col-11 text-truncate pl-0 mb-3" }, [
-                _c(
-                  "a",
-                  { staticClass: "dark-grey-text", attrs: { href: "#!" } },
-                  [_vm._v("Itaque earum rerum hic tenetur a sapiente delectus")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", [_c("i", { staticClass: "fas fa-angle-double-right" })])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("hr")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "singlenews" }, [
-        _c("div", { staticClass: "row my-3" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "view overlay rounded z-depth-1 my-3" }, [
-              _c("img", {
-                staticClass: "img-fluid",
-                attrs: {
-                  src:
-                    "https://mdbootstrap.com/img/Photos/Others/images/86.jpg",
-                  alt: "Sample image"
-                }
-              }),
-              _vm._v(" "),
-              _c("a", [
-                _c("div", {
-                  staticClass: "mask rgba-white-slight waves-effect waves-light"
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-9" }, [
-            _c("p", { staticClass: "font-weight-bold dark-grey-text" }, [
-              _vm._v("Title of post title of post")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex justify-content-between" }, [
-              _c("div", { staticClass: "col-11 text-truncate pl-0 mb-3" }, [
-                _c(
-                  "a",
-                  { staticClass: "dark-grey-text", attrs: { href: "#!" } },
-                  [_vm._v("Itaque earum rerum hic tenetur a sapiente delectus")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", [_c("i", { staticClass: "fas fa-angle-double-right" })])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("hr")
-      ])
+    return _c("a", [
+      _c("div", {
+        staticClass: "mask rgba-white-slight waves-effect waves-light"
+      })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", [_c("i", { staticClass: "fas fa-angle-double-right" })])
   }
 ]
 render._withStripped = true

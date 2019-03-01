@@ -20,6 +20,10 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'avatar' => $faker->imageUrl($width = 50, $height = 50, $category = 'people', $fullPath = true),
+        'about' => $faker->text(20),
+        'interest' => $faker->text(20),
+        'skype' => 'skype'. $faker->text(20),
+        'telegram' => 'tg'.$faker->text(20),
         'password' => Hash::make('123'),
         'api_token' => str_random(10),
     ];

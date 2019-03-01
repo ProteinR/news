@@ -27,6 +27,10 @@
                         </a>
                         <p class="font-weight-bold dark-grey-text"><i class="fas fa-clock-o pr-2"></i>{{post.created_at}}</p>
                     </div>
+                    <div class="news-data d-flex justify-content-between mb-2" >
+                        <span><i class="far fa-eye"></i> {{post.views}}</span>
+                    </div>
+
 
                     <span>Теги:</span>
                     <div class="tags d-inline-flex" v-for="tag in post.tags">
@@ -48,7 +52,11 @@
 
         <hr>
 
-        <comments :comments="post.comments" id="comments" :newComment="newComment" :addLike="addLike"></comments>
+        <comments :comments="post.comments" id="comments"
+                  :newComment="newComment"
+                  :addLike="addLike"
+                  :updateComment="updateComment">
+        </comments>
 
     </div>
 </template>
@@ -62,15 +70,25 @@
         props: ['post'],
         methods: {
             newComment: function (data) {
-                console.log(this.post.comments);
-                console.log(data);
                 this.post.comments.push(data);
             },
 
             addLike: function (data) {
-                console.log(this.post.comments);
-                console.log(data);
+                for (let i = 0; i < this.post.comments.length; i++) {
+                    if (this.post.comments[i].id == data.id) {
+                        this.post.comments[i].likes = data.likes;
+                        console.log('likes incremented! '+this.post.comments[i].likes);
+                    }
+                }
+            },
 
+            updateComment: function (data) {
+                for (let i = 0; i < this.post.comments.length; i++) {
+                    if (this.post.comments[i].id == data.id) {
+                        this.post.comments[i].text = data.text;
+                        console.log('comment updated! '+this.post.comments[i].text);
+                    }
+                }
             }
         },
         mounted() {

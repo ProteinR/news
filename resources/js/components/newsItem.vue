@@ -11,7 +11,7 @@
                     <!-- Featured image -->
                     <a v-bind:href="'http://localhost/news/'+post.id">
                         <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/49.jpg" alt="Sample image">
+                            <img class="img-fluid" :src="post.image" alt="Sample image">
                             <a>
                                 <div class="mask rgba-white-slight"></div>
                             </a>

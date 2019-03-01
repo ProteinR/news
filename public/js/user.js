@@ -1764,7 +1764,8 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _newsItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./newsItem */ "./resources/js/components/newsItem.vue");
-/* harmony import */ var _API_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../API.js */ "./resources/js/API.js");
+/* harmony import */ var _axios_global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../axios.global */ "./resources/js/axios.global.js");
+/* harmony import */ var _API_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../API.js */ "./resources/js/API.js");
 //
 //
 //
@@ -2002,6 +2003,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2010,18 +2024,75 @@ __webpack_require__.r(__webpack_exports__);
     newsItem: _newsItem__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   computed: {},
+  data: function data() {
+    return {
+      current_user: _axios_global__WEBPACK_IMPORTED_MODULE_1__["CURRENT_USER"],
+      name: this.user.name,
+      email: this.user.email,
+      skype: this.user.skype,
+      telegram: this.user.telegram,
+      about: this.user.about,
+      interest: this.user.interest,
+      password: '',
+      password_confirmation: ''
+    };
+  },
   methods: {
     editProfile: function editProfile() {
-      var id = _API_js__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(); // console.log(this.user);
+      var id = _API_js__WEBPACK_IMPORTED_MODULE_2__["default"].split('/').pop();
 
       if (id == JSON.parse(localStorage.getItem('currentUser')).id) {
         return true;
       }
 
       return false;
+    },
+    update_profile: function update_profile() {
+      if (this.password != '') {
+        if (this.password != this.password_confirmation) {
+          swal({
+            title: "Ошибка!",
+            text: "Введенные пароли не совпадают",
+            icon: "error",
+            button: "Ок",
+            timer: 3000
+          });
+          return;
+        }
+      }
+
+      _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].put('/api/user/' + this.current_user.id, {
+        "name": this.name,
+        "email": this.email,
+        "skype": this.skype,
+        "telegram": this.telegram,
+        "about": this.about,
+        "interest": this.user.interest,
+        "password": this.password,
+        "password_confirmation": this.password_confirmation
+      }).then(function (response) {
+        swal({
+          title: "Успех!",
+          text: "Ваш профиль обновлён!",
+          icon: "success",
+          button: "Ок!",
+          timer: 3000
+        }); // setTimeout('location="/";', 3000);
+      }).catch(function (error) {
+        swal({
+          title: "Ошибка!",
+          text: "Что-то пошло не так.",
+          icon: "error",
+          button: "Ок!",
+          timer: 3000
+        });
+        this.password = '';
+        this.password_confirmation = '';
+      });
     }
   },
-  created: function created() {// console.log(this.user);
+  created: function created() {
+    console.log(this.current_user);
   }
 });
 
@@ -3239,11 +3310,55 @@ var render = function() {
                 _vm._v(_vm._s(_vm.user.name))
               ]),
               _vm._v(" "),
-              _vm._m(2)
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(_vm.user.about) +
+                        "\n                            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(_vm.user.interest) +
+                        "\n                            "
+                    )
+                  ])
+                ])
+              ])
             ]
           ),
           _vm._v(" "),
-          _vm._m(3),
+          _c("div", { staticClass: "tab-pane", attrs: { id: "messages" } }, [
+            _c("table", { staticClass: "table table-hover table-striped" }, [
+              _c("tbody", [
+                _c("tr", [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _vm.user.telegram != ""
+                    ? _c("td", [_vm._v(_vm._s(_vm.user.skype))])
+                    : _c("td", [_vm._v(" - ")])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _vm.user.telegram != ""
+                    ? _c("td", [
+                        _c("span", {}, [_vm._v(_vm._s(_vm.user.telegram))])
+                      ])
+                    : _c("td", [_c("span", {}, [_vm._v(" - ")])])
+                ])
+              ])
+            ])
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "tab-pane", attrs: { id: "edit" } }, [
             _c("form", { attrs: { role: "form" } }, [
@@ -3256,9 +3371,25 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "col-lg-9" }, [
                   _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.name,
+                        expression: "name"
+                      }
+                    ],
                     staticClass: "form-control",
                     attrs: { type: "text" },
-                    domProps: { value: _vm.user.name }
+                    domProps: { value: _vm.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.name = $event.target.value
+                      }
+                    }
                   })
                 ])
               ]),
@@ -3279,17 +3410,211 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(4),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  { staticClass: "col-lg-3 col-form-label form-control-label" },
+                  [_vm._v("Skype")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-9" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.skype,
+                        expression: "skype"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.skype },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.skype = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _vm._m(5),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  { staticClass: "col-lg-3 col-form-label form-control-label" },
+                  [_vm._v("Telegram")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-9" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.telegram,
+                        expression: "telegram"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.telegram },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.telegram = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _vm._m(6),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  { staticClass: "col-lg-3 col-form-label form-control-label" },
+                  [_vm._v("О себе")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-9" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.about,
+                        expression: "about"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.about },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.about = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _vm._m(7),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  { staticClass: "col-lg-3 col-form-label form-control-label" },
+                  [_vm._v("Интересы")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-9" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.interest,
+                        expression: "interest"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.interest },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.interest = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _vm._m(8),
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  { staticClass: "col-lg-3 col-form-label form-control-label" },
+                  [_vm._v("Новый пароль")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-9" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.password,
+                        expression: "password"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "password" },
+                    domProps: { value: _vm.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.password = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _vm._m(9)
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  { staticClass: "col-lg-3 col-form-label form-control-label" },
+                  [_vm._v("Подтвердите пароль")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-9" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.password_confirmation,
+                        expression: "password_confirmation"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "password" },
+                    domProps: { value: _vm.password_confirmation },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.password_confirmation = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c("label", {
+                  staticClass: "col-lg-3 col-form-label form-control-label"
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-9" }, [
+                  _c("input", {
+                    staticClass: "btn btn-success",
+                    attrs: { type: "button", value: "Сохранить" },
+                    on: { click: _vm.update_profile }
+                  })
+                ])
+              ])
             ])
           ])
         ])
@@ -3303,7 +3628,7 @@ var render = function() {
         _vm._v(" "),
         _c("h6", { staticClass: "mt-2" }, [_vm._v("Upload a different photo")]),
         _vm._v(" "),
-        _vm._m(10)
+        _vm._m(6)
       ])
     ]),
     _vm._v(" "),
@@ -3333,6 +3658,7 @@ var render = function() {
                                   _c("img", {
                                     staticClass:
                                       "rounded-circle z-depth-1-half",
+                                    staticStyle: { height: "40px" },
                                     attrs: { src: comment.user.avatar }
                                   })
                                 ]),
@@ -3402,7 +3728,25 @@ var render = function() {
                                     _vm._v(_vm._s(comment.text))
                                   ]),
                                   _vm._v(" "),
-                                  _vm._m(11, true)
+                                  _c(
+                                    "div",
+                                    { staticClass: "feed-footer mt-2" },
+                                    [
+                                      _c("a", { staticClass: "like" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-heart"
+                                        }),
+                                        _vm._v(" "),
+                                        comment.likes > 0
+                                          ? _c("span", [
+                                              _vm._v(
+                                                _vm._s(comment.likes) + " "
+                                              )
+                                            ])
+                                          : _c("span")
+                                      ])
+                                    ]
+                                  )
                                 ])
                               ]
                             ),
@@ -3487,257 +3831,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("h6", [_c("strong", [_vm._v("О пользователе")])]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "\n                                Web Designer, UI/UX Engineer\n                            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("h6", [_c("strong", [_vm._v("Интересы")])]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "\n                                Indie music, skiing and hiking. I love the great outdoors.\n                            "
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("h6", [_vm._v("Recent badges")]),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "badge badge-dark badge-pill", attrs: { href: "#" } },
-          [_vm._v("html5")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "badge badge-dark badge-pill", attrs: { href: "#" } },
-          [_vm._v("react")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "badge badge-dark badge-pill", attrs: { href: "#" } },
-          [_vm._v("codeply")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "badge badge-dark badge-pill", attrs: { href: "#" } },
-          [_vm._v("angularjs")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "badge badge-dark badge-pill", attrs: { href: "#" } },
-          [_vm._v("css3")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "badge badge-dark badge-pill", attrs: { href: "#" } },
-          [_vm._v("jquery")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "badge badge-dark badge-pill", attrs: { href: "#" } },
-          [_vm._v("bootstrap")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "badge badge-dark badge-pill", attrs: { href: "#" } },
-          [_vm._v("responsive-design")]
-        ),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("span", { staticClass: "badge badge-primary" }, [
-          _c("i", { staticClass: "fa fa-user" }),
-          _vm._v(" 900 Followers")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "badge badge-success" }, [
-          _c("i", { staticClass: "fa fa-cog" }),
-          _vm._v(" 43 Forks")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "badge badge-danger" }, [
-          _c("i", { staticClass: "fa fa-eye" }),
-          _vm._v(" 245 Views")
-        ])
-      ])
+    return _c("h6", [_c("strong", [_vm._v("О пользователе")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h6", [_c("strong", [_vm._v("Интересы")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("span", { staticClass: "left font-weight-bold" }, [_vm._v("Skype")])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "tab-pane", attrs: { id: "messages" } }, [
-      _c("div", { staticClass: "alert alert-info alert-dismissable" }, [
-        _c(
-          "a",
-          {
-            staticClass: "panel-close close",
-            attrs: { "data-dismiss": "alert" }
-          },
-          [_vm._v("×")]
-        ),
-        _vm._v(" This is an "),
-        _c("strong", [_vm._v(".alert")]),
-        _vm._v(
-          ". Use this to show important messages to the user.\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("table", { staticClass: "table table-hover table-striped" }, [
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [
-              _c("span", { staticClass: "float-right font-weight-bold" }, [
-                _vm._v("3 hrs ago")
-              ]),
-              _vm._v(
-                " Here is your a link to the latest summary report from the..\n                            "
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [
-              _c("span", { staticClass: "float-right font-weight-bold" }, [
-                _vm._v("Yesterday")
-              ]),
-              _vm._v(
-                " There has been a request on your account since that was..\n                            "
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        { staticClass: "col-lg-3 col-form-label form-control-label" },
-        [_vm._v("Место работы")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-9" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", value: "" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        { staticClass: "col-lg-3 col-form-label form-control-label" },
-        [_vm._v("О себе")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-9" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", value: "" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        { staticClass: "col-lg-3 col-form-label form-control-label" },
-        [_vm._v("Сайт")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-9" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "url", value: "" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        { staticClass: "col-lg-3 col-form-label form-control-label" },
-        [_vm._v("Новый пароль")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-9" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "password", value: "11111122333" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        { staticClass: "col-lg-3 col-form-label form-control-label" },
-        [_vm._v("Подтвердите пароль")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-9" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "password", value: "11111122333" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c("label", {
-        staticClass: "col-lg-3 col-form-label form-control-label"
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-9" }, [
-        _c("input", {
-          staticClass: "btn btn-success",
-          attrs: { type: "button", value: "Сохранить" }
-        }),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "btn btn-danger",
-          attrs: { type: "reset", value: "Отменить" }
-        })
+    return _c("td", [
+      _c("span", { staticClass: "left font-weight-bold mr-3" }, [
+        _vm._v("Telegram")
       ])
     ])
   },
@@ -3753,18 +3869,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("span", { staticClass: "custom-file-control" }, [
         _vm._v("Choose file")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "feed-footer mt-2" }, [
-      _c("a", { staticClass: "like" }, [
-        _c("i", { staticClass: "fas fa-heart" }),
-        _vm._v(" "),
-        _c("span", [_vm._v("7 likes")])
       ])
     ])
   }
@@ -3795,7 +3899,20 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-lg-5 col-xl-4" }, [
           _c("a", { attrs: { href: "http://localhost/news/" + _vm.post.id } }, [
-            _vm._m(0)
+            _c(
+              "div",
+              {
+                staticClass: "view overlay rounded z-depth-1-half mb-lg-0 mb-4"
+              },
+              [
+                _c("img", {
+                  staticClass: "img-fluid",
+                  attrs: { src: _vm.post.image, alt: "Sample image" }
+                }),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            )
           ])
         ]),
         _vm._v(" "),
@@ -3889,21 +4006,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "view overlay rounded z-depth-1-half mb-lg-0 mb-4" },
-      [
-        _c("img", {
-          staticClass: "img-fluid",
-          attrs: {
-            src: "https://mdbootstrap.com/img/Photos/Others/images/49.jpg",
-            alt: "Sample image"
-          }
-        }),
-        _vm._v(" "),
-        _c("a", [_c("div", { staticClass: "mask rgba-white-slight" })])
-      ]
-    )
+    return _c("a", [_c("div", { staticClass: "mask rgba-white-slight" })])
   }
 ]
 render._withStripped = true

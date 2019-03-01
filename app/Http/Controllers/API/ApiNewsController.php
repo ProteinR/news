@@ -63,6 +63,7 @@ class ApiNewsController extends Controller
      */
     public function show(News $news)
     {
+        $news->increment('views');
         $news->load(['user:id,name', 'comments.user:id,name,avatar', 'category:id,title']);
 
         return fractal($news, new NewsTransformer())
@@ -125,6 +126,13 @@ class ApiNewsController extends Controller
     public function newsWithUser(User $user)
     {
         $news = $user->news()->get();
+
+        return fractal($news, new NewsTransformer())
+            ->toArray();
+    }
+
+    public function topNews($count) {
+        $news = News::orderBy('views', 'DESC')->take($count)->get();
 
         return fractal($news, new NewsTransformer())
             ->toArray();

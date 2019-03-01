@@ -22,46 +22,50 @@
                             <div class="col-md-6">
                                 <h6><strong>О пользователе</strong></h6>
                                 <p>
-                                    Web Designer, UI/UX Engineer
+                                    {{user.about}}
                                 </p>
                                 <h6><strong>Интересы</strong></h6>
                                 <p>
-                                    Indie music, skiing and hiking. I love the great outdoors.
+                                    {{user.interest}}
                                 </p>
                             </div>
-                            <div class="col-md-6">
-                                <h6>Recent badges</h6>
-                                <a href="#" class="badge badge-dark badge-pill">html5</a>
-                                <a href="#" class="badge badge-dark badge-pill">react</a>
-                                <a href="#" class="badge badge-dark badge-pill">codeply</a>
-                                <a href="#" class="badge badge-dark badge-pill">angularjs</a>
-                                <a href="#" class="badge badge-dark badge-pill">css3</a>
-                                <a href="#" class="badge badge-dark badge-pill">jquery</a>
-                                <a href="#" class="badge badge-dark badge-pill">bootstrap</a>
-                                <a href="#" class="badge badge-dark badge-pill">responsive-design</a>
-                                <hr>
-                                <span class="badge badge-primary"><i class="fa fa-user"></i> 900 Followers</span>
-                                <span class="badge badge-success"><i class="fa fa-cog"></i> 43 Forks</span>
-                                <span class="badge badge-danger"><i class="fa fa-eye"></i> 245 Views</span>
-                            </div>
+                            <!--<div class="col-md-6">-->
+                                <!--<h6>Recent badges</h6>-->
+                                <!--<a href="#" class="badge badge-dark badge-pill">html5</a>-->
+                                <!--<a href="#" class="badge badge-dark badge-pill">react</a>-->
+                                <!--<a href="#" class="badge badge-dark badge-pill">codeply</a>-->
+                                <!--<a href="#" class="badge badge-dark badge-pill">angularjs</a>-->
+                                <!--<a href="#" class="badge badge-dark badge-pill">css3</a>-->
+                                <!--<a href="#" class="badge badge-dark badge-pill">jquery</a>-->
+                                <!--<a href="#" class="badge badge-dark badge-pill">bootstrap</a>-->
+                                <!--<a href="#" class="badge badge-dark badge-pill">responsive-design</a>-->
+                                <!--<hr>-->
+                                <!--<span class="badge badge-primary"><i class="fa fa-user"></i> 900 Followers</span>-->
+                                <!--<span class="badge badge-success"><i class="fa fa-cog"></i> 43 Forks</span>-->
+                                <!--<span class="badge badge-danger"><i class="fa fa-eye"></i> 245 Views</span>-->
+                            <!--</div>-->
                         </div>
                         <!--/row-->
                     </div>
                     <div class="tab-pane" id="messages">
-                        <div class="alert alert-info alert-dismissable">
-                            <a class="panel-close close" data-dismiss="alert">×</a> This is an <strong>.alert</strong>. Use this to show important messages to the user.
-                        </div>
+                        <!--<div class="alert alert-info alert-dismissable">-->
+                            <!--<a class="panel-close close" data-dismiss="alert">×</a> This is an <strong>.alert</strong>. Use this to show important messages to the user.-->
+                        <!--</div>-->
                         <table class="table table-hover table-striped">
                             <tbody>
                             <tr>
                                 <td>
-                                    <span class="float-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the..
+                                    <span class="left font-weight-bold">Skype</span>
                                 </td>
+                                <td v-if="user.telegram!=''">{{user.skype}}</td>
+                                <td v-else> - </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="float-right font-weight-bold">Yesterday</span> There has been a request on your account since that was..
+                                    <span class="left font-weight-bold mr-3">Telegram</span>
                                 </td>
+                                <td v-if="user.telegram!=''"><span class="">{{user.telegram}}</span></td>
+                                <td v-else><span class=""> - </span></td>
                             </tr>
 
                             </tbody>
@@ -72,7 +76,7 @@
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label">Имя</label>
                                 <div class="col-lg-9">
-                                    <input class="form-control" type="text" :value="user.name">
+                                    <input class="form-control" type="text" v-model="name">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -82,41 +86,46 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Место работы</label>
+                                <label class="col-lg-3 col-form-label form-control-label">Skype</label>
                                 <div class="col-lg-9">
-                                    <input class="form-control" type="text" value="">
+                                    <input class="form-control" type="text" v-model="skype">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Telegram</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" v-model="telegram">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label">О себе</label>
                                 <div class="col-lg-9">
-                                    <input class="form-control" type="text" value="">
+                                    <input class="form-control" type="text" v-model="about">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Сайт</label>
+                                <label class="col-lg-3 col-form-label form-control-label">Интересы</label>
                                 <div class="col-lg-9">
-                                    <input class="form-control" type="url" value="">
+                                    <input class="form-control" type="text" v-model="interest">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label">Новый пароль</label>
                                 <div class="col-lg-9">
-                                    <input class="form-control" type="password" value="11111122333">
+                                    <input class="form-control" type="password" v-model="password">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label">Подтвердите пароль</label>
                                 <div class="col-lg-9">
-                                    <input class="form-control" type="password" value="11111122333">
+                                    <input class="form-control" type="password" v-model="password_confirmation">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label"></label>
                                 <div class="col-lg-9">
-                                    <input type="button" class="btn btn-success" value="Сохранить">
-                                    <input type="reset" class="btn btn-danger" value="Отменить">
+                                    <input type="button" class="btn btn-success" value="Сохранить" @click="update_profile">
                                 </div>
                             </div>
                         </form>
@@ -174,7 +183,8 @@
                                     <!-- Label -->
                                     <div class="label">
                                         <img :src="comment.user.avatar"
-                                             class="rounded-circle z-depth-1-half">
+                                             class="rounded-circle z-depth-1-half"
+                                        style="height: 40px;">
                                     </div>
 
                                     <!-- Excerpt -->
@@ -198,7 +208,8 @@
                                             <a class="like">
                                                 <i class="fas fa-heart"></i>
                                                 <!--TODO add migration for likes comments table-->
-                                                <span>7 likes</span>
+                                                <span v-if="comment.likes>0">{{comment.likes}} </span>
+                                                <span v-else> </span>
                                             </a>
                                         </div>
 
@@ -237,7 +248,9 @@
 
 <script>
     import newsItem from "./newsItem";
+    import {CURRENT_USER} from "../axios.global";
     import url from '../API.js';
+    import {AXIOS} from "../axios.global";
 
 
     export default {
@@ -249,18 +262,74 @@
             newsItem,
         },
         computed: {},
+        data: function() {
+            return {
+                current_user: CURRENT_USER,
+                name: this.user.name,
+                email: this.user.email,
+                skype: this.user.skype,
+                telegram: this.user.telegram,
+                about: this.user.about,
+                interest: this.user.interest,
+                password: '',
+                password_confirmation: ''
+            }
+        },
         methods: {
             editProfile: function () {
                 let id = url.split('/').pop();
-                // console.log(this.user);
                 if (id == JSON.parse(localStorage.getItem('currentUser')).id) {
                     return true;
                 }
                 return false;
             },
+            update_profile: function () {
+                if (this.password != '') {
+                    if (this.password != this.password_confirmation) {
+                        swal({
+                            title: "Ошибка!",
+                            text: "Введенные пароли не совпадают",
+                            icon: "error",
+                            button: "Ок",
+                            timer: 3000,
+                        });
+                        return;
+                    }
+                }
+                AXIOS.put('/api/user/'+this.current_user.id, {
+                    "name": this.name,
+                    "email": this.email,
+                    "skype": this.skype,
+                    "telegram": this.telegram,
+                    "about": this.about,
+                    "interest": this.user.interest,
+                    "password": this.password,
+                    "password_confirmation": this.password_confirmation,
+                })
+                    .then(function(response) {
+                        swal({
+                            title: "Успех!",
+                            text: "Ваш профиль обновлён!",
+                            icon: "success",
+                            button: "Ок!",
+                            timer: 3000,
+                        });
+                            // setTimeout('location="/";', 3000);
+                    }).catch(function (error) {
+                        swal({
+                            title: "Ошибка!",
+                            text: "Что-то пошло не так.",
+                            icon: "error",
+                            button: "Ок!",
+                            timer: 3000,
+                        });
+                        this.password = '';
+                        this.password_confirmation = '';
+                });
+            }
         },
         created() {
-            // console.log(this.user);
+            console.log(this.current_user);
         },
     }
 </script>

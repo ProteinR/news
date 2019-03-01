@@ -29,6 +29,8 @@ class NewsTransformer extends TransformerAbstract
             ],
             'title'      => $news->title,
             'text'       => $news->text,
+            'views'      => $news->views,
+            'image'      => $news->image,
             'created_at' => optional($news->created_at)->format('d/m/Y'),
             'updated_at' => optional($news->updated_at)->format('d/m/Y'),
         ];

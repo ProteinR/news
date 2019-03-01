@@ -3,7 +3,7 @@
 <template>
     <div class="">
         <h3>Самые читаемые</h3>
-        <div class="singlenews">
+        <div class="singlenews" v-for="(post, index) in news" v-if="index <= 3">
             <div class="row my-3">
 
                 <!-- Grid column -->
@@ -11,7 +11,8 @@
 
                     <!--Image-->
                     <div class="view overlay rounded z-depth-1 my-3">
-                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/86.jpg" alt="Sample image">
+                        <img class="img-fluid" :src="post.image"
+                             alt="Sample image">
                         <a>
                             <div class="mask rgba-white-slight waves-effect waves-light"></div>
                         </a>
@@ -24,138 +25,34 @@
                 <div class="col-md-9">
 
                     <!-- Excerpt -->
-                    <p class="font-weight-bold dark-grey-text">Title of post title of post</p>
+                    <p class="font-weight-bold dark-grey-text">{{post.title}}</p>
                     <div class="d-flex justify-content-between">
                         <div class="col-11 text-truncate pl-0 mb-3">
-                            <a href="#!" class="dark-grey-text">Itaque earum rerum hic tenetur a sapiente delectus</a>
+                            <a :href="'/news/'+ post.id" class="dark-grey-text">{{post.text}}</a>
                         </div>
                         <a><i class="fas fa-angle-double-right"></i></a>
                     </div>
 
                 </div>
                 <!-- Grid column -->
-
             </div>
             <hr>
         </div>
-        <div class="singlenews">
-            <div class="row my-3">
-
-                <!-- Grid column -->
-                <div class="col-md-3">
-
-                    <!--Image-->
-                    <div class="view overlay rounded z-depth-1 my-3">
-                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/86.jpg" alt="Sample image">
-                        <a>
-                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
-                        </a>
-                    </div>
-
-                </div>
-                <!-- Grid column -->
-
-                <!-- Grid column -->
-                <div class="col-md-9">
-
-                    <!-- Excerpt -->
-                    <p class="font-weight-bold dark-grey-text">Title of post title of post</p>
-                    <div class="d-flex justify-content-between">
-                        <div class="col-11 text-truncate pl-0 mb-3">
-                            <a href="#!" class="dark-grey-text">Itaque earum rerum hic tenetur a sapiente delectus</a>
-                        </div>
-                        <a><i class="fas fa-angle-double-right"></i></a>
-                    </div>
-
-                </div>
-                <!-- Grid column -->
-
-            </div>
-            <hr>
-        </div>
-        <div class="singlenews">
-            <div class="row my-3">
-
-                <!-- Grid column -->
-                <div class="col-md-3">
-
-                    <!--Image-->
-                    <div class="view overlay rounded z-depth-1 my-3">
-                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/86.jpg" alt="Sample image">
-                        <a>
-                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
-                        </a>
-                    </div>
-
-                </div>
-                <!-- Grid column -->
-
-                <!-- Grid column -->
-                <div class="col-md-9">
-
-                    <!-- Excerpt -->
-                    <p class="font-weight-bold dark-grey-text">Title of post title of post</p>
-                    <div class="d-flex justify-content-between">
-                        <div class="col-11 text-truncate pl-0 mb-3">
-                            <a href="#!" class="dark-grey-text">Itaque earum rerum hic tenetur a sapiente delectus</a>
-                        </div>
-                        <a><i class="fas fa-angle-double-right"></i></a>
-                    </div>
-
-                </div>
-                <!-- Grid column -->
-
-            </div>
-            <hr>
-        </div>
-        <div class="singlenews">
-            <div class="row my-3">
-
-                <!-- Grid column -->
-                <div class="col-md-3">
-
-                    <!--Image-->
-                    <div class="view overlay rounded z-depth-1 my-3">
-                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/86.jpg" alt="Sample image">
-                        <a>
-                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
-                        </a>
-                    </div>
-
-                </div>
-                <!-- Grid column -->
-
-                <!-- Grid column -->
-                <div class="col-md-9">
-
-                    <!-- Excerpt -->
-                    <p class="font-weight-bold dark-grey-text">Title of post title of post</p>
-                    <div class="d-flex justify-content-between">
-                        <div class="col-11 text-truncate pl-0 mb-3">
-                            <a href="#!" class="dark-grey-text">Itaque earum rerum hic tenetur a sapiente delectus</a>
-                        </div>
-                        <a><i class="fas fa-angle-double-right"></i></a>
-                    </div>
-
-                </div>
-                <!-- Grid column -->
-
-            </div>
-            <hr>
-        </div>
-
 
     </div>
 
 </template>
 
 <script>
+    import {AXIOS} from '../axios.global';
+
     export default {
         props: [
-            'news'
+
         ],
         data() {
             return {
+                news: [],
                 // currentUrl: '',
             }
         },
@@ -167,14 +64,12 @@
 
         },
         created: function () {
-            // this.currentUrl = window.location.href;
-            // console.log(this.currentUrl);
-
-            //     axios.get('http://localhost/api/news')
-        //         .then(function(response) {
-        //             newsIndex.preloadedNews = response.data;
-        //             // console.log(app.preloadedNews);
-        //         });
+            self = this;
+            AXIOS.get('http://localhost/api/news/top/5')
+                .then(function(response) {
+                    self.news = response.data;
+                    console.log(self.news);
+                });
         }
     }
 </script>

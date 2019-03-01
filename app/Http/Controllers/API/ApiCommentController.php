@@ -6,6 +6,7 @@ use App\Comment;
 use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Http\Controllers\Controller;
+use App\News;
 use App\Transformer\CommentsTransformer;
 
 class ApiCommentController extends Controller
@@ -15,6 +16,14 @@ class ApiCommentController extends Controller
     public function __construct(Comment $comment)
     {
         $this->comment = $comment;
+    }
+
+    public function getComments(News $news)
+    {
+        $comments = $news->comments;
+
+        return fractal($comments, new CommentsTransformer())
+            ->toArray();
     }
 
     /**
@@ -36,6 +45,7 @@ class ApiCommentController extends Controller
     public function incrementLike(Comment $comment)
     {
         $comment->increment('likes');
+
         return fractal($comment, new CommentsTransformer())
             ->toArray();
     }
@@ -53,7 +63,8 @@ class ApiCommentController extends Controller
         $comment->fill($request->all());
         $comment->save();
 
-        return response($comment);
+        return fractal($comment, new CommentsTransformer())
+            ->toArray();
     }
 
     /**

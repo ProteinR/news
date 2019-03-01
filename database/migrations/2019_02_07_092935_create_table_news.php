@@ -17,6 +17,8 @@ class CreateTableNews extends Migration
             $table->increments('id');
             $table->integer('category_id');
             $table->integer('user_id');
+            $table->integer('views')->nullable()->default(0);
+            $table->text('image')->nullable()->default('');
             $table->text('title');
             $table->text('text');
             $table->timestamps();
