@@ -7,7 +7,7 @@
         <div class="row flex-column">
                 <h2 class="my-3 align-self-center">Comments</h2>
                 <div class="comments my-3">
-                    <div class="comment my-3" v-for="comment in childComments">
+                    <div class="comment my-3" v-for="comment in comments">
                         <!-- Comment -->
 
                         <div class="comment-content d-flex">
@@ -85,9 +85,10 @@
 
     export default {
         name: "Comments",
-        props: ['comments', 'newComment', 'addLike', 'updateComment'],
+        props: ['newComment', 'addLike', 'updateComment'],
         data: function () {
             return {
+                comments: {},
                 childComments: this.comments,
                 commentBody: '',
                 comment_id: '',
@@ -97,6 +98,18 @@
             }
         },
         methods: {
+            refreshComments: function() {
+                self = this;
+                AXIOS.get('/api/news/'+API.split('/').pop()+'/comments')
+                    .then(function (data) {
+                        self.comments = data.data;
+                        // console.log(data.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
             incrementLikes: function(comment_id) {
                 var self=this;
 
@@ -110,7 +123,13 @@
                     text: this.commentBody,
                 })
                     .then(function (response) {
-                        self.addLike(response.data);
+                        // self.refreshComments();
+                        for (let i = 0; i < self.comments.length; i++) {
+                            if (self.comments[i].id == response.data.id) {
+                                self.comments[i].likes = response.data.likes;
+                                console.log('likes incremented! '+self.comments[i].likes);
+                            }
+                        }
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -131,7 +150,7 @@
                         text: this.commentBody,
                     })
                         .then(function (response) {
-                            self.newComment(response.data);
+                            self.comments.push(response.data);
                             self.commentBody = '';
                         })
                         .catch(function (error) {
@@ -143,7 +162,7 @@
                         text: this.commentBody,
                     })
                         .then(function (response) {
-                            self.updateComment(response.data);
+                            self.refreshComments();
                             self.is_editing = false;
                             self.commentBody = '';
                         })
@@ -167,11 +186,7 @@
                 AXIOS.delete('/api/comment/'+ id)
                     .then(function (response) {
                         // console.log(self.childComments);
-
-                        self.childComments = self.childComments.filter(comment =>{
-                            return comment.id !== id;
-                        });
-                        console.log(self.childComments);
+                        self.refreshComments();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -179,7 +194,15 @@
             },
         },
         created() {
-            // console.log(this.childComments);
+            self = this;
+            AXIOS.get('/api/news/'+API.split('/').pop()+'/comments')
+                .then(function (data) {
+                    self.comments = data.data;
+                    // console.log(data.data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     }
 </script>

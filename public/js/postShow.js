@@ -1959,9 +1959,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Comments",
-  props: ['comments', 'newComment', 'addLike', 'updateComment'],
+  props: ['newComment', 'addLike', 'updateComment'],
   data: function data() {
     return {
+      comments: {},
       childComments: this.comments,
       commentBody: '',
       comment_id: '',
@@ -1971,6 +1972,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    refreshComments: function refreshComments() {
+      self = this;
+      _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('/api/news/' + _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop() + '/comments').then(function (data) {
+        self.comments = data.data; // console.log(data.data);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
     incrementLikes: function incrementLikes(comment_id) {
       var self = this;
 
@@ -1983,7 +1992,13 @@ __webpack_require__.r(__webpack_exports__);
         news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
         text: this.commentBody
       }).then(function (response) {
-        self.addLike(response.data);
+        // self.refreshComments();
+        for (var i = 0; i < self.comments.length; i++) {
+          if (self.comments[i].id == response.data.id) {
+            self.comments[i].likes = response.data.likes;
+            console.log('likes incremented! ' + self.comments[i].likes);
+          }
+        }
       }).catch(function (error) {
         console.log(error);
       });
@@ -2001,7 +2016,7 @@ __webpack_require__.r(__webpack_exports__);
           news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
           text: this.commentBody
         }).then(function (response) {
-          self.newComment(response.data);
+          self.comments.push(response.data);
           self.commentBody = '';
         }).catch(function (error) {
           console.log(error);
@@ -2011,7 +2026,7 @@ __webpack_require__.r(__webpack_exports__);
           news_id: _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop(),
           text: this.commentBody
         }).then(function (response) {
-          self.updateComment(response.data);
+          self.refreshComments();
           self.is_editing = false;
           self.commentBody = '';
         }).catch(function (error) {
@@ -2030,16 +2045,19 @@ __webpack_require__.r(__webpack_exports__);
       var self = this;
       _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].delete('/api/comment/' + id).then(function (response) {
         // console.log(self.childComments);
-        self.childComments = self.childComments.filter(function (comment) {
-          return comment.id !== id;
-        });
-        console.log(self.childComments);
+        self.refreshComments();
       }).catch(function (error) {
         console.log(error);
       });
     }
   },
-  created: function created() {// console.log(this.childComments);
+  created: function created() {
+    self = this;
+    _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('/api/news/' + _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop() + '/comments').then(function (data) {
+      self.comments = data.data; // console.log(data.data);
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 });
 
@@ -3200,7 +3218,7 @@ var render = function() {
         "div",
         { staticClass: "comments my-3" },
         [
-          _vm._l(_vm.childComments, function(comment) {
+          _vm._l(_vm.comments, function(comment) {
             return _c("div", { staticClass: "comment my-3" }, [
               _c("div", { staticClass: "comment-content d-flex" }, [
                 _c("div", { staticClass: "label" }, [
