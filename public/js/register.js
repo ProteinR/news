@@ -2086,9 +2086,9 @@ var _register = new Vue({
       });
     },
     login: function login() {
-      event.preventDefault();
-      console.log(this.email);
-      console.log(this.password);
+      self = this;
+      event.preventDefault(); // console.log(this.email);
+      // console.log(this.password);
 
       if (this.email == '' || this.password == '') {
         return false;
@@ -2101,8 +2101,12 @@ var _register = new Vue({
         _register.registerResponse = response.data;
 
         if (response.data.message == 'Authorization Successful!') {
+          // response.data.currentUser.push('password', this.password);
+          var currentUser = response.data.currentUser;
+          currentUser.password = self.password;
+          console.log(self.password);
           localStorage.setItem('token', 'Bearer ' + response.data.currentUser.api_token);
-          localStorage.setItem('currentUser', JSON.stringify(response.data.currentUser));
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
           console.log(response.data.currentUser);
           swal({
             title: "Успех!",

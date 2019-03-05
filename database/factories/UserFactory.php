@@ -24,7 +24,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'interest' => $faker->text(20),
         'skype' => 'skype'. $faker->text(20),
         'telegram' => 'tg'.$faker->text(20),
-        'password' => Hash::make('123'),
+        'password' => Hash::make('123456'),
         'api_token' => str_random(10),
     ];
 });

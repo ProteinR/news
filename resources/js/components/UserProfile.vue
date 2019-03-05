@@ -271,8 +271,8 @@
                 telegram: this.user.telegram,
                 about: this.user.about,
                 interest: this.user.interest,
-                password: '',
-                password_confirmation: ''
+                password: CURRENT_USER.password,
+                password_confirmation: CURRENT_USER.password,
             }
         },
         methods: {
@@ -284,6 +284,7 @@
                 return false;
             },
             update_profile: function () {
+                self = this;
                 if (this.password != '') {
                     if (this.password != this.password_confirmation) {
                         swal({
@@ -302,11 +303,13 @@
                     "skype": this.skype,
                     "telegram": this.telegram,
                     "about": this.about,
-                    "interest": this.user.interest,
+                    "interest": this.interest,
                     "password": this.password,
                     "password_confirmation": this.password_confirmation,
                 })
                     .then(function(response) {
+                        console.log(response.data.user);
+                        // self.user = response.data.user;
                         swal({
                             title: "Успех!",
                             text: "Ваш профиль обновлён!",

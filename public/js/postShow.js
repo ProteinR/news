@@ -2120,6 +2120,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'mostPopular',
   props: [],
   data: function data() {
     return {
@@ -2131,7 +2132,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {},
   methods: {},
   created: function created() {
-    self = this;
+    var self = this;
     _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('http://localhost/api/news/top/5').then(function (response) {
       self.news = response.data;
       console.log(self.news);
@@ -3087,7 +3088,18 @@ var render = function() {
             "div",
             { staticClass: "single-news mb-lg-0 mb-4" },
             [
-              _vm._m(0),
+              _c(
+                "div",
+                { staticClass: "view overlay rounded z-depth-1-half mb-4" },
+                [
+                  _c("img", {
+                    staticClass: "img-fluid",
+                    attrs: { src: _vm.post.image, alt: "Sample image" }
+                  }),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "div",
@@ -3172,21 +3184,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "view overlay rounded z-depth-1-half mb-4" },
-      [
-        _c("img", {
-          staticClass: "img-fluid",
-          attrs: {
-            src: "https://mdbootstrap.com/img/Photos/Slides/1.jpg",
-            alt: "Sample image"
-          }
-        }),
-        _vm._v(" "),
-        _c("a", [_c("div", { staticClass: "mask rgba-white-slight" })])
-      ]
-    )
+    return _c("a", [_c("div", { staticClass: "mask rgba-white-slight" })])
   }
 ]
 render._withStripped = true

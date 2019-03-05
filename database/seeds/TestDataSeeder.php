@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -22,11 +23,24 @@ class TestDataSeeder extends Seeder
             $this->createNewsTags($news);
 
         });
+        $this->call(RolesPermissionTableSeeder::class);
+
     }
 
     public function createUsers()
     {
-        return factory(\App\User::class, 5)->create();
+        // Create admin
+        User::create([
+            'name' => 'Admin Adminov',
+            'email' => 'a@a.a',
+            'password' => Hash::make('123456'),
+            'avatar' => 'https://lorempixel.com/50/50/people/?21613',
+            'api_token' => '1234567890',
+        ]);
+
+
+        // Create all users
+        return factory(\App\User::class, 4)->create();
     }
 
     protected function createNews($users)

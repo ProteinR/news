@@ -14,7 +14,7 @@
 
                     <!-- Image -->
                     <div class="view overlay rounded z-depth-1-half mb-4">
-                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Slides/1.jpg" alt="Sample image">
+                        <img class="img-fluid" :src="post.image" alt="Sample image">
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>

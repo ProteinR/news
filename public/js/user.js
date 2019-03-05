@@ -2033,8 +2033,8 @@ __webpack_require__.r(__webpack_exports__);
       telegram: this.user.telegram,
       about: this.user.about,
       interest: this.user.interest,
-      password: '',
-      password_confirmation: ''
+      password: _axios_global__WEBPACK_IMPORTED_MODULE_1__["CURRENT_USER"].password,
+      password_confirmation: _axios_global__WEBPACK_IMPORTED_MODULE_1__["CURRENT_USER"].password
     };
   },
   methods: {
@@ -2048,6 +2048,8 @@ __webpack_require__.r(__webpack_exports__);
       return false;
     },
     update_profile: function update_profile() {
+      self = this;
+
       if (this.password != '') {
         if (this.password != this.password_confirmation) {
           swal({
@@ -2067,10 +2069,12 @@ __webpack_require__.r(__webpack_exports__);
         "skype": this.skype,
         "telegram": this.telegram,
         "about": this.about,
-        "interest": this.user.interest,
+        "interest": this.interest,
         "password": this.password,
         "password_confirmation": this.password_confirmation
       }).then(function (response) {
+        console.log(response.data.user); // self.user = response.data.user;
+
         swal({
           title: "Успех!",
           text: "Ваш профиль обновлён!",

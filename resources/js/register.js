@@ -59,9 +59,11 @@ var register = new Vue ({
                 })
         },
         login() {
+            self= this;
+
             event.preventDefault();
-            console.log(this.email);
-            console.log(this.password);
+            // console.log(this.email);
+            // console.log(this.password);
             if (this.email == '' || this.password == '') {
                 return false;
             }
@@ -73,8 +75,13 @@ var register = new Vue ({
                 .then(function(response) {
                     register.registerResponse = response.data;
                     if (response.data.message == 'Authorization Successful!') {
+                        // response.data.currentUser.push('password', this.password);
+                        let currentUser = response.data.currentUser;
+                        currentUser.password = self.password;
+                        
+                        console.log(self.password);
                         localStorage.setItem('token', 'Bearer '+response.data.currentUser.api_token);
-                        localStorage.setItem('currentUser', JSON.stringify(response.data.currentUser));
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
                         console.log(response.data.currentUser);
                         swal({
                             title: "Успех!",

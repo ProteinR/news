@@ -16,7 +16,6 @@ Route::get('/news/tag/{tag}' , 'ApiNewsController@newsWithTag'); // Show all new
 Route::get('/news/top/{count}', 'ApiNewsController@topNews'); //get count top news
 Route::get('/news/user/{user}' , 'ApiNewsController@newsWithUser'); // Show all news with user
 Route::get('/news/{news}/comments' , 'ApiCommentController@getComments'); // Show all news comments
-Route::get('user/{user}', 'ApiUserController@show'); //Show user profile
 Route::resource('/tag', 'ApiTagController')->only(['index']);
 Route::resource('/category', 'ApiCategoryController')->only(['index']);
 
@@ -41,6 +40,9 @@ Route::group(['middleware'=>'auth:api'], function () {
 
     // Add like to comment
     Route::post('comment/{comment}', 'ApiCommentController@incrementLike');
+
+    //Show user profile
+    Route::get('user/{user}', 'ApiUserController@show'); //Show user profile
 
 });
 

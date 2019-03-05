@@ -47,6 +47,7 @@
     import {AXIOS} from '../axios.global';
 
     export default {
+        name: 'mostPopular',
         props: [
 
         ],
@@ -64,7 +65,7 @@
 
         },
         created: function () {
-            self = this;
+            let self = this;
             AXIOS.get('http://localhost/api/news/top/5')
                 .then(function(response) {
                     self.news = response.data;

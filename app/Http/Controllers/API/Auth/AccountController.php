@@ -8,10 +8,12 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 
 class AccountController extends Controller
 {
+    use HasRoles;
 
     public function show(Request $request)
     {
@@ -28,6 +30,7 @@ class AccountController extends Controller
         }
         $user->avatar = 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png';
         $user->fill($request->all())->save();
+        $user->assignRole('user');
 
         return response(['message' => 'success', 'user' => $user], 200);
     }
