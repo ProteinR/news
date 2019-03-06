@@ -66,7 +66,6 @@ class RolesPermissionTableSeeder extends Seeder
         $publisher = User::find(3);
         $publisher->assignRole('publisher');
 
-        User::find(3)->assignRole('user');
         User::find(4)->assignRole('user');
         User::find(5)->assignRole('user');
 

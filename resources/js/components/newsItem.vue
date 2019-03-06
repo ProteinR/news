@@ -30,7 +30,7 @@
                     </a>
                     <!-- Excerpt -->
                     <p class="dark-grey-text">
-                        {{ post.text.substring(0, 100)+'...'  }}
+                        {{ text  }}
                     </p>
                     <!-- Post data -->
                     <p>by <a class="font-weight-bold" :href="'/news/user/'+ post.user.id">{{post.user.name}}</a>,
@@ -74,9 +74,19 @@
         props: [
             'post'
         ],
+        data() {
+            return {
+                regex: '',
+                text: '',
+            }
+        },
         computed: {},
         methods: {
 
+        },
+        created() {
+            this.text = this.post.text.replace(/(<([^>]+)>)/ig, "").substring(0, 100)+'...';
+            // console.log(this.text);
         }
     }
 </script>

@@ -2184,8 +2184,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['post'],
+  data: function data() {
+    return {
+      regex: '',
+      text: ''
+    };
+  },
   computed: {},
-  methods: {}
+  methods: {},
+  created: function created() {
+    this.text = this.post.text.replace(/(<([^>]+)>)/ig, "").substring(0, 100) + '...'; // console.log(this.text);
+  }
 });
 
 /***/ }),
@@ -3929,9 +3938,7 @@ var render = function() {
           _vm._v(" "),
           _c("p", { staticClass: "dark-grey-text" }, [
             _vm._v(
-              "\n                    " +
-                _vm._s(_vm.post.text.substring(0, 100) + "...") +
-                "\n                "
+              "\n                    " + _vm._s(_vm.text) + "\n                "
             )
           ]),
           _vm._v(" "),

@@ -40,7 +40,7 @@
 
                     <!-- Excerpt -->
                     <h3 class="font-weight-bold dark-grey-text mb-3"><a>{{ post.title}}</a></h3>
-                    <p class="dark-grey-text mb-lg-0 mb-md-5 mb-4">{{post.text}}</p>
+                    <p class="dark-grey-text mb-lg-0 mb-md-5 mb-4"><span v-html="post.text"></span></p>
 
                 </div>
 

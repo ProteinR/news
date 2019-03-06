@@ -1,18 +1,22 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register Web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "Web" middleware group. Now create something great!
-|
-*/
-
 
 // Route group for Web
+
+// Login page for staff
+Route::get('/admin/login', 'Auth\LoginController@showLoginForm')->name('showAdminLoginForm');
+Route::post('/admin/login', 'Auth\LoginController@login')->name('login');
+
+// Staff group function
+Route::group(['prefix' => 'admin', 'middleware' => 'role:admin|moderator'], function () {
+    // Admin index page
+    Route::get('/', 'Admin\AdminController@index')->name('admin.index');
+
+    // Staff logout
+    Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
+    Route::resource('/news', 'Admin\NewsController')->except('show');
+});
 
 // Regoster/login page
 Route::get('/register', function () {
@@ -21,7 +25,6 @@ Route::get('/register', function () {
 Route::get('/login', function () {
     return view('pages.login');
 });
-
 
 // Index page - List of all news
 Route::get('/', function () {
@@ -52,3 +55,4 @@ Route::get('/news/user/{id}', function () {
 Route::get('/user/{id}', function () {
     return view('pages.userProfile');
 });
+

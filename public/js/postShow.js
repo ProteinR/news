@@ -3154,7 +3154,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("p", { staticClass: "dark-grey-text mb-lg-0 mb-md-5 mb-4" }, [
-                _vm._v(_vm._s(_vm.post.text))
+                _c("span", { domProps: { innerHTML: _vm._s(_vm.post.text) } })
               ])
             ],
             2

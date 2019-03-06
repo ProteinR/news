@@ -19,9 +19,10 @@ class UserTransformer extends TransformerAbstract
             'email'     => $user->email,
             'avatar'    => $user->avatar,
             'about'     => $user->about,
-            'interest'     => $user->interest,
+            'interest'  => $user->interest,
             'skype'     => $user->skype,
             'telegram'  => $user->telegram,
+            'roles'     => $user->getRoleNames(),
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use App\Transformer\UserTransformer;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ class TokenController extends Controller
 
                 return response(array(
                     'currentUser' => $user,
+                    'roles'   => $user->getRoleNames(),
+//                    'currentUser' => fractal($user, new UserTransformer()),
                     'message' => 'Authorization Successful!',
                 ));
             }
