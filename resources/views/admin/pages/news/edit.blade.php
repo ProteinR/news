@@ -17,7 +17,7 @@
         {{--'files'=>true,--}}
         {{--'method'=>'put',--}}
         {{--]) }}--}}
-            <form action="{{route('news.update', $post->id)}}" method="POST">
+            <form action="{{route('news.update', $post->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

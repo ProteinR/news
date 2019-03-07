@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\News\StoreNewsRequest;
+use App\Http\Requests\News\UpdateNewsRequest;
 use App\News;
 use App\Tag;
 use Illuminate\Http\Request;
@@ -49,6 +50,7 @@ class NewsController extends Controller
             $user = $request->user();
             $this->news = $user->news()->create($request->all());
             $this->news->tags()->sync($request->get('tags', []));
+            $this->news->uploadImage($request->file('image'));
         });
 
         return redirect()->route('news.index');
@@ -63,13 +65,14 @@ class NewsController extends Controller
     }
 
 
-    public function update(News $news, Request $request)
+    public function update(News $news, UpdateNewsRequest $request)
     {
         DB::transaction(function () use ($request, $news) {
-//            $user = $news->user;
+            $news->removeImage();
             $news->fill($request->all());
             $news->save();
             $news->tags()->sync($request->get('tags', []));
+            $news->uploadImage($request->file('image'));
         });
 
         return redirect()->route('news.index');

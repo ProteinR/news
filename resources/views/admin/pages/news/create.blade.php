@@ -6,13 +6,13 @@
         <section class="content-header">
             <h1>
                 Добавить статью
-                <small>приятные слова..</small>
+                <small>Создание новости...</small>
             </h1>
         </section>
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{route('news.store')}}" method="POST">
+            <form action="{{route('news.store')}}" method="POST" enctype="multipart/form-data">
                 @method('POST')
                     @csrf
         <!-- Default box -->
