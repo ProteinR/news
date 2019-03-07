@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -47,6 +48,27 @@ class User extends Authenticatable
             $this->api_token = str_random(10);
         }while($this->where('api_token', $this->api_token)->exists());
 
+        $this->save();
+    }
+
+    public function removeImage()
+    {
+        if ($this->avatar != null) {
+            $arrayPath = explode('/', $this->image);
+            $thisImageName = array_pop($arrayPath);
+            Storage::delete('/public/img/avatars'.$thisImageName);
+        }
+    }
+
+    public function uploadImage($image)
+    {
+        if ($image == null) { //если картинка не зашла - выйти
+            return;
+        }
+
+        $imageName = str_random(10).'.'.$image->extension();
+        $image->storeAs('/public/img/avatars/', $imageName);
+        $this->avatar = '/storage/img/avatars/'.$imageName;
         $this->save();
     }
 

@@ -1828,6 +1828,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2154,7 +2155,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#tag[data-v-7037f6be] {\n    /*color: green !important;*/\n}\n.tags[data-v-7037f6be] {\n    list-style: none;\n    margin: 0;\n    overflow: hidden;\n    padding: 0;\n}\n.tags li[data-v-7037f6be] {\n    float: left;\n}\n.tag[data-v-7037f6be] {\n    background: #eee;\n    border-radius: 3px 0 0 3px;\n    color: #999;\n    display: inline-block;\n    height: 26px;\n    line-height: 26px;\n    padding: 0 20px 0 23px;\n    position: relative;\n    margin: 0 10px 10px 0;\n    text-decoration: none;\n    -webkit-transition: color 0.2s;\n}\n.tag[data-v-7037f6be]::before {\n    background: #fff;\n    border-radius: 10px;\n    box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);\n    content: '';\n    height: 6px;\n    left: 10px;\n    position: absolute;\n    width: 6px;\n    top: 10px;\n}\n.tag[data-v-7037f6be]::after {\n    background: #fff;\n    border-bottom: 13px solid transparent;\n    border-left: 10px solid #eee;\n    border-top: 13px solid transparent;\n    content: '';\n    position: absolute;\n    right: 0;\n    top: 0;\n}\n.tag[data-v-7037f6be]:hover {\n    background-color: crimson;\n    color: white;\n}\n.tag[data-v-7037f6be]:hover::after {\n    border-left-color: crimson;\n}\n", ""]);
+exports.push([module.i, "\n.post-text[data-v-7037f6be] p {\n    max-width: 100%;\n}\n.post-text[data-v-7037f6be] img {\n    max-width: 100%;\n}\n#tag[data-v-7037f6be] {\n    /*color: green !important;*/\n}\n.tags[data-v-7037f6be] {\n    list-style: none;\n    margin: 0;\n    overflow: hidden;\n    padding: 0;\n}\n.tags li[data-v-7037f6be] {\n    float: left;\n}\n.tag[data-v-7037f6be] {\n    background: #eee;\n    border-radius: 3px 0 0 3px;\n    color: #999;\n    display: inline-block;\n    height: 26px;\n    line-height: 26px;\n    padding: 0 20px 0 23px;\n    position: relative;\n    margin: 0 10px 10px 0;\n    text-decoration: none;\n    -webkit-transition: color 0.2s;\n}\n.tag[data-v-7037f6be]::before {\n    background: #fff;\n    border-radius: 10px;\n    box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);\n    content: '';\n    height: 6px;\n    left: 10px;\n    position: absolute;\n    width: 6px;\n    top: 10px;\n}\n.tag[data-v-7037f6be]::after {\n    background: #fff;\n    border-bottom: 13px solid transparent;\n    border-left: 10px solid #eee;\n    border-top: 13px solid transparent;\n    content: '';\n    position: absolute;\n    right: 0;\n    top: 0;\n}\n.tag[data-v-7037f6be]:hover {\n    background-color: crimson;\n    color: white;\n}\n.tag[data-v-7037f6be]:hover::after {\n    border-left-color: crimson;\n}\n", ""]);
 
 // exports
 
@@ -3153,9 +3154,13 @@ var render = function() {
                 [_c("a", [_vm._v(_vm._s(_vm.post.title))])]
               ),
               _vm._v(" "),
-              _c("p", { staticClass: "dark-grey-text mb-lg-0 mb-md-5 mb-4" }, [
-                _c("span", { domProps: { innerHTML: _vm._s(_vm.post.text) } })
-              ])
+              _c(
+                "p",
+                {
+                  staticClass: "dark-grey-text mb-lg-0 mb-md-5 mb-4 post-text"
+                },
+                [_c("span", { domProps: { innerHTML: _vm._s(_vm.post.text) } })]
+              )
             ],
             2
           )

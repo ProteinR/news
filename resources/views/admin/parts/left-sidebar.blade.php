@@ -35,8 +35,8 @@
             <!-- Optionally, you can add icons to the links -->
             <li class="active"><a href="{{ route('news.index') }}"><i class="fa fa-link"></i>
                     <span>Новости</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Коментарии</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Команда</span></a></li>
+            <li><a href="{{ route('comment.index') }}"><i class="fa fa-link"></i> <span>Коментарии</span></a></li>
+            <li><a href="{{ route('staff.index') }}"><i class="fa fa-link"></i> <span>Команда</span></a></li>
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>Пользователи</span>
                     <span class="pull-right-container">
@@ -44,9 +44,9 @@
               </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Активные пользователи</a></li>
+                    <li><a href="{{ route('users.index') }}">Активные пользователи</a></li>
                     <li><a href="#">Не активные пользователи</a></li>
-                    <li><a href="#">Забаненные</a></li>
+                    <li><a href="{{ route('users.banned') }}">Забаненные</a></li>
                 </ul>
             </li>
         </ul>

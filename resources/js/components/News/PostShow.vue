@@ -40,7 +40,8 @@
 
                     <!-- Excerpt -->
                     <h3 class="font-weight-bold dark-grey-text mb-3"><a>{{ post.title}}</a></h3>
-                    <p class="dark-grey-text mb-lg-0 mb-md-5 mb-4"><span v-html="post.text"></span></p>
+
+                    <p class="dark-grey-text mb-lg-0 mb-md-5 mb-4 post-text"><span v-html="post.text"></span></p>
 
                 </div>
 
@@ -97,6 +98,14 @@
 </script>
 
 <style scoped>
+    .post-text >>> p {
+        max-width: 100%;
+    }
+
+    .post-text >>> img {
+        max-width: 100%;
+    }
+
     #tag {
         /*color: green !important;*/
     }

@@ -16,6 +16,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin|moderator'], func
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::resource('/news', 'Admin\NewsController')->except('show');
+    Route::resource('/staff', 'Admin\StaffController')->except('show');
+    Route::resource('/users', 'Admin\UserController');
+    Route::get('/banned', 'Admin\UserController@banned')->name('users.banned');
+    Route::resource('/comment', 'Admin\CommentController');
 });
 
 // Regoster/login page
