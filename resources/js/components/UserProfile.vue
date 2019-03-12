@@ -332,7 +332,7 @@
             }
         },
         created() {
-            console.log(this.current_user);
+            // console.log(this.current_user);
         },
     }
 </script>

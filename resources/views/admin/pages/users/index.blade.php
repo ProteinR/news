@@ -49,7 +49,6 @@
                                 <img src="{{$user->avatar}}" alt="" class="img-responsive" width="100">
                             </td>
                             <td><a href="{{route('users.edit', $user->id)}}" class="fa fa-pencil"></a>
-{{--                                {{Form::open(['route'=>['users.destroy', $user->id], 'method'=>'delete'])}}--}}
                                 <form action="{{route('users.destroy', $user->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
@@ -58,7 +57,6 @@
                                     </button>
                                 </form>
 
-                                {{--{{Form::close()}}--}}
                             </td>
                         </tr>
                         @endforeach

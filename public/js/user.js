@@ -2095,8 +2095,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {
-    console.log(this.current_user);
+  created: function created() {// console.log(this.current_user);
   }
 });
 

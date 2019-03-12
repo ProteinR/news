@@ -17,5 +17,6 @@ mix.js('resources/js/postShow.js', 'public/js');
 mix.js('resources/js/register.js', 'public/js');
 mix.js('resources/js/user.js', 'public/js');
 mix.js('resources/js/axios.global.js', 'public/js');
+mix.js('resources/js/adminTags', 'public/js');
 // mix.js('resources/js/comments.js', 'public/js');
    // .sass('resources/sass/app.scss', 'public/css');

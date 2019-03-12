@@ -40,15 +40,21 @@
 
                         </div>
                         <div class="form-group">
-                            <label>Теги</label>
+                            <label></label>
 
-                            <select class="form-control js-example-tokenizer" multiple="multiple" name="tags">
-                                @foreach($tags as $tag)
-                                    <option value="{{$tag->id}}">{{$tag->title}}</option>
-                                @endforeach
+                            {{--<select class="form-control js-example-tokenizer" multiple="multiple" name="tags">--}}
+                                {{--@foreach($tags as $tag)--}}
+                                    {{--<option value="{{$tag->id}}">{{$tag->title}}</option>--}}
+                                {{--@endforeach--}}
                                 {{--<option selected="selected">orange</option>--}}
                                 {{--<option selected="selected">purple</option>--}}
-                            </select>
+                            {{--</select>--}}
+                            <div id="adminTags">
+                                <admin-tags :taggable="true" :token="'{{auth()->user()->api_token}}'"></admin-tags>
+                            </div>
+
+
+
 
                             <label>Категория</label>
                             <select class="form-control js-example-tokenizer" name="category_id">
@@ -92,5 +98,6 @@
     </div>
 
 
+    <script src="/js/adminTags.js"></script>
 
 @endsection

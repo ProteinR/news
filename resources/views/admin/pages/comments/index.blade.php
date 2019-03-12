@@ -42,15 +42,12 @@
                             <td>{{$comment->user->name}}</td>
                             <td>{{$comment->text}}</td>
                             <td>
-
-{{--                                    {{Form::open(['route'=>['comments.destroy', $comment->id], 'method'=>'delete'])}}--}}
                                 <form action="{{route('comment.destroy', $comment->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="delete" onclick="confirm('Are you sure?')">
                                         <i class="fa fa-remove"></i>
                                     </button>
-                                    {{--{{Form::close()}}--}}
                                 </form>
 
                             </td>

@@ -28,6 +28,8 @@
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -78,19 +80,26 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
+<script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+<link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+
 
 <script>
     $(document).ready(function() {
         $('#table1').DataTable();
+        // console.log(' token ');
+
+        {{--        token ={{ auth()->user()->token }};--}}
     } );
 </script>
 
 <script>
-    $(".js-example-tokenizer").select2({
-        tags: true,
-        tokenSeparators: [',', ' ']
 
-    })
+    var select2Element = $(".js-example-tokenizer").select2({
+        tags: true,
+        tokenSeparators: [',', ' '],
+    });
+
 </script>
 
 {{--Medium init--}}

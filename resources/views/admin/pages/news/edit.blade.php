@@ -62,16 +62,14 @@
 
                         </div>
                         <div class="form-group">
-                            <label>Теги</label>
-                            <select class="form-control js-example-tokenizer" multiple="multiple" name="tags">
-                                @foreach($tags as $tag)
-                                    <option value="{{$tag->id}}">
-                                        {{$tag->title}}
-                                    </option>
-                                @endforeach
-                                {{--<option selected="selected">orange</option>--}}
-                                {{--<option selected="selected">purple</option>--}}
-                            </select>
+                            {{--<label>Теги</label>--}}
+                            <div id="adminTags">
+                                <admin-tags
+                                        :taggable="true"
+                                        :tags="{{ $post->tags }}"
+                                        :token="'{{auth()->user()->api_token}}'">
+                                </admin-tags>
+                            </div>
 
                         </div>
 
@@ -98,4 +96,6 @@
         </section>
     </div>
     <!-- /.content-wrapper -->
+
+    <script src="/js/adminTags.js"></script>
 @endsection

@@ -13,7 +13,7 @@ Route::resource('/news', 'ApiNewsController')->only(['index', 'show']);
 
 Route::get('/news/category/{category}' , 'ApiNewsController@newsWithCategory'); // Show all news with category
 Route::get('/news/tag/{tag}' , 'ApiNewsController@newsWithTag'); // Show all news with tag
-Route::get('/news/top/{count}', 'ApiNewsController@topNews'); //get count top news
+Route::get('/news/top/{count}', 'ApiNewsController@topNews'); //get count top news (for example get top 5 news)
 Route::get('/news/user/{user}' , 'ApiNewsController@newsWithUser'); // Show all news with user
 Route::get('/news/{news}/comments' , 'ApiCommentController@getComments'); // Show all news comments
 Route::resource('/tag', 'ApiTagController')->only(['index']);
