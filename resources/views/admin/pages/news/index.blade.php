@@ -5,14 +5,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Admin page
-                <small>it all starts here</small>
+                Новости
+                <small></small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="active">Blank page</li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>--}}
+                {{--<li><a href="#">Examples</a></li>--}}
+                {{--<li class="active">Blank page</li>--}}
+            {{--</ol>--}}
         </section>
 
         <!-- Main content -->
@@ -21,7 +21,7 @@
         <!-- Default box -->
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Листинг сущности</h3>
+                    <h3 class="box-title">Список новостей</h3>
                     {{--@include('admin.errors')--}}
                 </div>
                 <!-- /.box-header -->
@@ -62,7 +62,9 @@
                                     <form action="{{route('news.destroy', $post->id)}}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger" onclick="confirm('Are you sure?')">
+                                        <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('Удалить ' +
+                                     'новость?') ? true : false;">
                                             <i class="fa fa-remove"></i>
                                         </button>
                                     </form>

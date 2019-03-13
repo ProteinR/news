@@ -1794,7 +1794,8 @@ __webpack_require__.r(__webpack_exports__);
   // props: ['currentuser'],
   data: function data() {
     return {
-      currentuser: []
+      currentuser: [],
+      url: ''
     };
   },
   created: function created() {
@@ -1804,6 +1805,8 @@ __webpack_require__.r(__webpack_exports__);
     } else {
       this.currentuser = [];
     }
+
+    this.url = window.location.pathname;
   },
   methods: {
     logout: function logout() {
@@ -1884,20 +1887,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   data: function data() {
-    return {// currentuser: this.currentuser,
+    return {
+      // currentuser: this.currentuser,
+      url: ''
     };
   },
   props: ['categories', 'currentuser'],
   components: {
     NavbarUserComponent: _NavbarUserComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  created: function created() {},
-  mounted: function mounted() {// console.log('current_user - '+this.currentuser);
-    // console.log('current user from categories.vue '+ this.categories);
+  created: function created() {
+    this.url = window.location.pathname;
   }
 });
 
@@ -2792,9 +2799,33 @@ var render = function() {
   var _c = _vm._self._c || _h
   return Object.keys(this.currentuser).length == 0
     ? _c("ul", { staticClass: "navbar-nav" }, [
-        _vm._m(0),
+        _c(
+          "li",
+          {
+            class:
+              _vm.url.indexOf("/register") != -1
+                ? "nav-item active"
+                : "nav-item "
+          },
+          [
+            _c("a", { staticClass: "nav-link", attrs: { href: "/register" } }, [
+              _vm._v("Регистрация ")
+            ])
+          ]
+        ),
         _vm._v(" "),
-        _vm._m(1)
+        _c(
+          "li",
+          {
+            class:
+              _vm.url.indexOf("/login") != -1 ? "nav-item active" : "nav-item "
+          },
+          [
+            _c("a", { staticClass: "nav-link", attrs: { href: "/login" } }, [
+              _vm._v("Войти")
+            ])
+          ]
+        )
       ])
     : _c("ul", { staticClass: "navbar-nav nav-flex-icons" }, [
         _c("li", { staticClass: "nav-item avatar dropdown" }, [
@@ -2860,28 +2891,7 @@ var render = function() {
         ])
       ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "/register" } }, [
-        _vm._v("Регистрация ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "/login" } }, [
-        _vm._v("Войти")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -2915,11 +2925,75 @@ var render = function() {
       { staticClass: "collapse navbar-collapse", attrs: { id: "nav" } },
       [
         _c("ul", { staticClass: "navbar-nav mr-auto" }, [
-          _vm._m(1),
+          _c(
+            "li",
+            { class: _vm.url == "/" ? "nav-item active" : "nav-item " },
+            [
+              _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
+                _vm._v("Главная\n                                             ")
+              ])
+            ]
+          ),
           _vm._v(" "),
-          _vm._m(2),
+          _c(
+            "li",
+            {
+              class:
+                _vm.url.indexOf("/news/category/4") != -1
+                  ? "nav-item active"
+                  : "nav-item "
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link",
+                  attrs: { href: "http://localhost/news/category/4" }
+                },
+                [_vm._v("IT")]
+              )
+            ]
+          ),
           _vm._v(" "),
-          _vm._m(3),
+          _c(
+            "li",
+            {
+              class:
+                _vm.url.indexOf("/news/category/1") != -1
+                  ? "nav-item active"
+                  : "nav-item "
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link",
+                  attrs: { href: "http://localhost/news/category/1" }
+                },
+                [_vm._v("Спорт")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class:
+                _vm.url.indexOf("/news/category/2") != -1
+                  ? "nav-item active"
+                  : "nav-item "
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link",
+                  attrs: { href: "http://localhost/news/category/2" }
+                },
+                [_vm._v("Авто")]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c(
             "li",
@@ -2970,7 +3044,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(4),
+        _vm._m(1),
         _vm._v(" "),
         _c("navbarUserComponent", { attrs: { currentuser: _vm.currentuser } })
       ],
@@ -2998,36 +3072,6 @@ var staticRenderFns = [
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item active" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
-        _vm._v("Главная\n                                             ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-        _vm._v("Статьи")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-        _vm._v("Pricing")
-      ])
-    ])
   },
   function() {
     var _vm = this

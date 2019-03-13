@@ -69,7 +69,7 @@
             AXIOS.get('http://localhost/api/news/top/5')
                 .then(function(response) {
                     self.news = response.data;
-                    console.log(self.news);
+                    // console.log(self.news);
                 });
         }
     }

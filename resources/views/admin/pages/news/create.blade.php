@@ -14,7 +14,7 @@
         <section class="content">
             <form action="{{route('news.store')}}" method="POST" enctype="multipart/form-data">
                 @method('POST')
-                    @csrf
+                @csrf
         <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
@@ -31,6 +31,8 @@
                         <div class="form-group">
                             <label for="exampleInputFile">Лицевая картинка</label>
                             <input type="file" id="exampleInputFile" name="image">
+                            <input type="text" name="image_url" class="form-control my-3"
+                                   placeholder="Или введите ссылку на изображение">
 
                             <p class="help-block">Какое-нибудь уведомление о форматах..</p>
                         </div>
@@ -42,18 +44,9 @@
                         <div class="form-group">
                             <label></label>
 
-                            {{--<select class="form-control js-example-tokenizer" multiple="multiple" name="tags">--}}
-                                {{--@foreach($tags as $tag)--}}
-                                    {{--<option value="{{$tag->id}}">{{$tag->title}}</option>--}}
-                                {{--@endforeach--}}
-                                {{--<option selected="selected">orange</option>--}}
-                                {{--<option selected="selected">purple</option>--}}
-                            {{--</select>--}}
                             <div id="adminTags">
                                 <admin-tags :taggable="true" :token="'{{auth()->user()->api_token}}'"></admin-tags>
                             </div>
-
-
 
 
                             <label>Категория</label>
@@ -61,13 +54,10 @@
                                 @foreach($categories as $category)
                                     <option value="{{$category->id}}" name="category_id">{{$category->title}}</option>
                                 @endforeach
-                                {{--<option selected="selected">orange</option>--}}
-                                {{--<option selected="selected">purple</option>--}}
+
                             </select>
 
-
                         </div>
-
                     </div>
 
                     <div class="col-md-12">
@@ -77,10 +67,6 @@
                                 {{old('text')}}
                             </textarea>
 
-                            {{--<div class="post-text" name="text" role="textbox" contenteditable="true"--}}
-                                 {{--aria-multiline="true"--}}
-                                 {{--data-placeholder="Введите текст" style="min-height: 200px;">--}}
-                            {{--</div>--}}
                         </div>
                     </div>
                 </div>

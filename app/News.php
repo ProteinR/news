@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class News extends Model
 {
-    protected $fillable = ['category_id', 'user_id', 'title', 'text', 'image'];
+    protected $fillable = ['category_id', 'user_id', 'title', 'text'];
 
     public function category()
     {
@@ -49,7 +49,6 @@ class News extends Model
         if ($image == null) { //если картинка не зашла - выйти
             return;
         }
-
         $imageName = str_random(10).'.'.$image->extension();
         $image->storeAs('/public/img', $imageName);
         $this->image = '/storage/img/'.$imageName;

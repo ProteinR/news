@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar', 'about', 'interest', 'skype', 'telegram'
+        'name', 'email', 'password', 'about', 'interest', 'skype', 'telegram'
     ];
 
     /**
@@ -54,9 +54,9 @@ class User extends Authenticatable
     public function removeImage()
     {
         if ($this->avatar != null) {
-            $arrayPath = explode('/', $this->image);
+            $arrayPath = explode('/', $this->avatar);
             $thisImageName = array_pop($arrayPath);
-            Storage::delete('/public/img/avatars'.$thisImageName);
+            Storage::delete('/public/img/avatars/'.$thisImageName);
         }
     }
 

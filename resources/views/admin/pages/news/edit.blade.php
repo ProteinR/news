@@ -12,15 +12,9 @@
 
         <!-- Main content -->
         <section class="content">
-        {{--{{ Form::open([--}}
-        {{--'route'=>['posts.update', $post->id],--}}
-        {{--'files'=>true,--}}
-        {{--'method'=>'put',--}}
-        {{--]) }}--}}
             <form action="{{route('news.update', $post->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-
 
         <!-- Default box -->
             <div class="box">
@@ -39,16 +33,13 @@
                             <img src="{{ $post->image }}" alt="" class="img-responsive" width="200">
                             <label for="exampleInputFile">Лицевая картинка</label>
                             <input type="file" id="exampleInputFile" name="image">
+                            <input type="text" name="image_url" class="form-control my-3"
+                                   placeholder="Или введите ссылку на изображение">
 
                             <p class="help-block">img, png etc...</p>
                         </div>
                         <div class="form-group">
                             <label>Категория</label>
-                            {{--{{ Form::select('category_id',--}}
-                                {{--$categories,--}}
-                                {{--$post->getCategoryId(),--}}
-                                {{--['class'=>'form-control select2']--}}
-                            {{--) }}--}}
 
                             <select class="form-control js-example-tokenizer" name="category_id">
                                 @foreach($categories as $category)
@@ -90,9 +81,7 @@
                 <!-- /.box-footer-->
             </div>
             </form>
-
             <!-- /.box -->
-            {{--{{ Form::close() }}--}}
         </section>
     </div>
     <!-- /.content-wrapper -->

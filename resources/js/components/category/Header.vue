@@ -14,16 +14,19 @@
 
             <!-- Links -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li :class="url == '/' ? 'nav-item active' : 'nav-item '">
                     <a class="nav-link" href="/">Главная
                                                  <!--<span class="sr-only">(current)</span>-->
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Статьи</a>
+                <li :class="url.indexOf('/news/category/4') != -1? 'nav-item active' : 'nav-item '">
+                    <a class="nav-link" :href="'http://localhost/news/category/4'">IT</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                <li :class="url.indexOf('/news/category/1') != -1? 'nav-item active' : 'nav-item '">
+                    <a class="nav-link" :href="'http://localhost/news/category/1'">Спорт</a>
+                </li>
+                <li :class="url.indexOf('/news/category/2') != -1? 'nav-item active' : 'nav-item '">
+                    <a class="nav-link" :href="'http://localhost/news/category/2'">Авто</a>
                 </li>
 
                 <!-- Dropdown -->
@@ -63,6 +66,7 @@
         data: function() {
             return {
                 // currentuser: this.currentuser,
+                url: '',
             }
         },
         props: ['categories', 'currentuser'],
@@ -70,10 +74,7 @@
             NavbarUserComponent
         },
         created() {
-        },
-        mounted() {
-            // console.log('current_user - '+this.currentuser);
-            // console.log('current user from categories.vue '+ this.categories);
+            this.url = window.location.pathname;
         }
     }
 

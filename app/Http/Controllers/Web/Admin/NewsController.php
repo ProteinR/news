@@ -50,7 +50,12 @@ class NewsController extends Controller
             $user = $request->user();
             $this->news = $user->news()->create($request->all());
             $this->news->tags()->sync($request->get('tags', []));
-            $this->news->uploadImage($request->file('image'));
+//            $this->news->uploadImage($request->file('image'));
+            if ($request->file('image') != null OR $request->get('image_url') != null) {
+                $this->news->image = $request->get('image_url');
+                $this->news->uploadImage($request->file('image'));
+                $this->news->save();
+            }
         });
 
         return redirect()->route('news.index');
@@ -68,11 +73,14 @@ class NewsController extends Controller
     public function update(News $news, UpdateNewsRequest $request)
     {
         DB::transaction(function () use ($request, $news) {
-            $news->removeImage();
             $news->fill($request->all());
-            $news->save();
             $news->tags()->sync($request->get('tags', []));
-            $news->uploadImage($request->file('image'));
+            if ($request->file('image') != null OR $request->get('image_url') != null) {
+                $news->removeImage();
+                $news->image = $request->get('image_url');
+                $news->uploadImage($request->file('image'));
+            }
+            $news->save();
         });
 
         return redirect()->route('news.index');
@@ -88,6 +96,7 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
+        $news->removeImage();
         $news->delete();
 
         return redirect()->back();

@@ -27,14 +27,15 @@
                                     <div class="date mx-3 blockquote-footer">{{comment.created_at}}</div>
                                 </div>
                                 <div class="d-inline-flex float-right">
-                                    <span v-if="currentuser != undefined" class="">
+                                    <span v-if="currentuser != undefined " class="">
                                         <span class="btn-primary btn-sm mr-2" style="cursor: pointer;"
-                                              v-if="currentuser.id==comment.user.id" @click="editComment(comment.id,
+                                              v-if="currentuser.id==comment.user.id || comment_edit_delete"
+                                              @click="editComment(comment.id,
                                               comment.text)">
                                             edit
                                         </span>
                                         <span class="btn-danger btn-sm" style="cursor: pointer;"
-                                              v-if="currentuser.id==comment.user.id"
+                                              v-if="currentuser.id==comment.user.id || comment_edit_delete"
                                               @click="deleteComment(comment.id)">x
                                         </span>
                                     </span>
@@ -67,7 +68,7 @@
                     <!--<div class="row flex-column">-->
                         <div class="md-form md-outline">
                             <textarea type="text" id="form75" class="form-control" rows="3"
-                                      placeholder="Введите текст" v-model="commentBody">
+                                      placeholder="Введите текст" v-model="commentBody" >
                             </textarea>
                         <button class="btn btn-primary" @click="addComment()">Оставить комментарий</button>
                     </div>
@@ -95,6 +96,8 @@
                 is_editing: '',
                 currentuser: CURRENT_USER,
                 user_auth: USER_AUTH,
+                current_user_role: '',
+                comment_edit_delete: '' // true - if user can edit or delete comments (admin or moderator)
             }
         },
         methods: {
@@ -194,6 +197,20 @@
             },
         },
         created() {
+            if (this.currentuser != '') {
+                this.current_user_role = this.currentuser.roles[0].name;
+            }
+            if (this.current_user_role == 'admin' ||  this.current_user_role == 'moderator') {
+                this.comment_edit_delete = true;
+            } else {
+                this.comment_edit_delete = false;
+            }
+
+
+
+            console.log(this.comment_edit_delete);
+
+
             self = this;
             AXIOS.get('/api/news/'+API.split('/').pop()+'/comments')
                 .then(function (data) {

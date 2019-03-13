@@ -30,7 +30,8 @@ class RolesPermissionTableSeeder extends Seeder
             'create comments',
             'like comments',
             'edit comments',
-            'delete comments'
+            'delete comments',
+            'user-ban'
         ];
 
         foreach ($permissions as $permission) {
@@ -44,6 +45,7 @@ class RolesPermissionTableSeeder extends Seeder
             Permission::where('name', 'edit comments')->first(),
             Permission::where('name', 'delete comments')->first(),
             Permission::where('name', 'like comments')->first(),
+            Permission::where('name', 'user-ban')->first(),
         ]);
 
         $writer->givePermissionTo([

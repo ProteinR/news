@@ -1829,6 +1829,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1954,6 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -1969,7 +1976,10 @@ __webpack_require__.r(__webpack_exports__);
       comment_id: '',
       is_editing: '',
       currentuser: _axios_global__WEBPACK_IMPORTED_MODULE_0__["CURRENT_USER"],
-      user_auth: _axios_global__WEBPACK_IMPORTED_MODULE_0__["USER_AUTH"]
+      user_auth: _axios_global__WEBPACK_IMPORTED_MODULE_0__["USER_AUTH"],
+      current_user_role: '',
+      comment_edit_delete: '' // true - if user can edit or delete comments (admin or moderator)
+
     };
   },
   methods: {
@@ -2053,6 +2063,17 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
+    if (this.currentuser != '') {
+      this.current_user_role = this.currentuser.roles[0].name;
+    }
+
+    if (this.current_user_role == 'admin' || this.current_user_role == 'moderator') {
+      this.comment_edit_delete = true;
+    } else {
+      this.comment_edit_delete = false;
+    }
+
+    console.log(this.comment_edit_delete);
     self = this;
     _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('/api/news/' + _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop() + '/comments').then(function (data) {
       self.comments = data.data; // console.log(data.data);
@@ -2135,8 +2156,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var self = this;
     _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('http://localhost/api/news/top/5').then(function (response) {
-      self.news = response.data;
-      console.log(self.news);
+      self.news = response.data; // console.log(self.news);
     });
   }
 });
@@ -3108,7 +3128,6 @@ var render = function() {
                 [
                   _c("a", { staticClass: "deep-orange-text" }, [
                     _c("h6", { staticClass: "font-weight-bold" }, [
-                      _c("i", { staticClass: "fas fa-utensils pr-2" }),
                       _vm._v(_vm._s(_vm.post.category.title))
                     ])
                   ]),
@@ -3148,19 +3167,26 @@ var render = function() {
                 ])
               }),
               _vm._v(" "),
-              _c(
-                "h3",
-                { staticClass: "font-weight-bold dark-grey-text mb-3" },
-                [_c("a", [_vm._v(_vm._s(_vm.post.title))])]
-              ),
-              _vm._v(" "),
-              _c(
-                "p",
-                {
-                  staticClass: "dark-grey-text mb-lg-0 mb-md-5 mb-4 post-text"
-                },
-                [_c("span", { domProps: { innerHTML: _vm._s(_vm.post.text) } })]
-              )
+              _c("div", { staticClass: "card px-3 py-3" }, [
+                _c(
+                  "h3",
+                  { staticClass: "font-weight-bold dark-grey-text mb-3" },
+                  [_c("a", [_vm._v(_vm._s(_vm.post.title))])]
+                ),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  {
+                    staticClass:
+                      "dark-grey-text mb-lg-0 mb-md-5 mb-4 post-text "
+                  },
+                  [
+                    _c("span", {
+                      domProps: { innerHTML: _vm._s(_vm.post.text) }
+                    })
+                  ]
+                )
+              ])
             ],
             2
           )
@@ -3253,7 +3279,8 @@ var render = function() {
                   _c("div", { staticClass: "d-inline-flex float-right" }, [
                     _vm.currentuser != undefined
                       ? _c("span", {}, [
-                          _vm.currentuser.id == comment.user.id
+                          _vm.currentuser.id == comment.user.id ||
+                          _vm.comment_edit_delete
                             ? _c(
                                 "span",
                                 {
@@ -3276,7 +3303,8 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm.currentuser.id == comment.user.id
+                          _vm.currentuser.id == comment.user.id ||
+                          _vm.comment_edit_delete
                             ? _c(
                                 "span",
                                 {

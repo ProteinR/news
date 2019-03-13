@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\User;
 
-use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends StoreUserRequest
+class BanUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,10 @@ class UpdateUserRequest extends StoreUserRequest
      */
     public function authorize()
     {
-        return true;
+        if (request()->user()->hasAnyRole('admin|moderator')){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -23,12 +26,8 @@ class UpdateUserRequest extends StoreUserRequest
      */
     public function rules()
     {
-        return array_merge(parent::rules(), [
-            'email' => [
-                'required',
-                Rule::unique('users')->ignore($this->user->id),
-            ],
-            'password' => '',
-        ]);
+        return [
+            //
+        ];
     }
 }

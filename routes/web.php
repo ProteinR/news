@@ -16,13 +16,24 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin|moderator'], func
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::resource('/news', 'Admin\NewsController')->except('show');
+
+    //Resource for different groups of users
     Route::resource('/staff', 'Admin\StaffController')->except('show');
     Route::resource('/users', 'Admin\UserController');
+
+    // All banned users
     Route::get('/banned', 'Admin\UserController@banned')->name('users.banned');
+
+    //Give role ban to user
+    Route::post('/ban/{user}', 'Admin\UserController@ban')->name('user.ban');
+
     Route::resource('/comment', 'Admin\CommentController');
+    Route::resource('/tags', 'Admin\TagController')->except('create', 'edit', 'update');
+    Route::resource('/category', 'Admin\CategoryController')->except('edit', 'update');
+
 });
 
-// Regoster/login page
+// Register/login page
 Route::get('/register', function () {
     return view('pages.register');
 });

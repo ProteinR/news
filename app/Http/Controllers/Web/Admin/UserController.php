@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Http\Requests\User\BanUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\User;
@@ -28,6 +29,12 @@ class UserController extends Controller
         $users = User::role('banned')->get();
 
         return view('admin.pages.users.banned', compact('users'));
+    }
+
+    public function ban(BanUserRequest $request, User $user) {
+        $user->syncRoles(['banned']);
+
+        return redirect()->route('users.banned');
     }
 
     /**
@@ -91,12 +98,16 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->fill($request->all());
-        if($request->get('password')) {
-            $user->password = bcrypt($request->get('password'));
+
+        $user->fill($request->get('password')!= null ?
+            array_merge($request->except('password'),
+                ['password' => bcrypt($request->input('password'))]) :
+                $request->except('password'));
+
+        if ($request->file('avatar') != null) {
+            $user->removeImage();
+            $user->uploadImage($request->file('avatar'));
         }
-        $user->removeImage();
-        $user->uploadImage($request->file('avatar'));
         $user->save();
         $user->assignRole($request->get('role'));
 
@@ -113,6 +124,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $user->removeImage();
         $user->delete();
 
         return redirect()->back();

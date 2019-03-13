@@ -141,31 +141,7 @@
                 </label>
             </div>
         </div>
-        <!--<div class="row">-->
-            <!--<div class="col-md-12">-->
-                <!--<h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Активность пользователя</h5>-->
-                <!--<table v-if="user.comments" class="table table-sm table-hover table-striped" id="myTable">-->
-                    <!--<tbody>-->
-                        <!--<tr v-for="comment in user.comments">-->
-                            <!--<td>-->
-                                <!--<strong>{{user.name}}</strong> оставил комментарий к записи-->
-                                <!--<strong><a :href="'/news/'+comment.news.id">{{comment.news.title}}</a>: </strong>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-                    <!--</tbody>-->
 
-                <!--</table>-->
-                <!--<table v-else class="table table-sm table-hover table-striped" >-->
-                    <!--<tbody>-->
-                        <!--<tr>-->
-                            <!--<td>-->
-                                <!--<strong>{{user.name}}</strong> <span>пока ничего не писал...</span>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-                    <!--</tbody>-->
-                <!--</table>-->
-            <!--</div>-->
-        <!--</div>-->
         <div class="row">
             <template>
                 <div class="container">
@@ -271,8 +247,8 @@
                 telegram: this.user.telegram,
                 about: this.user.about,
                 interest: this.user.interest,
-                password: CURRENT_USER.password,
-                password_confirmation: CURRENT_USER.password,
+                password: '',
+                password_confirmation: '',
             }
         },
         methods: {
@@ -297,28 +273,29 @@
                         return;
                     }
                 }
-                AXIOS.put('/api/user/'+this.current_user.id, {
-                    "name": this.name,
-                    "email": this.email,
-                    "skype": this.skype,
-                    "telegram": this.telegram,
-                    "about": this.about,
-                    "interest": this.interest,
-                    "password": this.password,
-                    "password_confirmation": this.password_confirmation,
-                })
-                    .then(function(response) {
-                        console.log(response.data.user);
-                        // self.user = response.data.user;
-                        swal({
-                            title: "Успех!",
-                            text: "Ваш профиль обновлён!",
-                            icon: "success",
-                            button: "Ок!",
-                            timer: 3000,
-                        });
+                if (this.password != '') {
+                    AXIOS.put('/api/user/'+this.current_user.id, {
+                        "name": this.name,
+                        "email": this.email,
+                        "skype": this.skype,
+                        "telegram": this.telegram,
+                        "about": this.about,
+                        "interest": this.interest,
+                        "password": this.password,
+                        "password_confirmation": this.password_confirmation,
+                    })
+                        .then(function(response) {
+                            console.log(response.data.user);
+                            // self.user = response.data.user;
+                            swal({
+                                title: "Успех!",
+                                text: "Ваш профиль обновлён!",
+                                icon: "success",
+                                button: "Ок!",
+                                timer: 3000,
+                            });
                             // setTimeout('location="/";', 3000);
-                    }).catch(function (error) {
+                        }).catch(function (error) {
                         swal({
                             title: "Ошибка!",
                             text: "Что-то пошло не так.",
@@ -328,7 +305,40 @@
                         });
                         this.password = '';
                         this.password_confirmation = '';
-                });
+                    });
+                } else {
+                    AXIOS.put('/api/user/'+this.current_user.id, {
+                        "name": this.name,
+                        "email": this.email,
+                        "skype": this.skype,
+                        "telegram": this.telegram,
+                        "about": this.about,
+                        "interest": this.interest,
+                    })
+                        .then(function(response) {
+                            console.log(response.data.user);
+                            // self.user = response.data.user;
+                            swal({
+                                title: "Успех!",
+                                text: "Ваш профиль обновлён!",
+                                icon: "success",
+                                button: "Ок!",
+                                timer: 3000,
+                            });
+                            // setTimeout('location="/";', 3000);
+                        }).catch(function (error) {
+                        swal({
+                            title: "Ошибка!",
+                            text: "Что-то пошло не так.",
+                            icon: "error",
+                            button: "Ок!",
+                            timer: 3000,
+                        });
+                        this.password = '';
+                        this.password_confirmation = '';
+                    });
+                }
+
             }
         },
         created() {

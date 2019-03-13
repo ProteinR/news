@@ -1876,7 +1876,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       regex: '',
-      text: ''
+      text: '',
+      icon: ''
     };
   },
   computed: {},
@@ -2892,7 +2893,6 @@ var render = function() {
                 },
                 [
                   _c("h6", { staticClass: "font-weight-bold" }, [
-                    _c("i", { staticClass: "fas fa-utensils pr-2" }),
                     _vm._v(_vm._s(_vm.post.category.title))
                   ])
                 ]

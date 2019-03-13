@@ -46,7 +46,7 @@
                         <span class="mr-3">Категория: </span>
                         <div class="tags d-inline-flex">
                             <a  class="deep-orange-text" :href="'/news/category/'+post.category.id">
-                                <h6 class="font-weight-bold"><i class="fas fa-utensils pr-2"></i>{{post.category.title}}</h6>
+                                <h6 class="font-weight-bold">{{post.category.title}}</h6>
                             </a>
                         </div>
                     </div>
@@ -78,6 +78,7 @@
             return {
                 regex: '',
                 text: '',
+                icon: '',
             }
         },
         computed: {},
@@ -86,6 +87,7 @@
         },
         created() {
             this.text = this.post.text.replace(/(<([^>]+)>)/ig, "").substring(0, 100)+'...';
+
             // console.log(this.text);
         }
     }

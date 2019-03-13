@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Комментарии
+                Теги
                 <small></small>
             </h1>
             {{--<ol class="breadcrumb">--}}
@@ -21,7 +21,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Список комментариев</h3>
+                    <h3 class="box-title">Список тегов</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -30,32 +30,28 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Пользователь</th>
-                            <th>Новость</th>
-                            <th>Текст</th>
+                            <th>Тег</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($comments as $comment)
-                        <tr>
-                            <td>{{$comment->id}}</td>
-                            <td>{{$comment->user->name}}</td>
-                            <td><a href="{{ '/news/'.$comment->news->id }}">{{$comment->news->title}}</a></td>
-                            <td>{{$comment->text}}</td>
-                            <td>
-                                <form action="{{route('comment.destroy', $comment->id)}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Удалить ' +
-                                     'комментарий?') ? true : false;">
-                                        <i class="fa fa-remove"></i>
-                                    </button>
-                                </form>
+                        @foreach($tags as $tag)
+                            <tr>
+                                <td>{{$tag->id}}</td>
+                                <td>{{$tag->title}}</td>
+                                <td>
+                                    <form action="{{route('tags.destroy', $tag->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('Удалить ' +
+                                     'тег?') ? true : false;">
+                                            <i class="fa fa-remove"></i>
+                                        </button>
+                                    </form>
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         @endforeach
                         </tfoot>
                     </table>

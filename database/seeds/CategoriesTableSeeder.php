@@ -13,10 +13,10 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert([
-            ['title' => 'Sport', 'order' => 1],
-            ['title' => 'Politics', 'order' => 2],
-            ['title' => 'Finances', 'order' => 3],
-            ['title' => 'Culture', 'order' => 4],
+            ['title' => 'Спорт', 'order' => 1],
+            ['title' => 'Авто', 'order' => 2],
+            ['title' => 'Финансы', 'order' => 3],
+            ['title' => 'IT', 'order' => 4],
         ]);
     }
 }

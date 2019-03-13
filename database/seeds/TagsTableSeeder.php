@@ -13,10 +13,10 @@ class TagsTableSeeder extends Seeder
     public function run()
     {
         DB::table('tags')->insert([
-            ['title' => 'Sport'],
-            ['title' => 'Finances'],
-            ['title' => 'Games'],
-            ['title' => 'Culture'],
+            ['title' => 'Спорт'],
+            ['title' => 'Финансы'],
+            ['title' => 'Гаджеты'],
+            ['title' => 'IT'],
         ]);
     }
 }

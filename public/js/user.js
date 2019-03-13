@@ -1990,30 +1990,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2033,8 +2009,8 @@ __webpack_require__.r(__webpack_exports__);
       telegram: this.user.telegram,
       about: this.user.about,
       interest: this.user.interest,
-      password: _axios_global__WEBPACK_IMPORTED_MODULE_1__["CURRENT_USER"].password,
-      password_confirmation: _axios_global__WEBPACK_IMPORTED_MODULE_1__["CURRENT_USER"].password
+      password: '',
+      password_confirmation: ''
     };
   },
   methods: {
@@ -2063,36 +2039,67 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].put('/api/user/' + this.current_user.id, {
-        "name": this.name,
-        "email": this.email,
-        "skype": this.skype,
-        "telegram": this.telegram,
-        "about": this.about,
-        "interest": this.interest,
-        "password": this.password,
-        "password_confirmation": this.password_confirmation
-      }).then(function (response) {
-        console.log(response.data.user); // self.user = response.data.user;
+      if (this.password != '') {
+        _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].put('/api/user/' + this.current_user.id, {
+          "name": this.name,
+          "email": this.email,
+          "skype": this.skype,
+          "telegram": this.telegram,
+          "about": this.about,
+          "interest": this.interest,
+          "password": this.password,
+          "password_confirmation": this.password_confirmation
+        }).then(function (response) {
+          console.log(response.data.user); // self.user = response.data.user;
 
-        swal({
-          title: "Успех!",
-          text: "Ваш профиль обновлён!",
-          icon: "success",
-          button: "Ок!",
-          timer: 3000
-        }); // setTimeout('location="/";', 3000);
-      }).catch(function (error) {
-        swal({
-          title: "Ошибка!",
-          text: "Что-то пошло не так.",
-          icon: "error",
-          button: "Ок!",
-          timer: 3000
+          swal({
+            title: "Успех!",
+            text: "Ваш профиль обновлён!",
+            icon: "success",
+            button: "Ок!",
+            timer: 3000
+          }); // setTimeout('location="/";', 3000);
+        }).catch(function (error) {
+          swal({
+            title: "Ошибка!",
+            text: "Что-то пошло не так.",
+            icon: "error",
+            button: "Ок!",
+            timer: 3000
+          });
+          this.password = '';
+          this.password_confirmation = '';
         });
-        this.password = '';
-        this.password_confirmation = '';
-      });
+      } else {
+        _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].put('/api/user/' + this.current_user.id, {
+          "name": this.name,
+          "email": this.email,
+          "skype": this.skype,
+          "telegram": this.telegram,
+          "about": this.about,
+          "interest": this.interest
+        }).then(function (response) {
+          console.log(response.data.user); // self.user = response.data.user;
+
+          swal({
+            title: "Успех!",
+            text: "Ваш профиль обновлён!",
+            icon: "success",
+            button: "Ок!",
+            timer: 3000
+          }); // setTimeout('location="/";', 3000);
+        }).catch(function (error) {
+          swal({
+            title: "Ошибка!",
+            text: "Что-то пошло не так.",
+            icon: "error",
+            button: "Ок!",
+            timer: 3000
+          });
+          this.password = '';
+          this.password_confirmation = '';
+        });
+      }
     }
   },
   created: function created() {// console.log(this.current_user);
@@ -2186,7 +2193,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       regex: '',
-      text: ''
+      text: '',
+      icon: ''
     };
   },
   computed: {},
@@ -3988,7 +3996,6 @@ var render = function() {
                 },
                 [
                   _c("h6", { staticClass: "font-weight-bold" }, [
-                    _c("i", { staticClass: "fas fa-utensils pr-2" }),
                     _vm._v(_vm._s(_vm.post.category.title))
                   ])
                 ]

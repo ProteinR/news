@@ -1,9 +1,9 @@
 <template>
         <ul class="navbar-nav" v-if="Object.keys(this.currentuser).length == 0">
-            <li class="nav-item">
+            <li :class="url.indexOf('/register') != -1? 'nav-item active' : 'nav-item '">
                 <a href="/register" class="nav-link">Регистрация </a>
             </li>
-            <li class="nav-item">
+            <li :class="url.indexOf('/login') != -1? 'nav-item active' : 'nav-item '">
                 <a href="/login" class="nav-link">Войти</a>
             </li>
         </ul>
@@ -31,6 +31,7 @@
         data: function () {
             return {
                 currentuser: [],
+                url: ''
             }
         },
         created() {
@@ -41,6 +42,7 @@
             } else {
                 this.currentuser = [];
             }
+            this.url = window.location.pathname;
         },
         methods: {
             logout: function () {

@@ -23,7 +23,7 @@
                     <!-- Data -->
                     <div class="news-data d-flex justify-content-between">
                         <a  class="deep-orange-text">
-                            <h6 class="font-weight-bold"><i class="fas fa-utensils pr-2"></i>{{post.category.title}}</h6>
+                            <h6 class="font-weight-bold">{{post.category.title}}</h6>
                         </a>
                         <p class="font-weight-bold dark-grey-text"><i class="fas fa-clock-o pr-2"></i>{{post.created_at}}</p>
                     </div>
@@ -39,9 +39,15 @@
                     </div>
 
                     <!-- Excerpt -->
-                    <h3 class="font-weight-bold dark-grey-text mb-3"><a>{{ post.title}}</a></h3>
+                    <div class="card px-3 py-3">
 
-                    <p class="dark-grey-text mb-lg-0 mb-md-5 mb-4 post-text"><span v-html="post.text"></span></p>
+                        <h3 class="font-weight-bold dark-grey-text mb-3"><a>{{ post.title}}</a></h3>
+
+                        <p
+                                class="dark-grey-text mb-lg-0 mb-md-5 mb-4 post-text "><span
+                                v-html="post.text"></span></p>
+                    </div>
+
 
                 </div>
 

@@ -6,14 +6,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Blank page
-                <small>it all starts here</small>
+                Заблокированные пользователи
+                <small></small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="active">Blank page</li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>--}}
+                {{--<li><a href="#">Examples</a></li>--}}
+                {{--<li class="active">Blank page</li>--}}
+            {{--</ol>--}}
         </section>
 
         <!-- Main content -->
@@ -22,13 +22,10 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Листинг сущности</h3>
+                    <h3 class="box-title">Список пользователей</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div class="form-group">
-                        <a href="{{route('users.create')}}" class="btn btn-success">Добавить</a>
-                    </div>
                     <table id="table1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
@@ -48,11 +45,12 @@
                             <td>
                                 <img src="{{$user->avatar}}" alt="" class="img-responsive" width="100">
                             </td>
-                            <td><a href="{{route('users.edit', $user->id)}}" class="fa fa-pencil"></a>
+                            <td><a href="{{route('users.edit', $user->id)}}" class="btn btn-primary"> <i class="fa
+                            fa-pencil"></i></a>
                                 <form action="{{route('users.destroy', $user->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="delete" onclick="confirm('Are you sure?')">
+                                    <button type="submit" class="btn btn-danger" onclick="confirm('Are you sure?')">
                                         <i class="fa fa-remove"></i>
                                     </button>
                                 </form>

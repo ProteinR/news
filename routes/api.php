@@ -21,7 +21,7 @@ Route::resource('/category', 'ApiCategoryController')->only(['index']);
 
 
 
-Route::group(['middleware'=>'auth:api'], function () {
+Route::group(['middleware'=>['auth:api', 'role:admin|user|moderator|publisher']], function () {
 
     //Show and delete users
     Route::resource('user', 'ApiUserController')->only(['index','update', 'destroy']);
