@@ -60,10 +60,13 @@
                                 </div>
 
                             </div>
+
                             <!-- Excerpt -->
                         </div>
                         <hr>
                     </div>
+                    <!--<div class="btn btn-primary container-fluid" @click="moreComments">More comments...</div>-->
+
                     <!-- Comment -->
                     <!--<div class="row flex-column">-->
                         <div class="md-form md-outline">
@@ -83,6 +86,7 @@
     import {AXIOS} from "../../axios.global";
     import API from "../../API";
     import {CURRENT_USER} from "../../axios.global";
+    import * as toastr from "toastr";
 
     export default {
         name: "Comments",
@@ -97,10 +101,24 @@
                 currentuser: CURRENT_USER,
                 user_auth: USER_AUTH,
                 current_user_role: '',
-                comment_edit_delete: '' // true - if user can edit or delete comments (admin or moderator)
+                comment_edit_delete: '', // true - if user can edit or delete comments (admin or moderator)
+                comments_page: 2,
             }
         },
         methods: {
+            // moreComments: function() {
+            //     self = this;
+            //     AXIOS.get('/api/news/'+API.split('/').pop()+'/comments?page='+self.comments_page)
+            //         .then(function (data) {
+            //             self.comments = data.data;
+            //             console.log(data.data);
+            //             self.comments_page++;
+            //         })
+            //         .catch(function (error) {
+            //             console.log(error);
+            //         });
+            // },
+
             refreshComments: function() {
                 self = this;
                 AXIOS.get('/api/news/'+API.split('/').pop()+'/comments')
@@ -133,9 +151,11 @@
                                 console.log('likes incremented! '+self.comments[i].likes);
                             }
                         }
+                        toastr.success('Успех!', 'Вы оценили комментарий');
                     })
                     .catch(function (error) {
                         console.log(error);
+                        toastr.error('Упс!', 'Произошла какая-то ошибка!');
                     });
             },
 
@@ -148,6 +168,11 @@
                 }
 
                 if (self.is_editing == false) {
+                    if (self.commentBody == '') {
+                        toastr.error('Введите текст комментария!', 'Ошибка!');
+                        return;
+                    }
+
                     AXIOS.post('/api/comment', {
                         news_id: API.split('/').pop(),
                         text: this.commentBody,
@@ -155,9 +180,11 @@
                         .then(function (response) {
                             self.comments.push(response.data);
                             self.commentBody = '';
+                            toastr.success('Успех!', 'Вы добавили комментарий');
                         })
                         .catch(function (error) {
                             console.log(error);
+                            toastr.error('Упс!', 'Произошла какая-то ошибка!');
                         });
                 } else  {
                     AXIOS.put('/api/comment/'+self.comment_id, {
@@ -168,9 +195,11 @@
                             self.refreshComments();
                             self.is_editing = false;
                             self.commentBody = '';
+                            toastr.success('Успех!', 'Ваш комментарий был обновлён!');
                         })
                         .catch(function (error) {
                             console.log(error);
+                            toastr.error('Упс!', 'Произошла какая-то ошибка!');
                         });
                 }
             },
@@ -188,11 +217,12 @@
 
                 AXIOS.delete('/api/comment/'+ id)
                     .then(function (response) {
-                        // console.log(self.childComments);
                         self.refreshComments();
+                        toastr.success('Успех!', 'Комментарий был удалён');
                     })
                     .catch(function (error) {
                         console.log(error);
+                        toastr.error('Упс!', 'Произошла какая-то ошибка!');
                     });
             },
         },
@@ -206,16 +236,11 @@
                 this.comment_edit_delete = false;
             }
 
-
-
-            console.log(this.comment_edit_delete);
-
-
             self = this;
             AXIOS.get('/api/news/'+API.split('/').pop()+'/comments')
                 .then(function (data) {
                     self.comments = data.data;
-                    // console.log(data.data);
+                    console.log(data.data);
                 })
                 .catch(function (error) {
                     console.log(error);

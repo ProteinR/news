@@ -58,7 +58,7 @@ class NewsController extends Controller
             }
         });
 
-        return redirect()->route('news.index');
+        return redirect()->route('news.index')->with('success', 'Успех! Новость была создана');
     }
 
     public function edit(News $news)
@@ -83,7 +83,7 @@ class NewsController extends Controller
             $news->save();
         });
 
-        return redirect()->route('news.index');
+        return redirect()->route('news.index')->with('success', 'Успех! Новость была обновлена.');
     }
 
     /**
@@ -99,6 +99,6 @@ class NewsController extends Controller
         $news->removeImage();
         $news->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Успех! Новость была удалена');
     }
 }

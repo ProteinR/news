@@ -83,13 +83,18 @@
 <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
 <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+@if (session('success'))
+    <script>
+        toastr.success('{{ session('success') }}')
+    </script>
+@endif
 
 <script>
     $(document).ready(function() {
         $('#table1').DataTable();
-        // console.log(' token ');
-
-        {{--        token ={{ auth()->user()->token }};--}}
     } );
 </script>
 
@@ -103,7 +108,6 @@
 </script>
 
 {{--Medium init--}}
-
 <script>
     var editor = new MediumEditor('#post-text',  {
         toolbar: {

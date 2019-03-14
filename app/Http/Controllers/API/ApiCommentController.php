@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Comment;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Comment\DestroyCommentRequest;
 use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
-use App\Http\Controllers\Controller;
 use App\News;
 use App\Transformer\CommentsTransformer;
 
@@ -20,6 +21,7 @@ class ApiCommentController extends Controller
 
     public function getComments(News $news)
     {
+//        $comments = $news->comments()->simplePaginate(2);
         $comments = $news->comments;
 
         return fractal($comments, new CommentsTransformer())
@@ -75,8 +77,12 @@ class ApiCommentController extends Controller
      * @return void
      * @throws \Exception
      */
-    public function destroy(Comment $comment)
+    public function destroy(DestroyCommentRequest $request, Comment $comment)
     {
+//        if (request()->user->can('delete comments') OR request()->user->id == $comment->user->id) {
+//            return true;
+//        }
+
         $comment->delete();
 
         return response(null, 204);

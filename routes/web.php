@@ -8,7 +8,7 @@ Route::get('/admin/login', 'Auth\LoginController@showLoginForm')->name('showAdmi
 Route::post('/admin/login', 'Auth\LoginController@login')->name('login');
 
 // Staff group function
-Route::group(['prefix' => 'admin', 'middleware' => 'role:admin|moderator'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'role:admin|moderator|publisher'], function () {
     // Admin index page
     Route::get('/', 'Admin\AdminController@index')->name('admin.index');
 
@@ -28,8 +28,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin|moderator'], func
     Route::post('/ban/{user}', 'Admin\UserController@ban')->name('user.ban');
 
     Route::resource('/comment', 'Admin\CommentController');
-    Route::resource('/tags', 'Admin\TagController')->except('create', 'edit', 'update');
-    Route::resource('/category', 'Admin\CategoryController')->except('edit', 'update');
+    Route::resource('/tags', 'Admin\TagController')->except('create', 'edit', 'update', 'store', 'show');
+    Route::resource('/category', 'Admin\CategoryController')->except('edit', 'update', 'show');
 
 });
 

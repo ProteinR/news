@@ -34,7 +34,7 @@ class UserController extends Controller
     public function ban(BanUserRequest $request, User $user) {
         $user->syncRoles(['banned']);
 
-        return redirect()->route('users.banned');
+        return redirect()->route('users.banned')->with('success', 'Бан! Пользователь был забанен');
     }
 
     /**
@@ -63,7 +63,7 @@ class UserController extends Controller
         $user->uploadImage($request->file('avatar'));
         $user->assignRole($request->get('role'));
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'Успех! Пользователь был зарегистрирован');
     }
 
     /**
@@ -111,7 +111,7 @@ class UserController extends Controller
         $user->save();
         $user->assignRole($request->get('role'));
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'Успех! Пользователь был обновлен');
     }
 
     /**
@@ -127,6 +127,6 @@ class UserController extends Controller
         $user->removeImage();
         $user->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Успех! Пользователь был удалён');
     }
 }

@@ -36,7 +36,6 @@ class ApiUserController extends Controller
             ->toArray();
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -51,10 +50,13 @@ class ApiUserController extends Controller
         if($request->get('password')) {
             $user->password = bcrypt($request->get('password'));
         }
+//        if ($request->file('avatar') != null) {
+//            $user->removeImage();
+//            $user->uploadImage($request->file('avatar'));
+//        }
         $user->save();
 
         return response(['user' => fractal($user, new UserTransformer)->toArray()], 200);
-
     }
 
     /**

@@ -10,7 +10,6 @@
                 <small></small>
             </h1>
         </section>
-{{--        {{Form::open(['route'=>'users.store', 'files'=>true])}}--}}
         <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
             @csrf
         <!-- Main content -->
@@ -20,7 +19,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Добавляем пользователя</h3>
-{{--                    @include('admin.errors')--}}
+                    @include('admin.errors')
                 </div>
                 <div class="box-body">
                     <div class="col-md-6">
@@ -66,7 +65,6 @@
                 <!-- /.box-footer-->
             </div>
             <!-- /.box -->
-        {{--{{Form::close()}}--}}
         </section>
         <!-- /.content -->
         </form>

@@ -22,6 +22,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Добавляем пользователя</h3>
+                    @include('admin.errors')
                 </div>
                 <div class="box-body">
                     <div class="col-md-6">

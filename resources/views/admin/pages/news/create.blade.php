@@ -18,8 +18,9 @@
         <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
+                    @include('admin.errors')
+
                     <h3 class="box-title">Добавляем статью</h3>
-                    {{--@include('admin.errors')--}}
                 </div>
                 <div class="box-body">
                     <div class="col-md-6">

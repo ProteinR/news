@@ -38,10 +38,16 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">Меню</li>
             <!-- Optionally, you can add icons to the links -->
-            @hasanyrole('admin|writer')
+            @hasanyrole('admin|publisher')
                 <li class="{{ Request::is('admin/news*') ? 'active' : '' }}"><a href="{{ route('news.index') }}"><i
                                 class="fa fa-link"></i>
                         <span>Новости</span></a></li>
+            @endhasanyrole
+
+            @hasanyrole('admin|publisher')
+            <li class="{{ Request::is('admin/category*') ? 'active' : '' }}"><a href="{{ route('category.index') }}"><i
+                            class="fa fa-link"></i>
+                    <span>Категории</span></a></li>
             @endhasanyrole
 
             @hasanyrole('admin|moderator')

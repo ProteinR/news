@@ -29,28 +29,10 @@
                                     {{user.interest}}
                                 </p>
                             </div>
-                            <!--<div class="col-md-6">-->
-                                <!--<h6>Recent badges</h6>-->
-                                <!--<a href="#" class="badge badge-dark badge-pill">html5</a>-->
-                                <!--<a href="#" class="badge badge-dark badge-pill">react</a>-->
-                                <!--<a href="#" class="badge badge-dark badge-pill">codeply</a>-->
-                                <!--<a href="#" class="badge badge-dark badge-pill">angularjs</a>-->
-                                <!--<a href="#" class="badge badge-dark badge-pill">css3</a>-->
-                                <!--<a href="#" class="badge badge-dark badge-pill">jquery</a>-->
-                                <!--<a href="#" class="badge badge-dark badge-pill">bootstrap</a>-->
-                                <!--<a href="#" class="badge badge-dark badge-pill">responsive-design</a>-->
-                                <!--<hr>-->
-                                <!--<span class="badge badge-primary"><i class="fa fa-user"></i> 900 Followers</span>-->
-                                <!--<span class="badge badge-success"><i class="fa fa-cog"></i> 43 Forks</span>-->
-                                <!--<span class="badge badge-danger"><i class="fa fa-eye"></i> 245 Views</span>-->
-                            <!--</div>-->
                         </div>
                         <!--/row-->
                     </div>
                     <div class="tab-pane" id="messages">
-                        <!--<div class="alert alert-info alert-dismissable">-->
-                            <!--<a class="panel-close close" data-dismiss="alert">×</a> This is an <strong>.alert</strong>. Use this to show important messages to the user.-->
-                        <!--</div>-->
                         <table class="table table-hover table-striped">
                             <tbody>
                             <tr>
@@ -136,7 +118,7 @@
                 <img :src="user.avatar" class="mx-auto img-fluid rounded-circle d-block" alt="avatar">
                 <h6 class="mt-2">Upload a different photo</h6>
                 <label class="custom-file">
-                    <input type="file" id="file" class="form-control-file">
+                    <input type="file" id="file" class="form-control-file" name="avatar">
                     <span class="custom-file-control">Choose file</span>
                 </label>
             </div>
@@ -183,7 +165,6 @@
                                         <div class="feed-footer mt-2">
                                             <a class="like">
                                                 <i class="fas fa-heart"></i>
-                                                <!--TODO add migration for likes comments table-->
                                                 <span v-if="comment.likes>0">{{comment.likes}} </span>
                                                 <span v-else> </span>
                                             </a>
@@ -273,71 +254,38 @@
                         return;
                     }
                 }
-                if (this.password != '') {
-                    AXIOS.put('/api/user/'+this.current_user.id, {
-                        "name": this.name,
-                        "email": this.email,
-                        "skype": this.skype,
-                        "telegram": this.telegram,
-                        "about": this.about,
-                        "interest": this.interest,
-                        "password": this.password,
-                        "password_confirmation": this.password_confirmation,
-                    })
-                        .then(function(response) {
-                            console.log(response.data.user);
-                            // self.user = response.data.user;
-                            swal({
-                                title: "Успех!",
-                                text: "Ваш профиль обновлён!",
-                                icon: "success",
-                                button: "Ок!",
-                                timer: 3000,
-                            });
-                            // setTimeout('location="/";', 3000);
-                        }).catch(function (error) {
+                AXIOS.put('/api/user/'+this.current_user.id, {
+                    "name": this.name,
+                    "email": this.email,
+                    "skype": this.skype,
+                    "telegram": this.telegram,
+                    "about": this.about,
+                    "interest": this.interest,
+                    "password": this.password,
+                    "password_confirmation": this.password_confirmation,
+                })
+                    .then(function(response) {
+                        console.log(response.data.user);
+                        // self.user = response.data.user;
                         swal({
-                            title: "Ошибка!",
-                            text: "Что-то пошло не так.",
-                            icon: "error",
+                            title: "Успех!",
+                            text: "Ваш профиль обновлён!",
+                            icon: "success",
                             button: "Ок!",
                             timer: 3000,
                         });
-                        this.password = '';
-                        this.password_confirmation = '';
+                        // setTimeout('location="/";', 3000);
+                    }).catch(function (error) {
+                    swal({
+                        title: "Ошибка!",
+                        text: "Что-то пошло не так.",
+                        icon: "error",
+                        button: "Ок!",
+                        timer: 3000,
                     });
-                } else {
-                    AXIOS.put('/api/user/'+this.current_user.id, {
-                        "name": this.name,
-                        "email": this.email,
-                        "skype": this.skype,
-                        "telegram": this.telegram,
-                        "about": this.about,
-                        "interest": this.interest,
-                    })
-                        .then(function(response) {
-                            console.log(response.data.user);
-                            // self.user = response.data.user;
-                            swal({
-                                title: "Успех!",
-                                text: "Ваш профиль обновлён!",
-                                icon: "success",
-                                button: "Ок!",
-                                timer: 3000,
-                            });
-                            // setTimeout('location="/";', 3000);
-                        }).catch(function (error) {
-                        swal({
-                            title: "Ошибка!",
-                            text: "Что-то пошло не так.",
-                            icon: "error",
-                            button: "Ок!",
-                            timer: 3000,
-                        });
-                        this.password = '';
-                        this.password_confirmation = '';
-                    });
-                }
+                    this.password = '';
+                    this.password_confirmation = '';
+                });
 
             }
         },

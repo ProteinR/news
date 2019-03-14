@@ -1971,25 +1971,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2039,67 +2020,36 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      if (this.password != '') {
-        _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].put('/api/user/' + this.current_user.id, {
-          "name": this.name,
-          "email": this.email,
-          "skype": this.skype,
-          "telegram": this.telegram,
-          "about": this.about,
-          "interest": this.interest,
-          "password": this.password,
-          "password_confirmation": this.password_confirmation
-        }).then(function (response) {
-          console.log(response.data.user); // self.user = response.data.user;
+      _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].put('/api/user/' + this.current_user.id, {
+        "name": this.name,
+        "email": this.email,
+        "skype": this.skype,
+        "telegram": this.telegram,
+        "about": this.about,
+        "interest": this.interest,
+        "password": this.password,
+        "password_confirmation": this.password_confirmation
+      }).then(function (response) {
+        console.log(response.data.user); // self.user = response.data.user;
 
-          swal({
-            title: "Успех!",
-            text: "Ваш профиль обновлён!",
-            icon: "success",
-            button: "Ок!",
-            timer: 3000
-          }); // setTimeout('location="/";', 3000);
-        }).catch(function (error) {
-          swal({
-            title: "Ошибка!",
-            text: "Что-то пошло не так.",
-            icon: "error",
-            button: "Ок!",
-            timer: 3000
-          });
-          this.password = '';
-          this.password_confirmation = '';
+        swal({
+          title: "Успех!",
+          text: "Ваш профиль обновлён!",
+          icon: "success",
+          button: "Ок!",
+          timer: 3000
+        }); // setTimeout('location="/";', 3000);
+      }).catch(function (error) {
+        swal({
+          title: "Ошибка!",
+          text: "Что-то пошло не так.",
+          icon: "error",
+          button: "Ок!",
+          timer: 3000
         });
-      } else {
-        _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].put('/api/user/' + this.current_user.id, {
-          "name": this.name,
-          "email": this.email,
-          "skype": this.skype,
-          "telegram": this.telegram,
-          "about": this.about,
-          "interest": this.interest
-        }).then(function (response) {
-          console.log(response.data.user); // self.user = response.data.user;
-
-          swal({
-            title: "Успех!",
-            text: "Ваш профиль обновлён!",
-            icon: "success",
-            button: "Ок!",
-            timer: 3000
-          }); // setTimeout('location="/";', 3000);
-        }).catch(function (error) {
-          swal({
-            title: "Ошибка!",
-            text: "Что-то пошло не так.",
-            icon: "error",
-            button: "Ок!",
-            timer: 3000
-          });
-          this.password = '';
-          this.password_confirmation = '';
-        });
-      }
+        this.password = '';
+        this.password_confirmation = '';
+      });
     }
   },
   created: function created() {// console.log(this.current_user);
@@ -3884,7 +3834,7 @@ var staticRenderFns = [
     return _c("label", { staticClass: "custom-file" }, [
       _c("input", {
         staticClass: "form-control-file",
-        attrs: { type: "file", id: "file" }
+        attrs: { type: "file", id: "file", name: "avatar" }
       }),
       _vm._v(" "),
       _c("span", { staticClass: "custom-file-control" }, [
