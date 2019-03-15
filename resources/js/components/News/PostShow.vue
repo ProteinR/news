@@ -29,6 +29,8 @@
                     </div>
                     <div class="news-data d-flex justify-content-between mb-2" >
                         <span><i class="far fa-eye"></i> {{post.views}}</span>
+                        <span> <i class="far fa-user-circle"></i> <a :href="'/news/user/'+ post.user.id">{{
+                                                                                                         post.user.name}}</a> </span>
                     </div>
 
 

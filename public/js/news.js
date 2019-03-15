@@ -1764,6 +1764,9 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _newsItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./newsItem */ "./resources/js/components/newsItem.vue");
+/* harmony import */ var _axios_global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../axios.global */ "./resources/js/axios.global.js");
+/* harmony import */ var _API_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../API.js */ "./resources/js/API.js");
+//
 //
 //
 //
@@ -1780,13 +1783,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['news'],
+  props: [],
   components: {
     newsItem: _newsItem__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  data: function data() {
+    return {
+      news: {},
+      news_page: 2,
+      has_next_page: false
+    };
+  },
   computed: {},
-  methods: {}
+  methods: {
+    moreNews: function moreNews() {
+      self = this;
+      _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].get('/api/news/' + '?page=' + self.news_page).then(function (response) {
+        self.news = self.news.concat(response.data);
+        self.news_page++;
+
+        if (response.headers['x-pagination-has-more-pages'] == 1) {
+          self.has_next_page = true;
+        } else {
+          self.has_next_page = false;
+        } // console.log(response.headers['x-pagination-has-more-pages']);
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  created: function created() {
+    self = this;
+    _axios_global__WEBPACK_IMPORTED_MODULE_1__["AXIOS"].get(_API_js__WEBPACK_IMPORTED_MODULE_2__["default"]).then(function (response) {
+      self.news = response.data;
+
+      if (response.headers['x-pagination-has-more-pages'] == 1) {
+        self.has_next_page = true;
+      } else {
+        self.has_next_page = false;
+      }
+
+      console.log(response.headers['x-pagination-has-more-pages']);
+    });
+  }
 });
 
 /***/ }),
@@ -2781,10 +2824,28 @@ var render = function() {
       ? _c(
           "div",
           { staticClass: "row" },
-          _vm._l(_vm.news, function(post) {
-            return _c("div", {}, [_c("newsItem", { attrs: { post: post } })], 1)
-          }),
-          0
+          [
+            _vm._l(_vm.news, function(post) {
+              return _c(
+                "div",
+                {},
+                [_c("newsItem", { attrs: { post: post } })],
+                1
+              )
+            }),
+            _vm._v(" "),
+            _vm.has_next_page
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "btn btn-success container-fluid my-3",
+                    on: { click: _vm.moreNews }
+                  },
+                  [_vm._v("Больше новостей...")]
+                )
+              : _vm._e()
+          ],
+          2
         )
       : _vm._e()
   ])
@@ -3254,10 +3315,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_News_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/News.vue */ "./resources/js/components/News.vue");
-/* harmony import */ var _API_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./API.js */ "./resources/js/API.js");
-/* harmony import */ var _axios_global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./axios.global */ "./resources/js/axios.global.js");
-
-
 
 var newsIndex = new Vue({
   el: '#newsIndex',
@@ -3268,14 +3325,10 @@ var newsIndex = new Vue({
   components: {
     News: _components_News_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  created: function created() {
-    // console.log(url);
+  created: function created() {// console.log(url);
     // if (url == '/') {
     //     console.log('url = /');
     // }
-    _axios_global__WEBPACK_IMPORTED_MODULE_2__["AXIOS"].get(_API_js__WEBPACK_IMPORTED_MODULE_1__["default"]).then(function (response) {
-      newsIndex.preloadedNews = response.data; // console.log(app.preloadedNews);
-    });
   }
 });
 

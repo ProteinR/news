@@ -1,8 +1,8 @@
 @extends('layout')
 @section('content')
 
-    <div id="newsIndex" class="pt-3">
-        <news :news="this.preloadedNews">
+    <div id="newsIndex" class="py-3">
+        <news >
 
         </news>
     </div>

@@ -23,15 +23,17 @@
 
                 <!-- Grid column -->
                 <div class="col-md-9">
-
                     <!-- Excerpt -->
-                    <p class="font-weight-bold dark-grey-text">{{post.title}}</p>
+                    <p class="font-weight-bold dark-grey-text mb-0">{{post.title}}</p>
                     <div class="d-flex justify-content-between">
-                        <div class="col-11 text-truncate pl-0 mb-3">
+                        <div class="col-11 text-truncate pl-0 mb-1">
                             <a :href="'/news/'+ post.id" class="dark-grey-text">{{post.text}}</a>
                         </div>
                         <a><i class="fas fa-angle-double-right"></i></a>
                     </div>
+                    <span class="font-weight-light"><small><i data-v-7037f6be="" class="far fa-eye"></i>
+                        {{post.views}} </small></span>
+                    <span class="font-weight-light ml-1"><small> Категориия: {{post.category.title}} </small></span>
 
                 </div>
                 <!-- Grid column -->

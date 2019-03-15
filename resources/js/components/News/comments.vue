@@ -6,6 +6,7 @@
         <!--Comments block-->
         <div class="row flex-column">
                 <h2 class="my-3 align-self-center">Comments</h2>
+            
                 <div class="comments my-3">
                     <div class="comment my-3" v-for="comment in comments">
                         <!-- Comment -->
@@ -65,7 +66,8 @@
                         </div>
                         <hr>
                     </div>
-                    <!--<div class="btn btn-primary container-fluid" @click="moreComments">More comments...</div>-->
+                    <div v-if="has_next_page" class="btn btn-success container-fluid my-3" @click="moreComments">Больше комментариев..
+                                                                                             .</div>
 
                     <!-- Comment -->
                     <!--<div class="row flex-column">-->
@@ -103,21 +105,30 @@
                 current_user_role: '',
                 comment_edit_delete: '', // true - if user can edit or delete comments (admin or moderator)
                 comments_page: 2,
+                has_next_page: false,
             }
         },
         methods: {
-            // moreComments: function() {
-            //     self = this;
-            //     AXIOS.get('/api/news/'+API.split('/').pop()+'/comments?page='+self.comments_page)
-            //         .then(function (data) {
-            //             self.comments = data.data;
-            //             console.log(data.data);
-            //             self.comments_page++;
-            //         })
-            //         .catch(function (error) {
-            //             console.log(error);
-            //         });
-            // },
+            moreComments: function() {
+                self = this;
+                AXIOS.get('/api/news/'+API.split('/').pop()+'/comments?page='+self.comments_page)
+                    .then(function (response) {
+                        self.comments = self.comments.concat(response.data);
+                        // console.log(self.comments);
+                        self.comments_page++;
+
+                        if (response.headers['x-pagination-has-more-pages'] == 1) {
+                            self.has_next_page = true;
+                        } else {
+                            self.has_next_page = false;
+                        }
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
 
             refreshComments: function() {
                 self = this;
@@ -240,7 +251,13 @@
             AXIOS.get('/api/news/'+API.split('/').pop()+'/comments')
                 .then(function (data) {
                     self.comments = data.data;
-                    console.log(data.data);
+                    // console.log(data.data);
+
+                    if (data.headers['x-pagination-has-more-pages'] == 1) {
+                        self.has_next_page = true;
+                    } else {
+                        self.has_next_page = false;
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);

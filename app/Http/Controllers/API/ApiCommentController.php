@@ -22,10 +22,14 @@ class ApiCommentController extends Controller
     public function getComments(News $news)
     {
 //        $comments = $news->comments()->simplePaginate(2);
-        $comments = $news->comments;
+        $comments = $news->comments()->orderBy('id', 'desk')->simplePaginate(5);
 
-        return fractal($comments, new CommentsTransformer())
-            ->toArray();
+        $fractalComments = fractal($comments, new CommentsTransformer());
+
+        return response($fractalComments)->withPaginationHeaders($comments);
+
+//        return fractal($comments, new CommentsTransformer())
+//            ->toArray();
     }
 
     /**

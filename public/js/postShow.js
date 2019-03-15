@@ -1835,6 +1835,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1966,6 +1968,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -1986,22 +1990,27 @@ __webpack_require__.r(__webpack_exports__);
       current_user_role: '',
       comment_edit_delete: '',
       // true - if user can edit or delete comments (admin or moderator)
-      comments_page: 2
+      comments_page: 2,
+      has_next_page: false
     };
   },
   methods: {
-    // moreComments: function() {
-    //     self = this;
-    //     AXIOS.get('/api/news/'+API.split('/').pop()+'/comments?page='+self.comments_page)
-    //         .then(function (data) {
-    //             self.comments = data.data;
-    //             console.log(data.data);
-    //             self.comments_page++;
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         });
-    // },
+    moreComments: function moreComments() {
+      self = this;
+      _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('/api/news/' + _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop() + '/comments?page=' + self.comments_page).then(function (response) {
+        self.comments = self.comments.concat(response.data); // console.log(self.comments);
+
+        self.comments_page++;
+
+        if (response.headers['x-pagination-has-more-pages'] == 1) {
+          self.has_next_page = true;
+        } else {
+          self.has_next_page = false;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
     refreshComments: function refreshComments() {
       self = this;
       _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('/api/news/' + _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop() + '/comments').then(function (data) {
@@ -2107,8 +2116,13 @@ __webpack_require__.r(__webpack_exports__);
 
     self = this;
     _axios_global__WEBPACK_IMPORTED_MODULE_0__["AXIOS"].get('/api/news/' + _API__WEBPACK_IMPORTED_MODULE_1__["default"].split('/').pop() + '/comments').then(function (data) {
-      self.comments = data.data;
-      console.log(data.data);
+      self.comments = data.data; // console.log(data.data);
+
+      if (data.headers['x-pagination-has-more-pages'] == 1) {
+        self.has_next_page = true;
+      } else {
+        self.has_next_page = false;
+      }
     }).catch(function (error) {
       console.log(error);
     });
@@ -2127,6 +2141,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _axios_global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../axios.global */ "./resources/js/axios.global.js");
+//
+//
 //
 //
 //
@@ -14038,6 +14054,16 @@ var render = function() {
                   _c("span", [
                     _c("i", { staticClass: "far fa-eye" }),
                     _vm._v(" " + _vm._s(_vm.post.views))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", [
+                    _c("i", { staticClass: "far fa-user-circle" }),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { attrs: { href: "/news/user/" + _vm.post.user.id } },
+                      [_vm._v(_vm._s(_vm.post.user.name))]
+                    )
                   ])
                 ]
               ),
@@ -14260,6 +14286,21 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
+          _vm.has_next_page
+            ? _c(
+                "div",
+                {
+                  staticClass: "btn btn-success container-fluid my-3",
+                  on: { click: _vm.moreComments }
+                },
+                [
+                  _vm._v(
+                    "Больше комментариев..\n                                                                                         ."
+                  )
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c("div", { staticClass: "md-form md-outline" }, [
             _c("textarea", {
               directives: [
@@ -14355,14 +14396,16 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-9" }, [
-                  _c("p", { staticClass: "font-weight-bold dark-grey-text" }, [
-                    _vm._v(_vm._s(post.title))
-                  ]),
+                  _c(
+                    "p",
+                    { staticClass: "font-weight-bold dark-grey-text mb-0" },
+                    [_vm._v(_vm._s(post.title))]
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "d-flex justify-content-between" }, [
                     _c(
                       "div",
-                      { staticClass: "col-11 text-truncate pl-0 mb-3" },
+                      { staticClass: "col-11 text-truncate pl-0 mb-1" },
                       [
                         _c(
                           "a",
@@ -14376,6 +14419,26 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _vm._m(1, true)
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "font-weight-light" }, [
+                    _c("small", [
+                      _c("i", {
+                        staticClass: "far fa-eye",
+                        attrs: { "data-v-7037f6be": "" }
+                      }),
+                      _vm._v(
+                        "\n                    " + _vm._s(post.views) + " "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "font-weight-light ml-1" }, [
+                    _c("small", [
+                      _vm._v(
+                        " Категориия: " + _vm._s(post.category.title) + " "
+                      )
+                    ])
                   ])
                 ])
               ]),

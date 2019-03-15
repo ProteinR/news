@@ -29,9 +29,12 @@ class ApiNewsController extends Controller
     public function index()
     {
         // Return all news
-        $posts = News::with(['user:id,name', 'category:id,title'])->get();
+        $posts = News::with(['user:id,name', 'category:id,title'])->simplePaginate(2);
 
-        return fractal($posts, new NewsTransformer())->toArray();
+        $fractalposts = fractal($posts, new NewsTransformer())->toArray();
+
+//        return fractal($posts, new NewsTransformer())->toArray();
+        return response($fractalposts)->withPaginationHeaders($posts);
     }
 
 
@@ -82,7 +85,6 @@ class ApiNewsController extends Controller
     public function update(UpdateNewsRequest $request, News $news)
     {
         DB::transaction(function () use ($request, $news) {
-//            $user = $news->user;
             $news->fill($request->all());
             $news->save();
             $news->tags()->sync($request->get('tags', []));
