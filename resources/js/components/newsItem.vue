@@ -6,10 +6,10 @@
             <div class="row">
 
                 <!-- Grid column -->
-                <div class="col-lg-5 col-xl-4">
+                <div class="col-lg-5 col-xl-4 d-flex align-items-center">
 
                     <!-- Featured image -->
-                    <a v-bind:href="'http://localhost/news/'+post.id">
+                    <a :href="'http://localhost/news/'+post.id">
                         <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
                             <img class="img-fluid" :src="post.image" alt="Sample image">
                             <a>
@@ -26,14 +26,15 @@
 
                     <!-- Post title -->
                     <a v-bind:href="'http://localhost/news/'+post.id">
-                        <h3 class="font-weight-bold mb-3 text-dark"><strong>{{ post.title }}</strong></h3>
+                        <h3 class="font-weight-bold mb-1 text-dark"><strong>{{ post.title }}</strong></h3>
                     </a>
                     <!-- Excerpt -->
-                    <p class="dark-grey-text">
+                    <p class="dark-grey-text my-1">
                         {{ text  }}
                     </p>
                     <!-- Post data -->
-                    <p>by <a class="font-weight-bold" :href="'/news/user/'+ post.user.id">{{post.user.name}}</a>,
+                    <p class="my-1">by <a class="font-weight-bold" :href="'/news/user/'+ post.user.id">{{post.user
+                                                                                                    .name}}</a>,
                        {{post.created_at}} </p>
                     <div class="">
                         <span>Теги: </span>

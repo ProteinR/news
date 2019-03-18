@@ -22,6 +22,7 @@
 
     export default {
         props: [
+            'newsFromFind'
         ],
         components: {
             newsItem
@@ -65,7 +66,7 @@
                     } else {
                         self.has_next_page = false;
                     }
-                    console.log(response.headers['x-pagination-has-more-pages']);
+                    // console.log(response.headers['x-pagination-has-more-pages']);
                 });
         }
     }

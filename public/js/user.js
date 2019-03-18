@@ -2138,6 +2138,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['post'],
   data: function data() {
@@ -3867,39 +3868,48 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("section", { staticClass: "my-3" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-lg-5 col-xl-4" }, [
-          _c("a", { attrs: { href: "http://localhost/news/" + _vm.post.id } }, [
+        _c(
+          "div",
+          { staticClass: "col-lg-5 col-xl-4 d-flex align-items-center" },
+          [
             _c(
-              "div",
-              {
-                staticClass: "view overlay rounded z-depth-1-half mb-lg-0 mb-4"
-              },
+              "a",
+              { attrs: { href: "http://localhost/news/" + _vm.post.id } },
               [
-                _c("img", {
-                  staticClass: "img-fluid",
-                  attrs: { src: _vm.post.image, alt: "Sample image" }
-                }),
-                _vm._v(" "),
-                _vm._m(0)
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "view overlay rounded z-depth-1-half mb-lg-0 mb-4"
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "img-fluid",
+                      attrs: { src: _vm.post.image, alt: "Sample image" }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ]
+                )
               ]
             )
-          ])
-        ]),
+          ]
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "col-lg-7 col-xl-8" }, [
           _c("a", { attrs: { href: "http://localhost/news/" + _vm.post.id } }, [
-            _c("h3", { staticClass: "font-weight-bold mb-3 text-dark" }, [
+            _c("h3", { staticClass: "font-weight-bold mb-1 text-dark" }, [
               _c("strong", [_vm._v(_vm._s(_vm.post.title))])
             ])
           ]),
           _vm._v(" "),
-          _c("p", { staticClass: "dark-grey-text" }, [
+          _c("p", { staticClass: "dark-grey-text my-1" }, [
             _vm._v(
               "\n                    " + _vm._s(_vm.text) + "\n                "
             )
           ]),
           _vm._v(" "),
-          _c("p", [
+          _c("p", { staticClass: "my-1" }, [
             _vm._v("by "),
             _c(
               "a",

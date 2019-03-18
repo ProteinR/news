@@ -46,14 +46,14 @@ class ApiUserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->fill($request->all());
-        if($request->get('password')) {
-            $user->password = bcrypt($request->get('password'));
+        // Update user with/without password
+        if ($request->get('password')!= null) {
+            $user->fill(array_merge($request->except('password'),
+                ['password' => bcrypt($request->input('password'))]));
+        } else {
+            $user->fill($request->except('password'));
         }
-//        if ($request->file('avatar') != null) {
-//            $user->removeImage();
-//            $user->uploadImage($request->file('avatar'));
-//        }
+
         $user->save();
 
         return response(['user' => fractal($user, new UserTransformer)->toArray()], 200);
